@@ -1,25 +1,12 @@
 #*******************************************************************************
 # Makefile
 #
-# Copyright (C) 2011-2013 ZheJiang Dahua Technology CO.,LTD.
 #
 # Author : Zhang Hui <446387817@qq.com>
 # Version: V1.0.0  2021-09-01 Create
 #
 # Description: Makefile for compiling OSA.
-#              Example see help tag.
-#	           Supporting OS  : linux/bios"
-#              Supporting mode: kernel/user, m3/c674"
-#              Supporting plat: dm36x/dm812x/a5s"
 #
-#              Release version Example:"
-#              make os=linux mode=kernel plat=dm812x"
-#              make os=bios  plat=dm812x"
-#
-#              Debug version Example:"
-#              make os=linux mode=user   plat=dm812x debug=debug"
-#              make os=bios  plat=dm812x debug=debug"
-
 # Modification:
 # 1. Date     :
 #    Revision :
@@ -27,37 +14,44 @@
 #    Contents :
 #
 #******************************************************************************/
+PWD:=$(shell pwd)
 
 
 include $(PWD)/Rules.mk
 
 
+##¿âÃû³Æ
+LIB_NAME := libosa.a
 
-TARGET: all
+##demoÃû³Æ
+DEMO_NAME := app-test
+
+%.o: %.c
+	@$(CC) -o $@ -c $< $(CFLAGS)
 
 
-help:
-	@echo ""
-	@echo "  ERROR: You must specify os/platform or mode/debug option !"
-	@echo ""
-	@echo "  Supporting OS  : linux/bios"
-	@echo "  Supporting mode: kernel/user, m3/c674"
-	@echo "  Supporting plat: dm36x/dm812x/a5s"
-	@echo ""
-	@echo "  Release version Example:"
-	@echo "  make os=linux mode=kernel plat=dm812x"
-	@echo "  make os=bios  plat=dm812x"
-	@echo ""
-	@echo "  Debug version Example:"
-	@echo "  make os=linux mode=user plat=dm812x debug=debug"
-	@echo "  make os=bios  plat=dm812x debug=debug"
-	@echo ""
+
+
+.PHONY: all clean
+
+all: kernel_lib
+
+
+kernel_lib:$(SRC_OBJS)
+	mkdir -p $(BIN_PATH)/debug
+	mkdir -p $(BIN_PATH)/release
+	@$(AR) -r $(BIN_PATH)/debug/$(LIB_NAME) $(SRC_OBJS)
+	@$(CP) -r $(BIN_PATH)/debug/$(LIB_NAME) $(BIN_PATH)/release
+	@$(STRIP) -s $(BIN_PATH)/release/$(LIB_NAME)
+	
 
 clean:
-	make all TAG=clean
+	@$(RM) -rf $(BIN_PATH)/*
+	@$(RM) -rf $(SRC_OBJS)
+
+help:
+	@echo "make plat=x86"
+	@echo "make plat=Hi3559"
 
 
-.PHONY:
-	default all install clean testx flint
 
-export TAG

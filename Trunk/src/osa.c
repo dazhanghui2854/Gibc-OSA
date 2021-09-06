@@ -101,7 +101,7 @@ Int32 OSA_init(OSA_initParms *pInitParms)
 
     OSA_printf("\n\n");
     OSA_INFO("OSA Build on %s \n", __DATE__, __TIME__);
-    OSA_INFO("SVN NUM: %d.\n\n", SVN_NUM);
+    //OSA_INFO("SVN NUM: %d.\n\n", SVN_NUM);
 
     status = OSA_tskInit(pInitParms->isStartMonTask);
     if (OSA_isFail(status))

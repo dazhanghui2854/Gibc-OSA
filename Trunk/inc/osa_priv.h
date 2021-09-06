@@ -112,7 +112,7 @@ typedef struct
     Char                name[OSA_THREAD_NAME_MAX_LEN];
 } OSA_RecodeTidCmdArgs;
 
-#ifdef OS_LINUX
+#ifndef OS_LINUX
 /* 登记线程信息 */
 Int32 OSA_addTidInfo(OSA_ThreadInfo* pInfo);
 /* 移除线程信息 */
