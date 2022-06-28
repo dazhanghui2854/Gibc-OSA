@@ -3,7 +3,7 @@
 *
 * Copyright (C) 2011-2013 ZheJiang Dahua Technology CO.,LTD.
 *
-* Author : Zheng wei <zheng_wei@dahuatech.com>
+* Author : zhang hui <zheng_wei@dahuatech.com>
 * Version: V1.0.0  2012-5-23 Create
 *
 * Desc: 定义OSA模块内部使用的头文件
