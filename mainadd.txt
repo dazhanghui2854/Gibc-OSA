@@ -1,6 +1,5 @@
 aaa
 ccc
-ggggggggggggggggggg:wqddd
+ddd
+eee
 fff
-sss
-qqq
