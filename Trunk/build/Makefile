@@ -20,10 +20,10 @@ PWD:=$(shell pwd)
 include $(PWD)/Rules.mk
 
 
-##¿âÃû³Æ
+##ç›®æ ‡æ–‡ä»¶
 LIB_NAME := libosa.a
 
-##demoÃû³Æ
+##demoç”¨ä¾‹
 DEMO_NAME := app-test
 
 %.o: %.c
