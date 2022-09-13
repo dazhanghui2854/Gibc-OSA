@@ -6,23 +6,23 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2010-8-31 Create
 *
-* Description: OSA���нӿڡ���ΪOSA_que��OSA_queList���ֶ������ͣ��ӿڲ�����ͬ��
-*              ʹ��ʱ��ע������ʹ�á�
+* Description: OSA队列接口。分为OSA_que和OSA_queList两种队列类型，接口不尽相同，
+*              使用时请注意配套使用。
 *
-*       1. Ӳ��˵����
-*          �ޡ�
+*       1. 硬件说明。
+*          无。
 
-*       2. ����ṹ˵����
-*          ��
+*       2. 程序结构说明。
+*          无
 *
-*       3. ʹ��˵����
-*          �ޡ�
+*       3. 使用说明。
+*          无。
 *
-*       4. ������˵����
-*          �ޡ�
+*       4. 局限性说明。
+*          无。
 *
-*       5. ����˵����
-*          �ޡ�
+*       5. 其他说明。
+*          无。
 *
 * Modification:
 *    Date    :
@@ -40,81 +40,81 @@ extern "C" {
 #endif
 
 /* ========================================================================== */
-/*                           ������Ͷ�����                                   */
+/*                           宏和类型定义区                                   */
 /* ========================================================================== */
 
 typedef Handle OSA_QueHandle;
 
 
 /* ========================================================================== */
-/*                          ���ݽṹ������                                    */
+/*                          数据结构定义区                                    */
 /* ========================================================================== */
 
 /*  */
 typedef struct
 {
-    Uint16 maxElems;    /* ���г�Ա������*/
+    Uint16 maxElems;    /* 队列成员数量。*/
 
-    Uint16 flags;       /* ��־��Ŀǰδʹ�á�*/
+    Uint16 flags;       /* 标志，目前未使用。*/
 
-    Sizet  *pQueue;     /* OSA_que���пɴ���, OSA_queList��Ч��*/
+    Sizet  *pQueue;     /* OSA_que队列可传入, OSA_queList无效。*/
 
-    Uint32 reserved[4]; /* ���� */
+    Uint32 reserved[4]; /* 保留 */
 } OSA_QueCreate;
 
 
 /* ========================================================================== */
-/*                          ����������                                        */
+/*                          函数声明区                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* ������  : OSA_queCreate
-* ��  ��  : �������С�
-* ��  ��  : - pCreate: ����������
-*         : - phQue  : ���صĶ��о����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queCreate
+* 描  述  : 创建队列。
+* 输  入  : - pCreate: 创建参数。
+*         : - phQue  : 返回的队列句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_queCreate(OSA_QueCreate *pCreate,
                     OSA_QueHandle *phQue);
 
 
 /*******************************************************************************
-* ������  : OSA_queDelete
-* ��  ��  : ���ٶ��С�
-* ��  ��  : - hQue: ���о����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queDelete
+* 描  述  : 销毁队列。
+* 输  入  : - hQue: 队列句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_queDelete(OSA_QueHandle hQue);
 
 
 /*******************************************************************************
-* ������  : OSA_quePut
-* ��  ��  : д���С�
-* ��  ��  : - hQue   : ���о����
-*           - value  : ���г�Ա��
-*           - timeout: ��ʱʱ�䡣��λ�Ǻ��롣OSA_TIMEOUT_NONE��ʾ���ȴ���
-*                      OSA_TIMEOUT_FOREVER��ʾ���޵ȴ���
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_quePut
+* 描  述  : 写队列。
+* 输  入  : - hQue   : 队列句柄。
+*           - value  : 队列成员。
+*           - timeout: 超时时间。单位是毫秒。OSA_TIMEOUT_NONE表示不等待，
+*                      OSA_TIMEOUT_FOREVER表示无限等待。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_quePut(OSA_QueHandle hQue,
                  Sizet         value,
                  Uint32        timeout);
 
 /*******************************************************************************
-* ������  : OSA_quePut
-* ��  ��  : �����С�
-* ��  ��  : - hQue   : ���о����
-*           - timeout: ��ʱʱ�䡣��λ�Ǻ��롣OSA_TIMEOUT_NONE��ʾ���ȴ���
-*                      OSA_TIMEOUT_FOREVER��ʾ���޵ȴ���
-* ��  ��  : - pVaule : ���г�Աָ�롣
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_quePut
+* 描  述  : 读队列。
+* 输  入  : - hQue   : 队列句柄。
+*           - timeout: 超时时间。单位是毫秒。OSA_TIMEOUT_NONE表示不等待，
+*                      OSA_TIMEOUT_FOREVER表示无限等待。
+* 输  出  : - pVaule : 队列成员指针。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_queGet(OSA_QueHandle hQue,
                  Sizet         *pVaule,
@@ -122,113 +122,113 @@ Int32 OSA_queGet(OSA_QueHandle hQue,
 
 
 /*******************************************************************************
-* ������  : OSA_queReset
-* ��  ��  : ��λ���С�����OSA_que���Ͷ�����Ч��
-* ��  ��  : - hQue: ���о����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queReset
+* 描  述  : 复位队列。仅对OSA_que类型队列有效。
+* 输  入  : - hQue: 队列句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_queReset(OSA_QueHandle hQue);
 
 
 /*******************************************************************************
-* ������  : OSA_queslPut
-* ��  ��  : �������Ķ���д��û�л��Ᵽ����ֻ�����ڵ��߳�����ռ�ĳ��ϡ�
-* ��  ��  : - hQue   : ���о����
-*           - value  : ���г�Ա��
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queslPut
+* 描  述  : 轻量级的队列写。没有互斥保护，只能用于单线程无抢占的场合。
+* 输  入  : - hQue   : 队列句柄。
+*           - value  : 队列成员。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_queslPut(OSA_QueHandle hQue, Sizet  value);
 
 
 /*******************************************************************************
-* ������  : OSA_queslGet
-* ��  ��  : �������Ķ��ж���û�л��Ᵽ����ֻ�����ڵ��߳�����ռ�ĳ��ϡ�
-* ��  ��  : - hQue   : ���о����
-*           - value  : ���г�Ա��
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queslGet
+* 描  述  : 轻量级的队列读。没有互斥保护，只能用于单线程无抢占的场合。
+* 输  入  : - hQue   : 队列句柄。
+*           - value  : 队列成员。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_queslGet(OSA_QueHandle hQue, Sizet *pValue);
 
 
 /*******************************************************************************
-* ������  : OSA_queListCreate
-* ��  ��  : �����������С�ʹ�������������С�
-* ��  ��  : - pCreate: ����������
-*         : - phQue  : ���صĶ��о����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queListCreate
+* 描  述  : 创建链表队列。使用链表管理队列。
+* 输  入  : - pCreate: 创建参数。
+*         : - phQue  : 返回的队列句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_queListCreate(OSA_QueCreate *pCreate,
                         OSA_QueHandle *phQue);
 
 
 /*******************************************************************************
-* ������  : OSA_queListDelete
-* ��  ��  : �����������С�
-* ��  ��  : - hQue: ���о����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queListDelete
+* 描  述  : 销毁链表队列。
+* 输  入  : - hQue: 队列句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_queListDelete(OSA_QueHandle hQue);
 
 
 /*******************************************************************************
-* ������  : OSA_queListRemove
-* ��  ��  : ��������д��
-* ��  ��  : - hQue    : ���о����
-*           - pQueElem: ���г�Ա������ͷָ�롣
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queListRemove
+* 描  述  : 链表队列写。
+* 输  入  : - hQue    : 队列句柄。
+*           - pQueElem: 队列成员的链表头指针。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_queListRemove(OSA_QueHandle hQue,
                         OSA_ListHead *pQueElem);
 
 
 /*******************************************************************************
-* ������  : OSA_queListNext
-* ��  ��  : ��ȡ�����е�ָ���ڵ�ĺ�һ���ڵ㣬����Ԫ���ڶ�����ά��ԭװ������ɾ��
-* ��  ��  : - hQue      : ���о����
-*           - pQueElem  : ָ�������еĽڵ㣬���ָ��ΪOSA_NULL���򷵻ص�һ��Ԫ��
-* ��  ��  : ��
-* ����ֵ  : OSA_NULL��ʾ��ǰָ����Ԫ���Ѿ������һ��
-*           �ǿձ�ʾ����Ԫ��pQueElem�ĺ�һ��Ԫ��
+* 函数名  : OSA_queListNext
+* 描  述  : 获取链表中的指定节点的后一个节点，队列元素在队列中维持原装，不被删除
+* 输  入  : - hQue      : 队列句柄。
+*           - pQueElem  : 指定队列中的节点，如果指定为OSA_NULL，则返回第一个元素
+* 输  出  : 无
+* 返回值  : OSA_NULL表示当前指定的元素已经是最后一个
+*           非空表示队列元素pQueElem的后一个元素
 *******************************************************************************/
 OSA_ListHead* OSA_queListNext(OSA_QueHandle  hQue,
                               OSA_ListHead  *pQueElem);
 
 
 /*******************************************************************************
-* ������  : OSA_queListPrev
-* ��  ��  : ��ȡ�����е�ָ���ڵ��ǰһ���ڵ㣬����Ԫ���ڶ�����ά��ԭװ������ɾ��
-* ��  ��  : - hQue      : ���о����
-*           - pQueElem  : ָ�������еĽڵ㣬���ָ��ΪOSA_NULL���򷵻�β��Ԫ��
-* ��  ��  : ��
-* ����ֵ  : OSA_NULL��ʾ��ǰָ����Ԫ���Ѿ��ǵ�һ��
-*           �ǿձ�ʾ����Ԫ��pQueElem��ǰһ��Ԫ��
+* 函数名  : OSA_queListPrev
+* 描  述  : 获取链表中的指定节点的前一个节点，队列元素在队列中维持原装，不被删除
+* 输  入  : - hQue      : 队列句柄。
+*           - pQueElem  : 指定队列中的节点，如果指定为OSA_NULL，则返回尾部元素
+* 输  出  : 无
+* 返回值  : OSA_NULL表示当前指定的元素已经是第一个
+*           非空表示队列元素pQueElem的前一个元素
 *******************************************************************************/
 OSA_ListHead* OSA_queListPrev(OSA_QueHandle  hQue,
                               OSA_ListHead  *pQueElem);
 
 
 /*******************************************************************************
-* ������  : OSA_queListPut
-* ��  ��  : ��������д��
-* ��  ��  : - hQue    : ���о����
-*           - pQueElem: ���г�Ա������ͷָ�롣
-*           - timeout : ��ʱʱ�䡣��λ�Ǻ��롣OSA_TIMEOUT_NONE��ʾ���ȴ���
-*                       OSA_TIMEOUT_FOREVER��ʾ���޵ȴ���
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queListPut
+* 描  述  : 链表队列写。
+* 输  入  : - hQue    : 队列句柄。
+*           - pQueElem: 队列成员的链表头指针。
+*           - timeout : 超时时间。单位是毫秒。OSA_TIMEOUT_NONE表示不等待，
+*                       OSA_TIMEOUT_FOREVER表示无限等待。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_queListPut(OSA_QueHandle hQue,
                      OSA_ListHead *pQueElem,
@@ -236,51 +236,51 @@ Int32 OSA_queListPut(OSA_QueHandle hQue,
 
 
 /*******************************************************************************
-* ������  : OSA_queListGet
-* ��  ��  : �������ж���
-* ��  ��  : - hQue   : ���о����
-*           - timeout: ��ʱʱ�䡣��λ�Ǻ��롣OSA_TIMEOUT_NONE��ʾ���ȴ���
-*                      OSA_TIMEOUT_FOREVER��ʾ���޵ȴ���
-* ��  ��  : - pVaule :  ���г�Ա������ͷָ���ָ�롣
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queListGet
+* 描  述  : 链表队列读。
+* 输  入  : - hQue   : 队列句柄。
+*           - timeout: 超时时间。单位是毫秒。OSA_TIMEOUT_NONE表示不等待，
+*                      OSA_TIMEOUT_FOREVER表示无限等待。
+* 输  出  : - pVaule :  队列成员的链表头指针的指针。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_queListGet(OSA_QueHandle  hQue,
                      OSA_ListHead **ppQueElem,
                      Uint32         timeout);
 
 
-/* ���½ӿڣ��������к���ͨ���ж�����ʹ�á�*/
+/* 以下接口，链表队列和普通队列都可以使用。*/
 
 /*******************************************************************************
-* ������  : OSA_queIsEmpty
-* ��  ��  : �ж϶����Ƿ�Ϊ�ա�
-* ��  ��  : - hQue: ���о����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queIsEmpty
+* 描  述  : 判断队列是否为空。
+* 输  入  : - hQue: 队列句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Bool32 OSA_queIsEmpty(OSA_QueHandle hQue);
 
 
 /*******************************************************************************
-* ������  : OSA_queGetLen
-* ��  ��  : ��ȡ���г��ȡ�
-* ��  ��  : - hQue: ���о����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queGetLen
+* 描  述  : 获取队列长度。
+* 输  入  : - hQue: 队列句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Uint32 OSA_queGetLen(OSA_QueHandle hQue);
 
 
 /*******************************************************************************
-* ������  : OSA_queGetCount
-* ��  ��  : ��ȡ���е�ǰ�Ѿ�����ĳ�Ա������
-* ��  ��  : - hQue: ���о����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_queGetCount
+* 描  述  : 获取队列当前已经缓存的成员数量。
+* 输  入  : - hQue: 队列句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Uint32 OSA_queGetCount(OSA_QueHandle hQue);
 

@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2012-5-31 Create
 *
-* Description: Í³Ò»µÄÊı¾İÀàĞÍ¡£
+* Description: ç»Ÿä¸€çš„æ•°æ®ç±»å‹ã€‚
 *
-*       1. Ó²¼şËµÃ÷¡£
-*          ÎŞ¡£
+*       1. ç¡¬ä»¶è¯´æ˜ã€‚
+*          æ— ã€‚
 
-*       2. ³ÌĞò½á¹¹ËµÃ÷¡£
-*          ÎŞ
+*       2. ç¨‹åºç»“æ„è¯´æ˜ã€‚
+*          æ— 
 *
-*       3. Ê¹ÓÃËµÃ÷¡£
-*          ÎŞ¡£
+*       3. ä½¿ç”¨è¯´æ˜ã€‚
+*          æ— ã€‚
 *          
-*       4. ¾ÖÏŞĞÔËµÃ÷¡£
-*          ÎŞ¡£
+*       4. å±€é™æ€§è¯´æ˜ã€‚
+*          æ— ã€‚
 *
-*       5. ÆäËûËµÃ÷¡£
-*          ÎŞ¡£
+*       5. å…¶ä»–è¯´æ˜ã€‚
+*          æ— ã€‚
 *
 * Modification: 
 *    Date    :  
@@ -36,7 +36,7 @@
 
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼şÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 #include "osa_sys.h"
 
@@ -46,48 +46,48 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ºêºÍÀàĞÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»å‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
 #if !defined(STD_H) && !defined(_TI_STD_TYPES)
 
-/* ²¼¶ûÁ¿¶¨Òå */
+/* å¸ƒå°”é‡å®šä¹‰ */
 #ifndef DEFINED_Bool
 #define DEFINED_Bool
-typedef unsigned char      Bool;        /* Í¨ÓÃ²¼¶ûÀàĞÍ */
+typedef unsigned char      Bool;        /* é€šç”¨å¸ƒå°”ç±»å‹ */
 #endif
 
-/* ÓĞ·ûºÅÀàĞÍ¶¨Òå */
+/* æœ‰ç¬¦å·ç±»å‹å®šä¹‰ */
 #ifndef DEFINED_Int32
 #define DEFINED_Int32
-typedef int                Int32;       /* ÓĞ·ûºÅ32Î»ÕûĞÎÊıÀàĞÍ */   
+typedef int                Int32;       /* æœ‰ç¬¦å·32ä½æ•´å½¢æ•°ç±»å‹ */   
 #endif
 
 #ifndef DEFINED_Int16
 #define DEFINED_Int16
-typedef short              Int16;       /* ÓĞ·ûºÅ16Î»ÕûĞÎÊıÀàĞÍ */   
+typedef short              Int16;       /* æœ‰ç¬¦å·16ä½æ•´å½¢æ•°ç±»å‹ */   
 #endif
 
 #ifndef DEFINED_Int8
 #define DEFINED_Int8
-typedef char               Int8;        /* ÓĞ·ûºÅ8Î»ÕûĞÎÊıÀàĞÍ */    
+typedef char               Int8;        /* æœ‰ç¬¦å·8ä½æ•´å½¢æ•°ç±»å‹ */    
 #endif
 
-/* Ö¸ÕëÀàĞÍ¶¨Òå */
+/* æŒ‡é’ˆç±»å‹å®šä¹‰ */
 #ifndef DEFINED_Ptr
 #define DEFINED_Ptr
-typedef void *             Ptr;         /* Ö¸ÕëÀàĞÍ */
+typedef void *             Ptr;         /* æŒ‡é’ˆç±»å‹ */
 #endif
 
-/* ×Ö·ûÀàĞÍ¶¨Òå */
+/* å­—ç¬¦ç±»å‹å®šä¹‰ */
 #ifndef DEFINED_String
 #define DEFINED_String
-typedef char *             String;      /* ×Ö·û´®ÀàĞÍ£¬ÒÔNUL½áÎ²¡£*/
+typedef char *             String;      /* å­—ç¬¦ä¸²ç±»å‹ï¼Œä»¥NULç»“å°¾ã€‚*/
 #endif
 
 #ifndef DEFINED_Char
 #define DEFINED_Char
-typedef char               Char;        /* ×Ö·ûÀàĞÍ */
+typedef char               Char;        /* å­—ç¬¦ç±»å‹ */
 #endif
 
 #endif
@@ -95,85 +95,85 @@ typedef char               Char;        /* ×Ö·ûÀàĞÍ */
 
 #if !defined(_TI_STD_TYPES)
 
-/* ÎŞ·ûºÅÀàĞÍ¶¨Òå */ 
+/* æ— ç¬¦å·ç±»å‹å®šä¹‰ */ 
 #ifndef DEFINED_Uint32
 #define DEFINED_Uint32
-typedef unsigned int       Uint32;      /* ÎŞ·ûºÅ32Î»ÕûĞÎÊıÀàĞÍ */ 
+typedef unsigned int       Uint32;      /* æ— ç¬¦å·32ä½æ•´å½¢æ•°ç±»å‹ */ 
 #endif
 
 #ifndef DEFINED_Uint16
 #define DEFINED_Uint16
-typedef unsigned short     Uint16;      /* ÎŞ·ûºÅ16Î»ÕûĞÎÊıÀàĞÍ */ 
+typedef unsigned short     Uint16;      /* æ— ç¬¦å·16ä½æ•´å½¢æ•°ç±»å‹ */ 
 #endif
 
 #ifndef DEFINED_Uint8
 #define DEFINED_Uint8
-typedef unsigned char      Uint8;       /* ÎŞ·ûºÅ8Î»ÕûĞÎÊıÀàĞÍ */ 
+typedef unsigned char      Uint8;       /* æ— ç¬¦å·8ä½æ•´å½¢æ•°ç±»å‹ */ 
 #endif
 
 #ifndef DEFINED_Int64
 #define DEFINED_Int64
-typedef long long          Int64;       /* ÓĞ·ûºÅ64Î»ÕûĞÎÊıÀàĞÍ */
+typedef long long          Int64;       /* æœ‰ç¬¦å·64ä½æ•´å½¢æ•°ç±»å‹ */
 #endif
 
 #endif
 
 #ifndef DEFINED_Bool16
 #define DEFINED_Bool16
-typedef unsigned short     Bool16;      /* 16Î»²¼¶ûÀàĞÍ */
+typedef unsigned short     Bool16;      /* 16ä½å¸ƒå°”ç±»å‹ */
 #endif
 
 #ifndef DEFINED_Bool32
 #define DEFINED_Bool32
-typedef unsigned int       Bool32;      /* 32Î»²¼¶ûÀàĞÍ */
+typedef unsigned int       Bool32;      /* 32ä½å¸ƒå°”ç±»å‹ */
 #endif
 
 #ifndef DEFINED_Int32L
 #define DEFINED_Int32L
-typedef long               Int32L;      /* ÓĞ·ûºÅ32Î»³¤ÕûĞÎÊıÀàĞÍ */ 
+typedef long               Int32L;      /* æœ‰ç¬¦å·32ä½é•¿æ•´å½¢æ•°ç±»å‹ */ 
 #endif
 
 #ifndef DEFINED_Uint32L
 #define DEFINED_Uint32L
-typedef unsigned long      Uint32L;     /* ÎŞ·ûºÅ32Î»³¤ÕûĞÎÊıÀàĞÍ */   
+typedef unsigned long      Uint32L;     /* æ— ç¬¦å·32ä½é•¿æ•´å½¢æ•°ç±»å‹ */   
 #endif
 
 #ifndef DEFINED_Uint64
 #define DEFINED_Uint64
-typedef unsigned long long Uint64;      /* ÎŞ·ûºÅ64Î»ÕûĞÎÊıÀàĞÍ */
+typedef unsigned long long Uint64;      /* æ— ç¬¦å·64ä½æ•´å½¢æ•°ç±»å‹ */
 #endif
 
 
-/* ¸¡µãÀàĞÍ¶¨Òå */
+/* æµ®ç‚¹ç±»å‹å®šä¹‰ */
 #ifndef DEFINED_Float32
 #define DEFINED_Float32
-typedef float              Float32;		/* 32Î»¸¡µãÊıÀàĞÍ */
+typedef float              Float32;		/* 32ä½æµ®ç‚¹æ•°ç±»å‹ */
 #endif
 
 #ifndef DEFINED_Float64
 #define DEFINED_Float64
-typedef double             Float64;		/* 64Î»¸¡µãÊıÀàĞÍ */
+typedef double             Float64;		/* 64ä½æµ®ç‚¹æ•°ç±»å‹ */
 #endif
 
-/* ¾ä±úÀàĞÍ */
+/* å¥æŸ„ç±»å‹ */
 #ifndef DEFINED_Handle
 #define DEFINED_Handle
-typedef void *             Handle;      /* Í³ÓÃ¾ä±úÀàĞÍ */
+typedef void *             Handle;      /* ç»Ÿç”¨å¥æŸ„ç±»å‹ */
 #endif
 
-/* ¿ÕÀàĞÍ¶¨Òå */
+/* ç©ºç±»å‹å®šä¹‰ */
 #ifndef DEFINED_Empty
 #define DEFINED_Empty
-typedef void               Empty;        /* ¿ÕÀàĞÍ */
+typedef void               Empty;        /* ç©ºç±»å‹ */
 #endif
 
-/* size_tÀàĞÍ¶¨Òå */
+/* size_tç±»å‹å®šä¹‰ */
 #ifndef DEFINED_Sizet
 #define DEFINED_Sizet
-typedef size_t             Sizet;       /* size_tÀàĞÍ */
+typedef size_t             Sizet;       /* size_tç±»å‹ */
 #endif
 
-/* 32&64Î»¼æÈİÀàĞÍ¶¨Òå */
+/* 32&64ä½å…¼å®¹ç±»å‹å®šä¹‰ */
 #define Uint8_Align64 Uint8 __attribute__ ((aligned(8)))
 
 #define _SIZEOF_NEED_CHECKED(dataType) \
@@ -198,9 +198,9 @@ typedef size_t             Sizet;       /* size_tÀàĞÍ */
 #error "__SIZEOF_POINTER__ = ?"
 #endif
 
-/// ÁíÒ»ÖÖĞ´·¨
-/// ±£Ö¤32Î»ºÍ64Î»Æ½Ì¨µÄÖ¸Õë±äÁ¿³¤¶ÈÒ»ÖÂ£¬·ÀÖ¹32Î»Æ½Ì¨Í·ÎÄ¼şÔö¼ÓÖ¸Õëµ¼ÖÂ64Î»ÏÂ½á¹¹Ìå´óĞ¡¸Ä±ä
-/// ÓÃ·¨£ºÔÚÖ¸Õë±äÁ¿ºó£¬Ê¹ÓÃ´Ëºê£¬NÌîÈÎÒâÖµ£¬Í¬Ò»¸ö½á¹¹ÌåÄÚ²»ÖØÃû¼´¿É¡£
+/// å¦ä¸€ç§å†™æ³•
+/// ä¿è¯32ä½å’Œ64ä½å¹³å°çš„æŒ‡é’ˆå˜é‡é•¿åº¦ä¸€è‡´ï¼Œé˜²æ­¢32ä½å¹³å°å¤´æ–‡ä»¶å¢åŠ æŒ‡é’ˆå¯¼è‡´64ä½ä¸‹ç»“æ„ä½“å¤§å°æ”¹å˜
+/// ç”¨æ³•ï¼šåœ¨æŒ‡é’ˆå˜é‡åï¼Œä½¿ç”¨æ­¤å®ï¼ŒNå¡«ä»»æ„å€¼ï¼ŒåŒä¸€ä¸ªç»“æ„ä½“å†…ä¸é‡åå³å¯ã€‚
 /// char* pointer; 
 ///OSA_UNUSED_FORCE_POINTER_ALIGN8(pointer)
 #ifndef OSA_UNUSED_FORCE_POINTER_ALIGN8

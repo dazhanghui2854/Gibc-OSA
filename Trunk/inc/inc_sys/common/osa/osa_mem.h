@@ -21,7 +21,7 @@
 
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼þÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 
 
@@ -35,10 +35,10 @@ extern "C" {
 /************************************** Linux kernel ***************************************/
 
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
-/*¼æÈÝËùÓÐÆ½Ì¨µÄÄÚ´æÉêÇëÊÍ·Å½Ó¿Ú£¬¶ÔÓÚÄÚºËÌ¬£¬Ê¹ÓÃkmalloc GFP_KERNEL·½Ê½ÉêÇë*/
+/*å…¼å®¹æ‰€æœ‰å¹³å°çš„å†…å­˜ç”³è¯·é‡Šæ”¾æŽ¥å£ï¼Œå¯¹äºŽå†…æ ¸æ€ï¼Œä½¿ç”¨kmalloc GFP_KERNELæ–¹å¼ç”³è¯·*/
 #define OSA_memAlloc(size)              OSA_memKAlloc((size), OSA_KMEM_KMA)
 #define OSA_memCalloc(size)             OSA_memKCalloc((size), OSA_KMEM_KMA)
 #define OSA_memFree(ptr)                OSA_memKFree((ptr))
@@ -46,22 +46,22 @@ extern "C" {
 #define OSA_memCpy(dst, src)            memcpy((dst), (src), sizeof(*(src)))
 
 
-/*ÉêÇëµÄÄÚ´æÀàÐÍ*/
+/*ç”³è¯·çš„å†…å­˜ç±»åž‹*/
 typedef enum
 {
-    OSA_KMEM_VMA  = 0,        /* Í¨¹ývmallocÉêÇëµÄÄÚ´æ*/
-    OSA_KMEM_KMA,             /* Í¨¹ýkmallocÉêÇëµÄÄÚ´æ,flagsÎª GFP_KERNEL*/
-    OSA_KMEM_KMA_DMA,         /* Í¨¹ýkmallocÉêÇëµÄÄÚ´æ,flagsÎª GFP_KERNEL|GFP_DMA*/
-    OSA_KMEM_KMA_NOSLEEP,     /* Í¨¹ýkmallocÉêÇëµÄÄÚ´æ,flagsÎª GFP_ATOMIC*/
-    OSA_KMEM_KMA_NOSLEEP_DMA, /* Í¨¹ýkmallocÉêÇëµÄÄÚ´æ,flagsÎª GFP_ATOMIC|GFP_DMA*/
-    OSA_KMEM_PAGE,            /* Í¨¹ý__get_free_pagesÉêÇëµÄÄÚ´æ,flagsÎª GFP_KERNEL*/
-    OSA_KMEM_PAGE_DMA,        /* Í¨¹ý__get_free_pagesÉêÇëµÄÄÚ´æ,flagsÎª GFP_KERNEL|GFP_DMA*/
-    OSA_KMEM_PAGE_NOSLEEP,    /* Í¨¹ý__get_free_pagesÉêÇëµÄÄÚ´æ,flagsÎª GFP_ATOMIC*/
-    OSA_KMEM_PAGE_NOSLEEP_DMA /* Í¨¹ý__get_free_pagesÉêÇëµÄÄÚ´æ,flagsÎª GFP_ATOMIC|GFP_DMA*/
+    OSA_KMEM_VMA  = 0,        /* é€šè¿‡vmallocç”³è¯·çš„å†…å­˜*/
+    OSA_KMEM_KMA,             /* é€šè¿‡kmallocç”³è¯·çš„å†…å­˜,flagsä¸º GFP_KERNEL*/
+    OSA_KMEM_KMA_DMA,         /* é€šè¿‡kmallocç”³è¯·çš„å†…å­˜,flagsä¸º GFP_KERNEL|GFP_DMA*/
+    OSA_KMEM_KMA_NOSLEEP,     /* é€šè¿‡kmallocç”³è¯·çš„å†…å­˜,flagsä¸º GFP_ATOMIC*/
+    OSA_KMEM_KMA_NOSLEEP_DMA, /* é€šè¿‡kmallocç”³è¯·çš„å†…å­˜,flagsä¸º GFP_ATOMIC|GFP_DMA*/
+    OSA_KMEM_PAGE,            /* é€šè¿‡__get_free_pagesç”³è¯·çš„å†…å­˜,flagsä¸º GFP_KERNEL*/
+    OSA_KMEM_PAGE_DMA,        /* é€šè¿‡__get_free_pagesç”³è¯·çš„å†…å­˜,flagsä¸º GFP_KERNEL|GFP_DMA*/
+    OSA_KMEM_PAGE_NOSLEEP,    /* é€šè¿‡__get_free_pagesç”³è¯·çš„å†…å­˜,flagsä¸º GFP_ATOMIC*/
+    OSA_KMEM_PAGE_NOSLEEP_DMA /* é€šè¿‡__get_free_pagesç”³è¯·çš„å†…å­˜,flagsä¸º GFP_ATOMIC|GFP_DMA*/
 
 } OSA_KMemType;
 
-/*¶¨ÒåÁ½¸ö²»Ê¹ÓÃ×Ô¶¨Òå¶ÔÆë·½Ê½ÉêÇëÄÚ´æµÄºê, ·½±ã²Ù×÷*/
+/*å®šä¹‰ä¸¤ä¸ªä¸ä½¿ç”¨è‡ªå®šä¹‰å¯¹é½æ–¹å¼ç”³è¯·å†…å­˜çš„å®, æ–¹ä¾¿æ“ä½œ*/
 #define OSA_memKAlloc(size, type) \
     OSA_memKAllocAlign((size), (type), 0)
 
@@ -70,118 +70,118 @@ typedef enum
 
 
 /* ========================================================================== */
-/*                          º¯Êý¶¨ÒåÇø                                        */
+/*                          å‡½æ•°å®šä¹‰åŒº                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memKAllocAlign
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÉêÇëÄÚ´æ,¸ù¾Ý²»Í¬µÄÀàÐÍ,µ÷ÓÃ²»Í¬µÄÄÚºËÉêÇëº¯Êý
-*           ÈôÈë²ÎtypeÎªÒÔÏÂËÄÖÖÖ®Ò»,Ôò¸Ã½Ó¿Ú¿ÉÒÔÔÚÄÚºËÌ¬ÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_memKAllocAlign
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£ç”³è¯·å†…å­˜,æ ¹æ®ä¸åŒçš„ç±»åž‹,è°ƒç”¨ä¸åŒçš„å†…æ ¸ç”³è¯·å‡½æ•°
+*           è‹¥å…¥å‚typeä¸ºä»¥ä¸‹å››ç§ä¹‹ä¸€,åˆ™è¯¥æŽ¥å£å¯ä»¥åœ¨å†…æ ¸æ€ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *           OSA_KMEM_KMA_NOSLEEP
 *           OSA_KMEM_KMA_NOSLEEP_DMA
 *           OSA_KMEM_PAGE_NOSLEEP
 *           OSA_KMEM_PAGE_NOSLEEP_DMA
-*           ÆäËûÇé¿ö,¸Ã½Ó¿Ú²»ÄÜÔÚÄÚºËÌ¬ÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+*           å…¶ä»–æƒ…å†µ,è¯¥æŽ¥å£ä¸èƒ½åœ¨å†…æ ¸æ€ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - size:  ÒªÉêÇëµÄÄÚ´æ´óÐ¡
-*           - type:  ÉêÇëµÄÄÚ´æÀàÐÍ,¶¨Òå²Î¼ûOSA_KMemType
-*           - align: ÓÃ»§×Ô¶¨Òå¶ÔÆëµÄ×Ö½ÚÊý, ÈôÎª0±íÊ¾²»½øÐÐ×Ô¶¨Òå¶ÔÆë
-*                    ¸Ã²ÎÊý±ØÐëÎª4µÄÕûÊý±¶, ·ñÔòº¯Êý½«·µ»ØNULL
+* è¾“  å…¥  : - size:  è¦ç”³è¯·çš„å†…å­˜å¤§å°
+*           - type:  ç”³è¯·çš„å†…å­˜ç±»åž‹,å®šä¹‰å‚è§OSA_KMemType
+*           - align: ç”¨æˆ·è‡ªå®šä¹‰å¯¹é½çš„å­—èŠ‚æ•°, è‹¥ä¸º0è¡¨ç¤ºä¸è¿›è¡Œè‡ªå®šä¹‰å¯¹é½
+*                    è¯¥å‚æ•°å¿…é¡»ä¸º4çš„æ•´æ•°å€, å¦åˆ™å‡½æ•°å°†è¿”å›žNULL
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : ·ÇNULL: ÉêÇë³É¹¦
-*           NULL:   ÉêÇëÊ§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : éžNULL: ç”³è¯·æˆåŠŸ
+*           NULL:   ç”³è¯·å¤±è´¥
 *******************************************************************************/
 Ptr OSA_memKAllocAlign(Uint32 size, Uint32 type, Uint32 align);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memKCallocAlign
-* Ãè  Êö  : ¸Ãº¯ÊýÔÚOSA_memKAllocAlignµÄ»ù´¡ÉÏ,Ôö¼Ó¶ÔÄÚ´æÇå0µÄ¶¯×÷
-*           ÈôÈë²ÎtypeÎªÒÔÏÂËÄÖÖÖ®Ò»,Ôò¸Ã½Ó¿Ú¿ÉÒÔÔÚÄÚºËÌ¬ÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_memKCallocAlign
+* æ  è¿°  : è¯¥å‡½æ•°åœ¨OSA_memKAllocAlignçš„åŸºç¡€ä¸Š,å¢žåŠ å¯¹å†…å­˜æ¸…0çš„åŠ¨ä½œ
+*           è‹¥å…¥å‚typeä¸ºä»¥ä¸‹å››ç§ä¹‹ä¸€,åˆ™è¯¥æŽ¥å£å¯ä»¥åœ¨å†…æ ¸æ€ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *           OSA_KMEM_KMA_NOSLEEP
 *           OSA_KMEM_KMA_NOSLEEP_DMA
 *           OSA_KMEM_PAGE_NOSLEEP
 *           OSA_KMEM_PAGE_NOSLEEP_DMA
-*           ÆäËûÇé¿ö,¸Ã½Ó¿Ú²»ÄÜÔÚÄÚºËÌ¬ÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+*           å…¶ä»–æƒ…å†µ,è¯¥æŽ¥å£ä¸èƒ½åœ¨å†…æ ¸æ€ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - size:  ÒªÉêÇëµÄÄÚ´æ´óÐ¡
-*           - type:  ÉêÇëµÄÄÚ´æÀàÐÍ,¶¨Òå²Î¼ûOSA_KMemType
-*           - align: ÓÃ»§×Ô¶¨Òå¶ÔÆëµÄ×Ö½ÚÊý, ÈôÎª0±íÊ¾²»½øÐÐ×Ô¶¨Òå¶ÔÆë
-*                    ¸Ã²ÎÊý±ØÐëÎª4µÄÕûÊý±¶, ·ñÔòº¯Êý½«·µ»ØNULL
+* è¾“  å…¥  : - size:  è¦ç”³è¯·çš„å†…å­˜å¤§å°
+*           - type:  ç”³è¯·çš„å†…å­˜ç±»åž‹,å®šä¹‰å‚è§OSA_KMemType
+*           - align: ç”¨æˆ·è‡ªå®šä¹‰å¯¹é½çš„å­—èŠ‚æ•°, è‹¥ä¸º0è¡¨ç¤ºä¸è¿›è¡Œè‡ªå®šä¹‰å¯¹é½
+*                    è¯¥å‚æ•°å¿…é¡»ä¸º4çš„æ•´æ•°å€, å¦åˆ™å‡½æ•°å°†è¿”å›žNULL
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : ·ÇNULL:  ÉêÇë³É¹¦
-*           NULL:    ÉêÇëÊ§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : éžNULL:  ç”³è¯·æˆåŠŸ
+*           NULL:    ç”³è¯·å¤±è´¥
 *******************************************************************************/
 Ptr OSA_memKCallocAlign(Uint32 size, Uint32 type, Uint32 align);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memKFree
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÊÍ·ÅÄÚ´æ,¸ù¾Ý²»Í¬µÄÀàÐÍ,µ÷ÓÃ²»Í¬µÄÄÚºËÊÍ·Åº¯Êý
-*           ÈôÉêÇëµÄÄÚ´æÎªOSA_KMEM_VMA, Ôò¸Ã½Ó¿Ú²»ÄÜÔÚÄÚºËÌ¬ÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ£¬ÆäËûÇé¿ö¿ÉÒÔ¡£
+* å‡½æ•°å  : OSA_memKFree
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£é‡Šæ”¾å†…å­˜,æ ¹æ®ä¸åŒçš„ç±»åž‹,è°ƒç”¨ä¸åŒçš„å†…æ ¸é‡Šæ”¾å‡½æ•°
+*           è‹¥ç”³è¯·çš„å†…å­˜ä¸ºOSA_KMEM_VMA, åˆ™è¯¥æŽ¥å£ä¸èƒ½åœ¨å†…æ ¸æ€ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨ï¼Œå…¶ä»–æƒ…å†µå¯ä»¥ã€‚
 *
-* Êä  Èë  : - pPtr:    ÒªÊÍ·ÅµÄÄÚ´æÖ¸Õë
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦,ÄÚ´æÒÑÊÍ·Å
-*           OSA_EFAIL: Ê§°Ü, ÄÚ´æÎ´ÊÍ·Å
+* è¾“  å…¥  : - pPtr:    è¦é‡Šæ”¾çš„å†…å­˜æŒ‡é’ˆ
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸ,å†…å­˜å·²é‡Šæ”¾
+*           OSA_EFAIL: å¤±è´¥, å†…å­˜æœªé‡Šæ”¾
 *******************************************************************************/
 Int32 OSA_memKFree(Ptr pPtr);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memPhyToVirt
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔð´ÓÎïÀíµØÖ·µ½ÐéÄâµØÖ·µÄ×ª»»
-*           Èç¹ûÎïÀíµØÖ··Ç·¨, Ôò·µ»ØOSA_EFAIL
-*           ¸Ã½Ó¿Ú¿ÉÒÔÔÚÄÚºËÌ¬ÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_memPhyToVirt
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£ä»Žç‰©ç†åœ°å€åˆ°è™šæ‹Ÿåœ°å€çš„è½¬æ¢
+*           å¦‚æžœç‰©ç†åœ°å€éžæ³•, åˆ™è¿”å›žOSA_EFAIL
+*           è¯¥æŽ¥å£å¯ä»¥åœ¨å†…æ ¸æ€ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - phyAddr:   ÎïÀíµØÖ·
+* è¾“  å…¥  : - phyAddr:   ç‰©ç†åœ°å€
 *
-* Êä  ³ö  : - pVirtAddr: ÐéÄâµØÖ·
-* ·µ»ØÖµ  :  OSA_SOK:    ³É¹¦
-*            OSA_EFAIL:  Ê§°Ü
+* è¾“  å‡º  : - pVirtAddr: è™šæ‹Ÿåœ°å€
+* è¿”å›žå€¼  :  OSA_SOK:    æˆåŠŸ
+*            OSA_EFAIL:  å¤±è´¥
 *******************************************************************************/
 Int32 OSA_memPhyToVirt(Uint32L phyAddr, Uint32L *pVirtAddr);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memVirtToPhy
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔð´ÓÐéÄâµØÖ·µ½ÎïÀíµØÖ·µÄ×ª»»
-*           Èç¹ûÐéÄâµØÖ··Ç·¨, Ôò·µ»ØOSA_EFAIL
-*           ¸Ã½Ó¿Ú¿ÉÒÔÔÚÄÚºËÌ¬ÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_memVirtToPhy
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£ä»Žè™šæ‹Ÿåœ°å€åˆ°ç‰©ç†åœ°å€çš„è½¬æ¢
+*           å¦‚æžœè™šæ‹Ÿåœ°å€éžæ³•, åˆ™è¿”å›žOSA_EFAIL
+*           è¯¥æŽ¥å£å¯ä»¥åœ¨å†…æ ¸æ€ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - virtAddr: ÐéÄâµØÖ·
+* è¾“  å…¥  : - virtAddr: è™šæ‹Ÿåœ°å€
 *
-* Êä  ³ö  : - pPhyAddr: ÎïÀíµØÖ·
-* ·µ»ØÖµ  :  OSA_SOK:   ³É¹¦
-*            OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : - pPhyAddr: ç‰©ç†åœ°å€
+* è¿”å›žå€¼  :  OSA_SOK:   æˆåŠŸ
+*            OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_memVirtToPhy(Uint32L virtAddr, Uint32L *pPhyAddr);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memCopyFromUser
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔð´ÓÓÃ»§¿Õ¼ä¿½±´Êý¾Ýµ½ÄÚºË¿Õ¼ä
+* å‡½æ•°å  : OSA_memCopyFromUser
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£ä»Žç”¨æˆ·ç©ºé—´æ‹·è´æ•°æ®åˆ°å†…æ ¸ç©ºé—´
 *
-* Êä  Èë  : - pKBuf: ÄÚºË¿Õ¼äbuffer
-*           - pUBuf: ÓÃ»§¿Õ¼äbuffer
-*           - size:  ¿½±´µÄÊý¾Ý³¤¶È
+* è¾“  å…¥  : - pKBuf: å†…æ ¸ç©ºé—´buffer
+*           - pUBuf: ç”¨æˆ·ç©ºé—´buffer
+*           - size:  æ‹·è´çš„æ•°æ®é•¿åº¦
 *
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  :  OSA_SOK:   ³É¹¦
-*            OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  :  OSA_SOK:   æˆåŠŸ
+*            OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_memCopyFromUser(Ptr pKBuf, Ptr pUBuf, Uint32 size);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memCopyToUser
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔð´ÓÄÚºË¿Õ¼ä¿½±´Êý¾Ýµ½ÓÃ»§¿Õ¼ä
+* å‡½æ•°å  : OSA_memCopyToUser
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£ä»Žå†…æ ¸ç©ºé—´æ‹·è´æ•°æ®åˆ°ç”¨æˆ·ç©ºé—´
 *
-* Êä  Èë  : - pUBuf: ÓÃ»§¿Õ¼äbuffer
-*           - pKBuf: ÄÚºË¿Õ¼äbuffer
-*           - size:  ¿½±´µÄÊý¾Ý³¤¶È
+* è¾“  å…¥  : - pUBuf: ç”¨æˆ·ç©ºé—´buffer
+*           - pKBuf: å†…æ ¸ç©ºé—´buffer
+*           - size:  æ‹·è´çš„æ•°æ®é•¿åº¦
 *
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  :  OSA_SOK:   ³É¹¦
-*            OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  :  OSA_SOK:   æˆåŠŸ
+*            OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_memCopyToUser(Ptr pUBuf, Ptr pKBuf, Uint32 size);
 
@@ -190,7 +190,7 @@ Int32 OSA_memCopyToUser(Ptr pUBuf, Ptr pKBuf, Uint32 size);
 /************************************** TI SYSBIOS *************************/
 
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
 #define OSA_memAlloc(size)   OSA_memTIAllocAlign((Handle)-1, (size), 0)
@@ -205,47 +205,47 @@ Int32 OSA_memCopyToUser(Ptr pUBuf, Ptr pKBuf, Uint32 size);
 #define OSA_memCpy(dst, src)            memcpy((dst), (src), sizeof(*(src)))
 
 /* ========================================================================== */
-/*                          º¯Êý¶¨ÒåÇø                                        */
+/*                          å‡½æ•°å®šä¹‰åŒº                                        */
 /* ========================================================================== */
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memTIAllocAlign
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÔÚTI SYSBIOSÖÐÉêÇëÄÚ´æ
+* å‡½æ•°å  : OSA_memTIAllocAlign
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£åœ¨TI SYSBIOSä¸­ç”³è¯·å†…å­˜
 *
-* Êä  Èë  : - hHeap:  Heap¾ä±ú£¬ÈôÎª-1, Ôò±íÊ¾Ê¹ÓÃ±ê×¼µÄmalloc
-*           - size:  ÒªÉêÇëµÄÄÚ´æ´óÐ¡
-*           - align: ÓÃ»§×Ô¶¨Òå¶ÔÆëµÄ×Ö½ÚÊý, ÈôÎª0±íÊ¾²»½øÐÐ×Ô¶¨Òå¶ÔÆë
-*                    ¸Ã²ÎÊý±ØÐëÎª4µÄÕûÊý±¶, ·ñÔòº¯Êý½«·µ»ØNULL
+* è¾“  å…¥  : - hHeap:  Heapå¥æŸ„ï¼Œè‹¥ä¸º-1, åˆ™è¡¨ç¤ºä½¿ç”¨æ ‡å‡†çš„malloc
+*           - size:  è¦ç”³è¯·çš„å†…å­˜å¤§å°
+*           - align: ç”¨æˆ·è‡ªå®šä¹‰å¯¹é½çš„å­—èŠ‚æ•°, è‹¥ä¸º0è¡¨ç¤ºä¸è¿›è¡Œè‡ªå®šä¹‰å¯¹é½
+*                    è¯¥å‚æ•°å¿…é¡»ä¸º4çš„æ•´æ•°å€, å¦åˆ™å‡½æ•°å°†è¿”å›žNULL
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : ·ÇNULL: ÉêÇë³É¹¦
-*           NULL:   ÉêÇëÊ§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : éžNULL: ç”³è¯·æˆåŠŸ
+*           NULL:   ç”³è¯·å¤±è´¥
 *******************************************************************************/
 Ptr OSA_memTIAllocAlign(Handle hHeap, Uint32 size, Uint32 align);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memTICallocAlign
-* Ãè  Êö  : ¸Ãº¯ÊýÔÚOSA_memTIAllocAlignµÄ»ù´¡ÉÏ,Ôö¼Ó¶ÔÄÚ´æÇå0µÄ¶¯×÷
+* å‡½æ•°å  : OSA_memTICallocAlign
+* æ  è¿°  : è¯¥å‡½æ•°åœ¨OSA_memTIAllocAlignçš„åŸºç¡€ä¸Š,å¢žåŠ å¯¹å†…å­˜æ¸…0çš„åŠ¨ä½œ
 *
-* Êä  Èë  : - hHeap:  Heap¾ä±ú£¬ÈôÎª-1, Ôò±íÊ¾Ê¹ÓÃ±ê×¼µÄmalloc
-*           - size:  ÒªÉêÇëµÄÄÚ´æ´óÐ¡
-*           - align: ÓÃ»§×Ô¶¨Òå¶ÔÆëµÄ×Ö½ÚÊý, ÈôÎª0±íÊ¾²»½øÐÐ×Ô¶¨Òå¶ÔÆë
-*                    ¸Ã²ÎÊý±ØÐëÎª4µÄÕûÊý±¶, ·ñÔòº¯Êý½«·µ»ØNULL
+* è¾“  å…¥  : - hHeap:  Heapå¥æŸ„ï¼Œè‹¥ä¸º-1, åˆ™è¡¨ç¤ºä½¿ç”¨æ ‡å‡†çš„malloc
+*           - size:  è¦ç”³è¯·çš„å†…å­˜å¤§å°
+*           - align: ç”¨æˆ·è‡ªå®šä¹‰å¯¹é½çš„å­—èŠ‚æ•°, è‹¥ä¸º0è¡¨ç¤ºä¸è¿›è¡Œè‡ªå®šä¹‰å¯¹é½
+*                    è¯¥å‚æ•°å¿…é¡»ä¸º4çš„æ•´æ•°å€, å¦åˆ™å‡½æ•°å°†è¿”å›žNULL
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : ·ÇNULL:  ÉêÇë³É¹¦
-*           NULL:    ÉêÇëÊ§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : éžNULL:  ç”³è¯·æˆåŠŸ
+*           NULL:    ç”³è¯·å¤±è´¥
 *******************************************************************************/
 Ptr OSA_memTICallocAlign(Handle hHeap, Uint32 size, Uint32 align);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memTIFree
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÔÚTI SYSBIOSÖÐÊÍ·ÅÄÚ´æ
+* å‡½æ•°å  : OSA_memTIFree
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£åœ¨TI SYSBIOSä¸­é‡Šæ”¾å†…å­˜
 *
-* Êä  Èë  : - pPtr:    ÒªÊÍ·ÅµÄÄÚ´æÖ¸Õë
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦,ÄÚ´æÒÑÊÍ·Å
-*           OSA_EFAIL: Ê§°Ü, ÄÚ´æÎ´ÊÍ·Å
+* è¾“  å…¥  : - pPtr:    è¦é‡Šæ”¾çš„å†…å­˜æŒ‡é’ˆ
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸ,å†…å­˜å·²é‡Šæ”¾
+*           OSA_EFAIL: å¤±è´¥, å†…å­˜æœªé‡Šæ”¾
 *******************************************************************************/
 Int32 OSA_memTIFree(Ptr pPtr);
 
@@ -255,7 +255,7 @@ Int32 OSA_memTIFree(Ptr pPtr);
 /************************************** linux user *************************/
 
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
 #define OSA_memAlloc(size)              OSA_memUAllocAlign((size), 0)
@@ -264,57 +264,57 @@ Int32 OSA_memTIFree(Ptr pPtr);
 #define OSA_memCpy(dst, src)            OSA_memCpySize((dst), (src), sizeof(*(src)))
 
 /* ========================================================================== */
-/*                          º¯Êý¶¨ÒåÇø                                        */
+/*                          å‡½æ•°å®šä¹‰åŒº                                        */
 /* ========================================================================== */
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memUAllocAlign
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÔÚlinuxÓÃ»§Ì¬ÖÐÉêÇëÄÚ´æ
+* å‡½æ•°å  : OSA_memUAllocAlign
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£åœ¨linuxç”¨æˆ·æ€ä¸­ç”³è¯·å†…å­˜
 *
-* Êä  Èë  : - size:  ÒªÉêÇëµÄÄÚ´æ´óÐ¡
-*           - align: ÓÃ»§×Ô¶¨Òå¶ÔÆëµÄ×Ö½ÚÊý, ÈôÎª0±íÊ¾²»½øÐÐ×Ô¶¨Òå¶ÔÆë
-*                    ¸Ã²ÎÊý±ØÐëÎª4µÄÕûÊý±¶, ·ñÔòº¯Êý½«·µ»ØNULL
+* è¾“  å…¥  : - size:  è¦ç”³è¯·çš„å†…å­˜å¤§å°
+*           - align: ç”¨æˆ·è‡ªå®šä¹‰å¯¹é½çš„å­—èŠ‚æ•°, è‹¥ä¸º0è¡¨ç¤ºä¸è¿›è¡Œè‡ªå®šä¹‰å¯¹é½
+*                    è¯¥å‚æ•°å¿…é¡»ä¸º4çš„æ•´æ•°å€, å¦åˆ™å‡½æ•°å°†è¿”å›žNULL
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : ·ÇNULL: ÉêÇë³É¹¦
-*           NULL:   ÉêÇëÊ§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : éžNULL: ç”³è¯·æˆåŠŸ
+*           NULL:   ç”³è¯·å¤±è´¥
 *******************************************************************************/
 Ptr OSA_memUAllocAlign(Uint32 size, Uint32 align);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memUCallocAlign
-* Ãè  Êö  : ¸Ãº¯ÊýÔÚOSA_memUAllocAlignµÄ»ù´¡ÉÏ,Ôö¼Ó¶ÔÄÚ´æÇå0µÄ¶¯×÷
+* å‡½æ•°å  : OSA_memUCallocAlign
+* æ  è¿°  : è¯¥å‡½æ•°åœ¨OSA_memUAllocAlignçš„åŸºç¡€ä¸Š,å¢žåŠ å¯¹å†…å­˜æ¸…0çš„åŠ¨ä½œ
 *
-* Êä  Èë  : - size:  ÒªÉêÇëµÄÄÚ´æ´óÐ¡
-*           - align: ÓÃ»§×Ô¶¨Òå¶ÔÆëµÄ×Ö½ÚÊý, ÈôÎª0±íÊ¾²»½øÐÐ×Ô¶¨Òå¶ÔÆë
-*                    ¸Ã²ÎÊý±ØÐëÎª4µÄÕûÊý±¶, ·ñÔòº¯Êý½«·µ»ØNULL
+* è¾“  å…¥  : - size:  è¦ç”³è¯·çš„å†…å­˜å¤§å°
+*           - align: ç”¨æˆ·è‡ªå®šä¹‰å¯¹é½çš„å­—èŠ‚æ•°, è‹¥ä¸º0è¡¨ç¤ºä¸è¿›è¡Œè‡ªå®šä¹‰å¯¹é½
+*                    è¯¥å‚æ•°å¿…é¡»ä¸º4çš„æ•´æ•°å€, å¦åˆ™å‡½æ•°å°†è¿”å›žNULL
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : ·ÇNULL:  ÉêÇë³É¹¦
-*           NULL:    ÉêÇëÊ§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : éžNULL:  ç”³è¯·æˆåŠŸ
+*           NULL:    ç”³è¯·å¤±è´¥
 *******************************************************************************/
 Ptr OSA_memUCallocAlign(Uint32 size, Uint32 align);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memUFree
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÔÚlinuxÓÃ»§Ì¬ÖÐÊÍ·ÅÄÚ´æ
+* å‡½æ•°å  : OSA_memUFree
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£åœ¨linuxç”¨æˆ·æ€ä¸­é‡Šæ”¾å†…å­˜
 *
-* Êä  Èë  : - pPtr:    ÒªÊÍ·ÅµÄÄÚ´æÖ¸Õë
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦,ÄÚ´æÒÑÊÍ·Å
-*           OSA_EFAIL: Ê§°Ü, ÄÚ´æÎ´ÊÍ·Å
+* è¾“  å…¥  : - pPtr:    è¦é‡Šæ”¾çš„å†…å­˜æŒ‡é’ˆ
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸ,å†…å­˜å·²é‡Šæ”¾
+*           OSA_EFAIL: å¤±è´¥, å†…å­˜æœªé‡Šæ”¾
 *******************************************************************************/
 Int32 OSA_memUFree(Ptr pPtr);
 
 #ifdef __ARM_NEON__
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_memCpySize
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÔÚlinuxÓÃ»§Ì¬ÏÂ½øÐÐÊý¾Ý¿½±´
-* Êä  Èë  : - pDst: Ä¿µÄµØÖ·
-*         : - pSrc: Ô´µØÖ·
-*         : - size: ¿½±´Êý¾Ý³¤¶È
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : Ptr : Ö¸ÏòÄ¿µÄµØÖ·µÄÖ¸Õë 
+* å‡½æ•°å  : OSA_memCpySize
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£åœ¨linuxç”¨æˆ·æ€ä¸‹è¿›è¡Œæ•°æ®æ‹·è´
+* è¾“  å…¥  : - pDst: ç›®çš„åœ°å€
+*         : - pSrc: æºåœ°å€
+*         : - size: æ‹·è´æ•°æ®é•¿åº¦
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : Ptr : æŒ‡å‘ç›®çš„åœ°å€çš„æŒ‡é’ˆ 
 *
 *******************************************************************************/
 Ptr OSA_memCpySize(Ptr pDst,Ptr pSrc,Uint32 size);

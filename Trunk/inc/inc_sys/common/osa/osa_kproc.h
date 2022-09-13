@@ -6,9 +6,9 @@
 * Author : Zheng wei <zheng_wei@dahuatech.com>
 * Version: V1.0.0  2012-5-23 Create
 *
-* Desc: ����linux�ں�̬OSAģ������ṩ��proc�ļ�ϵͳע��ӿ�
+* Desc: 定义linux内核态OSA模块对外提供的proc文件系统注册接口
 *
-*           �ӿڵ�����������:
+*           接口调用流程如下:
 *           ==========================
 *                   |                            
 *           OSA_kProcCreate
@@ -29,10 +29,10 @@
 #ifndef _OSA_KPROC_H_
 #define _OSA_KPROC_H_
 
-#ifdef __KERNEL__    /* ��Linux �ں�̬֧��*/
+#ifdef __KERNEL__    /* 仅Linux 内核态支持*/
 
 /* ========================================================================== */
-/*                             ͷ�ļ���                                       */
+/*                             头文件区                                       */
 /* ========================================================================== */
 
 #ifdef __cplusplus
@@ -41,42 +41,42 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ������Ͷ�����                                   */
+/*                           宏和类型定义区                                   */
 /* ========================================================================== */
 
-/*����OSA_kProcCreate���صľ������,�ϲ�ģ�鲻��Ҫ�������еľ�������,*/
-/*ֻ��Ҫ�ڵ���OSA_kProcDeleteAllʱ�Ѿ�����뼴��*/
+/*调用OSA_kProcCreate返回的句柄类型,上层模块不需要关心其中的具体内容,*/
+/*只需要在调用OSA_kProcDeleteAll时把句柄传入即可*/
 typedef Handle OSA_KProcHandle;
 
-/*����OSA_kProcAddFile���صľ�����ͣ��ڵ���OSA_kProcDelFileɾ���ļ�ʱ��Ҫ����*/
+/*调用OSA_kProcAddFile返回的句柄类型，在调用OSA_kProcDelFile删除文件时需要传入*/
 typedef Handle OSA_KProcFileHandle;
 
 /* ========================================================================== */
-/*                          ���ݽṹ������                                    */
+/*                          数据结构定义区                                    */
 /* ========================================================================== */
-/*OSA Proc�Ĳ��������ṹ��*/
+/*OSA Proc的操作方法结构体*/
 typedef struct
 {
     /*******************************************************************************
-    * ��  ��  :  OSA proc��ȡ�ӿ�
-    * ��  ��  : ��
-    * ��  ��  : - pBuf   :   ���øýӿڶ�ȡ���ַ�������ͨ���ò������,
-    *                        �ýӿ�ʵ��ʱ��Ҫ��Ҫ������ַ���������buf��
-    *           - pCount :  ���øýӿڶ�ȡ���ַ�������ͨ���ò������,
-    *                        �ýӿ�ʵ��ʱ��Ҫ��Ҫ������ַ������ȿ������ò�����
-    *           - pUsrArgs:  �û�˽�����ݡ�
-    * ����ֵ  : OSA_EFAIL:   ʧ��
-    *           OSA_SOK:     �ɹ�
+    * 描  述  :  OSA proc读取接口
+    * 输  入  : 无
+    * 输  出  : - pBuf   :   调用该接口读取的字符串内容通过该参数输出,
+    *                        该接口实现时需要把要输出的字符串拷贝到buf中
+    *           - pCount :  调用该接口读取的字符串长度通过该参数输出,
+    *                        该接口实现时需要把要输出的字符串长度拷贝到该参数中
+    *           - pUsrArgs:  用户私有数据。
+    * 返回值  : OSA_EFAIL:   失败
+    *           OSA_SOK:     成功
     *******************************************************************************/
     Int32 (*OpRead)(Char *pBuf, Uint32 *pCount, Ptr pUsrArgs);
 
     /*******************************************************************************
-    * ��  ��  :  OSA procд��ӿ�
-    * ��  ��  : - pBuf:    �û�д����ַ���ͨ������δ���,�ýӿ�ʵ��ʱ��Ҫ���������,��ȡ���е���Ϣ
-    *           - count:   �û�д���buf����
-    * ��  ��  : ��
-    * ����ֵ  : OSA_EFAIL: ʧ��
-    *           OSA_SOK:   �ɹ�
+    * 描  述  :  OSA proc写入接口
+    * 输  入  : - pBuf:    用户写入的字符串通过该入参传入,该接口实现时需要解析该入参,获取其中的信息
+    *           - count:   用户写入的buf长度
+    * 输  出  : 无
+    * 返回值  : OSA_EFAIL: 失败
+    *           OSA_SOK:   成功
     *******************************************************************************/
     Int32 (*OpWrite)(const Char *pBuf, Uint32 count, Ptr pUsrArgs);
 
@@ -84,53 +84,53 @@ typedef struct
 
 
 /* ========================================================================== */
-/*                          ����������                                        */
+/*                          函数声明区                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* ������  : OSA_kProcCreate
-* ��  ��  : �ú������𴴽�һ��proc���,
-*           ���ݵ����ߴ����ģ������,��/proc/OSA_PROC_ROOT_DIRĿ¼�´�����ģ��������������Ŀ¼
-*           ����: 
-*           ��ģ������Ϊpdc,����øú�������������Ŀ¼
+* 函数名  : OSA_kProcCreate
+* 描  述  : 该函数负责创建一个proc句柄,
+*           根据调用者传入的模块名称,在/proc/OSA_PROC_ROOT_DIR目录下创建以模块名称命名的子目录
+*           举例: 
+*           若模块名称为pdc,则调用该函数将创建以下目录
 *           /proc/OSA_PROC_ROOT_DIR/pdc/
 *
-*           �ú������óɹ���,�᷵��һ��������ģ���proc���
-*           �ýӿڲ������ж������ĵ���
+*           该函数调用成功后,会返回一个代表该模块的proc句柄
+*           该接口不能在中断上下文调用
 *
-* ��  ��  : - moduleName: ģ������
+* 输  入  : - moduleName: 模块名称
 *
-* ��  ��  : - phProc:     proc���ָ��,�������ɹ�ʱ���proc���
-* ����ֵ  :  OSA_SOK:     �����ɹ�
-*            OSA_EFAIL:   ����ʧ��
+* 输  出  : - phProc:     proc句柄指针,当创建成功时输出proc句柄
+* 返回值  :  OSA_SOK:     创建成功
+*            OSA_EFAIL:   创建失败
 *******************************************************************************/
 Int32 OSA_kProcCreate(const Char      *pModuleName, 
                       OSA_KProcHandle *phProc);
 
 
 /*******************************************************************************
-* ������  : OSA_kProcAddFile
-* ��  ��  : �ú������𴴽�һ��proc�ļ�,
-*           ���ݵ����ߴ�����ļ�·��, ��ģ��������������Ŀ¼��,�������ļ�·��ָ����proc�ļ�
-*           ����: 
-*           ��ģ������Ϊpdc,�����ߴ�����ļ�·��Ϊsensor/cmd,
-*           ����øú��������δ�������Ŀ¼���ļ�
-*           1. ����Ŀ¼: /proc/OSA_PROC_ROOT_DIR/pdc/sensor/
-*           2. �����ļ�: /proc/OSA_PROC_ROOT_DIR/pdc/sensor/cmd
+* 函数名  : OSA_kProcAddFile
+* 描  述  : 该函数负责创建一个proc文件,
+*           根据调用者传入的文件路径, 在模块名称命名的子目录下,创建以文件路径指定的proc文件
+*           举例: 
+*           若模块名称为pdc,调用者传入的文件路径为sensor/cmd,
+*           则调用该函数将依次创建以下目录和文件
+*           1. 创建目录: /proc/OSA_PROC_ROOT_DIR/pdc/sensor/
+*           2. 创建文件: /proc/OSA_PROC_ROOT_DIR/pdc/sensor/cmd
 *
-*           ��Ҫ�������ļ��Ѿ�����,�ú������ý�ʧ��,����OSA_EFAIL
-*           �ú�����Ҫ�����ߴ���proc�ļ��Ĳ�������,ͨ��procOps��δ���
-*           �ýӿڲ������ж������ĵ���
+*           若要创建的文件已经存在,该函数调用将失败,返回OSA_EFAIL
+*           该函数需要调用者传入proc文件的操作方法,通过procOps入参传入
+*           该接口不能在中断上下文调用
 *
-* ��  ��  :  - hProc     : proc ���
-*            - sProcPath : proc�ļ�·��
-*            - pProcOps  : proc�ļ��Ĳ��������ṹ��ָ��, �μ�OSA_KProcOps����
-*            - pUsrArgs  : �û�˽�����ݡ�
+* 输  入  :  - hProc     : proc 句柄
+*            - sProcPath : proc文件路径
+*            - pProcOps  : proc文件的操作方法结构体指针, 参见OSA_KProcOps定义
+*            - pUsrArgs  : 用户私有数据。
 *
-* ��  ��  :  - phProcFile : ��Ӧproc�ļ��ľ��
-*                           �ò����������ΪNULL����ʾ�����߲���Ҫ��ȡproc�ļ��ľ��
-* ����ֵ  :  OSA_SOK:   �����ļ��ɹ�
-*            OSA_EFAIL: �����ļ�ʧ��
+* 输  出  :  - phProcFile : 对应proc文件的句柄
+*                           该参数输入可以为NULL，表示调用者不需要获取proc文件的句柄
+* 返回值  :  OSA_SOK:   创建文件成功
+*            OSA_EFAIL: 创建文件失败
 *******************************************************************************/
 Int32 OSA_kProcAddFile(OSA_KProcHandle hProc, 
                        const Char     *pProcPath, 
@@ -140,29 +140,29 @@ Int32 OSA_kProcAddFile(OSA_KProcHandle hProc,
 
 
 /*******************************************************************************
-* ������  : OSA_kProcDelFile
-* ��  ��  : �ú�������ɾ��һ��proc�ļ�,
-* ��  ��  :  - hProcFile     : proc�ļ����
+* 函数名  : OSA_kProcDelFile
+* 描  述  : 该函数负责删除一个proc文件,
+* 输  入  :  - hProcFile     : proc文件句柄
 *
-* ��  ��  :  ��
-* ����ֵ  :  OSA_SOK:   ɾ���ļ��ɹ�
-*            OSA_EFAIL: ɾ���ļ�ʧ��
+* 输  出  :  无
+* 返回值  :  OSA_SOK:   删除文件成功
+*            OSA_EFAIL: 删除文件失败
 *******************************************************************************/
 Int32 OSA_kProcDelFile(OSA_KProcFileHandle hProcFile);
 
 
 /*******************************************************************************
-* ������  : OSA_kProcDelete
-* ��  ��  : �ú��������OSA_kProcCreate�����ľ������,
-*           �����پ��ʱ,��OSA_kProcAddFile ���ӵ������ļ���Ŀ¼��һ��ɾ��
-*           �ú��������ڵ�����ģ���˳�ʱ������
-*           �ýӿڲ������ж������ĵ���
+* 函数名  : OSA_kProcDelete
+* 描  述  : 该函数负责把OSA_kProcCreate创建的句柄销毁,
+*           在销毁句柄时,将OSA_kProcAddFile 添加的所有文件及目录都一起删除
+*           该函数必须在调用者模块退出时被调用
+*           该接口不能在中断上下文调用
 *
-* ��  ��  : - hProc:  proc���
+* 输  入  : - hProc:  proc句柄
 *
-* ��  ��  : ��
-* ����ֵ  :  OSA_SOK:   ɾ���ɹ�
-*            OSA_EFAIL: ɾ��ʧ��
+* 输  出  : 无
+* 返回值  :  OSA_SOK:   删除成功
+*            OSA_EFAIL: 删除失败
 *******************************************************************************/
 Int32 OSA_kProcDelete(OSA_KProcHandle hProc);
 

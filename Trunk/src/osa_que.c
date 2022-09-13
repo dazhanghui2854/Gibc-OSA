@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2010-8-31 Create
 *
-* Description: OSA¶ÓÁĞ½Ó¿Ú¡£
+* Description: OSAé˜Ÿåˆ—æ¥å£ã€‚
 *
-*       1. Ó²¼şËµÃ÷¡£
-*          ÎŞ¡£
+*       1. ç¡¬ä»¶è¯´æ˜ã€‚
+*          æ— ã€‚
 
-*       2. ³ÌĞò½á¹¹ËµÃ÷¡£
-*          ÎŞ
+*       2. ç¨‹åºç»“æ„è¯´æ˜ã€‚
+*          æ— 
 *
-*       3. Ê¹ÓÃËµÃ÷¡£
-*          ÎŞ¡£
+*       3. ä½¿ç”¨è¯´æ˜ã€‚
+*          æ— ã€‚
 *
-*       4. ¾ÖÏŞĞÔËµÃ÷¡£
-*          ÎŞ¡£
+*       4. å±€é™æ€§è¯´æ˜ã€‚
+*          æ— ã€‚
 *
-*       5. ÆäËûËµÃ÷¡£
-*          ÎŞ¡£
+*       5. å…¶ä»–è¯´æ˜ã€‚
+*          æ— ã€‚
 *
 * Modification:
 *    Date    :
@@ -125,13 +125,13 @@ Int32 OSA_queCreate(OSA_QueCreate *pCreate,
     pObj->len = pCreate->maxElems;
 
 	/*
-	  covertiyºÅ£º 323704
-	  ÎÊÌâÃèÊö£º ×ÊÔ´Ğ¹Â¶
-	  ĞŞ¸ÄÃèÊö£º close
-	  ×¢ÒâÊÂÏîÃèÊö£º 
+	  covertiyå·ï¼š 323704
+	  é—®é¢˜æè¿°ï¼š èµ„æºæ³„éœ²
+	  ä¿®æ”¹æè¿°ï¼š close
+	  æ³¨æ„äº‹é¡¹æè¿°ï¼š 
 	*/
 
-    /* ¼ì²âmaxElemsµÄÖµÊÇ·ñÊÇ2µÄN´Î·½£¬Èç¹ûÊÇ£¬ÔòºóĞøput/getÖĞ²»Ê¹ÓÃ%·ûºÅÇóÓàÊı¡£*/
+    /* æ£€æµ‹maxElemsçš„å€¼æ˜¯å¦æ˜¯2çš„Næ¬¡æ–¹ï¼Œå¦‚æœæ˜¯ï¼Œåˆ™åç»­put/getä¸­ä¸ä½¿ç”¨%ç¬¦å·æ±‚ä½™æ•°ã€‚*/
     if (OSA_checkIs2n(pCreate->maxElems))
     {
         OSA_DEBUG("maxElems %u is 2^n !\n",pCreate->maxElems);
@@ -337,7 +337,7 @@ Int32 OSA_queGet(OSA_QueHandle hQue, Sizet *pValue, Uint32 timeout)
                     waitTime.tv_sec  += 1;
                     waitTime.tv_nsec %= 1000000000;
                 }
-                /* pthread_cond_timedwaitĞèÒªÊ¹ÓÃµ½µÄÊÇÒ»¸öÎ´À´ÌØ¶¨µÄÊ±¼ä£¬ËùÒÔ³¬Ê±ÊÇ»ùÓÚµ±Ç°Ê±¼ä */
+                /* pthread_cond_timedwaitéœ€è¦ä½¿ç”¨åˆ°çš„æ˜¯ä¸€ä¸ªæœªæ¥ç‰¹å®šçš„æ—¶é—´ï¼Œæ‰€ä»¥è¶…æ—¶æ˜¯åŸºäºå½“å‰æ—¶é—´ */
                 status = pthread_cond_timedwait(&pObj->condRd, &pObj->lock, &waitTime);
                 if(ETIMEDOUT == status)
                 {
@@ -381,7 +381,7 @@ Int32 OSA_queReset(OSA_QueHandle hQue)
 }
 
 
-/* ÇáÁ¿¼¶µÄ¶ÓÁĞĞ´£¬Ã»ÓĞ±£»¤£¬Ö»ÄÜÓÃÓÚµ¥Ïß³Ì£¬ÎŞ×ÊÔ´ÇÀÕ¼µÄ³¡ºÏ¡£*/
+/* è½»é‡çº§çš„é˜Ÿåˆ—å†™ï¼Œæ²¡æœ‰ä¿æŠ¤ï¼Œåªèƒ½ç”¨äºå•çº¿ç¨‹ï¼Œæ— èµ„æºæŠ¢å çš„åœºåˆã€‚*/
 Int32 OSA_queslPut(OSA_QueHandle hQue, Sizet value)
 {
     Int32 status = OSA_EFAIL;
@@ -411,7 +411,7 @@ Int32 OSA_queslPut(OSA_QueHandle hQue, Sizet value)
 }
 
 
-/* ÇáÁ¿¼¶µÄ¶ÓÁĞ¶Á£¬Ã»ÓĞ±£»¤£¬Ö»ÄÜÓÃÓÚµ¥Ïß³Ì£¬ÎŞ×ÊÔ´ÇÀÕ¼µÄ³¡ºÏ¡£*/
+/* è½»é‡çº§çš„é˜Ÿåˆ—è¯»ï¼Œæ²¡æœ‰ä¿æŠ¤ï¼Œåªèƒ½ç”¨äºå•çº¿ç¨‹ï¼Œæ— èµ„æºæŠ¢å çš„åœºåˆã€‚*/
 Int32 OSA_queslGet(OSA_QueHandle hQue, Sizet *pValue)
 {
     Int32 status = OSA_EFAIL;
@@ -616,8 +616,8 @@ Int32 OSA_queListPut(OSA_QueHandle hQue,
     OSA_assertNotNull(pQueElem);
 
 
-    /* ×¢²áÒ»¸öÏß³ÌÇåÀíº¯Êı£¬µ±Ïß³Ì±»È¡ÏûÊ±£¬ÏÈÖ´ĞĞ pthread_cond_wait ÖĞ×¢²áµÄÏß³ÌÇåÀíº¯Êı __condvar_cleanup£¬½« mutex Ëø>ÉÏ£¬
- * ÔÙÖ´ĞĞÏß³ÌÖĞ×¢²áµÄÏß³Ì´¦Àíº¯Êıpthread_mutex_unlock£¬½«mutex½âËø¡£ÕâÑù¾Í±ÜÃâÁËËÀËøµÄ·¢Éú*/
+    /* æ³¨å†Œä¸€ä¸ªçº¿ç¨‹æ¸…ç†å‡½æ•°ï¼Œå½“çº¿ç¨‹è¢«å–æ¶ˆæ—¶ï¼Œå…ˆæ‰§è¡Œ pthread_cond_wait ä¸­æ³¨å†Œçš„çº¿ç¨‹æ¸…ç†å‡½æ•° __condvar_cleanupï¼Œå°† mutex é”>ä¸Šï¼Œ
+ * å†æ‰§è¡Œçº¿ç¨‹ä¸­æ³¨å†Œçš„çº¿ç¨‹å¤„ç†å‡½æ•°pthread_mutex_unlockï¼Œå°†mutexè§£é”ã€‚è¿™æ ·å°±é¿å…äº†æ­»é”çš„å‘ç”Ÿ*/
     pthread_cleanup_push(OSA_queCleanup, (void *) &pQueObj->lock);
 
     pthread_mutex_lock(&pQueObj->lock);
@@ -707,7 +707,7 @@ Int32 OSA_queListGet(OSA_QueHandle  hQue,
     OSA_assertNotNull(hQue);
     OSA_assertNotNull(ppQueElem);
 
-    /* ×¢²áÒ»¸öÏß³ÌÇåÀíº¯Êı£¬µ±Ïß³Ì±»È¡ÏûÊ±£¬ÏÈÖ´ĞĞ pthread_cond_wait ÖĞ×¢²áµÄÏß³ÌÇåÀíº¯Êı __condvar_cleanup£¬½« mutex ËøÉÏ£¬ÔÙÖ´ĞĞÏß³ÌÖĞ×¢²áµÄÏß³Ì´¦Àíº¯Êıpthread_mutex_unlock£¬½«mutex½âËø¡£ÕâÑù¾Í±ÜÃâÁËËÀËøµÄ·¢Éú*/
+    /* æ³¨å†Œä¸€ä¸ªçº¿ç¨‹æ¸…ç†å‡½æ•°ï¼Œå½“çº¿ç¨‹è¢«å–æ¶ˆæ—¶ï¼Œå…ˆæ‰§è¡Œ pthread_cond_wait ä¸­æ³¨å†Œçš„çº¿ç¨‹æ¸…ç†å‡½æ•° __condvar_cleanupï¼Œå°† mutex é”ä¸Šï¼Œå†æ‰§è¡Œçº¿ç¨‹ä¸­æ³¨å†Œçš„çº¿ç¨‹å¤„ç†å‡½æ•°pthread_mutex_unlockï¼Œå°†mutexè§£é”ã€‚è¿™æ ·å°±é¿å…äº†æ­»é”çš„å‘ç”Ÿ*/
     pthread_cleanup_push(OSA_queCleanup, (void *) &pQueObj->lock);
 
     pthread_mutex_lock(&pQueObj->lock);
@@ -786,7 +786,7 @@ Int32 OSA_queListGet(OSA_QueHandle  hQue,
 }
 
 
-/* ¹«¹²Ä£¿é£¬OSA_queºÍOSA_queList¶¼¿ÉÒÔÊ¹ÓÃ¡£*/
+/* å…¬å…±æ¨¡å—ï¼ŒOSA_queå’ŒOSA_queListéƒ½å¯ä»¥ä½¿ç”¨ã€‚*/
 
 Bool32 OSA_queIsEmpty(OSA_QueHandle hQue)
 {

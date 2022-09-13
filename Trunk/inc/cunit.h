@@ -4,21 +4,21 @@
  * Copyright (C) 2011-2013 ZheJiang Dahua Technology CO.,LTD.
  *
  * Author : wang_kefu <wang_kefu@dahuatech.com>
- * Version: V1.0.0  2013Äê03ÔÂ22ÈÕ Create
+ * Version: V1.0.0  2013å¹´03æœˆ22æ—¥ Create
  *
- * Description: C ÓïÑÔµ¥Ôª²âÊÔ¿ò¼Ü
- *       Ö§³Ö¿ØÖÆÌ¨Êä³ö²âÊÔ½á¹û
- *       Ö§³ÖXMLÊä³ö²âÊÔ±¨¸æ
- *       ÔÚ³ÌÐòÒì³£Ê±£¬¿ÉÒÔÊä³öº¯Êýµ÷ÓÃÕ»¼°PCÖ¸Õë
- *       ÔÚµ±Ç°²âÊÔÒì³£Ê±£¬¿É¼ÌÐøºóÃæµÄ²âÊÔ£¬¶ø²»ÊÇ³ÌÐòÍË³ö
+ * Description: C è¯­è¨€å•å…ƒæµ‹è¯•æ¡†æž¶
+ *       æ”¯æŒæŽ§åˆ¶å°è¾“å‡ºæµ‹è¯•ç»“æžœ
+ *       æ”¯æŒXMLè¾“å‡ºæµ‹è¯•æŠ¥å‘Š
+ *       åœ¨ç¨‹åºå¼‚å¸¸æ—¶ï¼Œå¯ä»¥è¾“å‡ºå‡½æ•°è°ƒç”¨æ ˆåŠPCæŒ‡é’ˆ
+ *       åœ¨å½“å‰æµ‹è¯•å¼‚å¸¸æ—¶ï¼Œå¯ç»§ç»­åŽé¢çš„æµ‹è¯•ï¼Œè€Œä¸æ˜¯ç¨‹åºé€€å‡º
  *
- *       1. Ó²¼þËµÃ÷¡£
- *          ÎÞ¡£
- *       2. ³ÌÐò½á¹¹ËµÃ÷¡£
- *          ÎÞ
+ *       1. ç¡¬ä»¶è¯´æ˜Žã€‚
+ *          æ— ã€‚
+ *       2. ç¨‹åºç»“æž„è¯´æ˜Žã€‚
+ *          æ— 
  *
- *       3. Ê¹ÓÃËµÃ÷¡£
- *          º¯Êýµ÷ÓÃË³Ðò                     ²âÊÔÓÃÀý×éÖ¯½á¹¹Í¼
+ *       3. ä½¿ç”¨è¯´æ˜Žã€‚
+ *          å‡½æ•°è°ƒç”¨é¡ºåº                     æµ‹è¯•ç”¨ä¾‹ç»„ç»‡ç»“æž„å›¾
  *          CU_init                                CUnit
  *              |                                /   |    \
  *              |                              /     |      \
@@ -42,12 +42,12 @@
  *          CU_deInit
  *
  *
- *       4. ¾ÖÏÞÐÔËµÃ÷¡£
- *          ¸Ã¿ò¼ÜÄ¿Ç°Ö»Ö§³ÖLinuxµÄÓÃ»§Ì¬³ÌÐò¡£
- *          ¸Ã¿ò¼ÜÄ¿Ç°Ö»Ö§³Öµ¥Ïß³Ì²âÊÔ
+ *       4. å±€é™æ€§è¯´æ˜Žã€‚
+ *          è¯¥æ¡†æž¶ç›®å‰åªæ”¯æŒLinuxçš„ç”¨æˆ·æ€ç¨‹åºã€‚
+ *          è¯¥æ¡†æž¶ç›®å‰åªæ”¯æŒå•çº¿ç¨‹æµ‹è¯•
  *
- *       5. ÆäËûËµÃ÷¡£
- *          ÎÞ¡£
+ *       5. å…¶ä»–è¯´æ˜Žã€‚
+ *          æ— ã€‚
  *
  * Modification:
  *    Date    :
@@ -59,7 +59,7 @@
 #ifndef __CU_HH__
 #define __CU_HH__
 /* ========================================================================== */
-/*                             Í·ÎÄ¼þÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 #include "osa.h"
 
@@ -68,37 +68,37 @@
 extern "C" {
 #endif
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 #define CU_VERSION "2.1-2"
 
-/* suite ¾ä±ú */
+/* suite å¥æŸ„ */
 typedef Handle CU_SuiteHandle;
 
-/* ¿ØÖÆÌ¨Êä³öÐÅÏ¢Á¿¿ØÖÆ */
+/* æŽ§åˆ¶å°è¾“å‡ºä¿¡æ¯é‡æŽ§åˆ¶ */
 typedef enum
 {
-    CU_OUTPUT_MODE_NORMAL = 0,          /* Êä³ö³ö´íÐÅÏ¢¼°±¨¸æ */
-    CU_OUTPUT_MODE_SILENT,              /* ½öÊä³ö²âÊÔ±¨¸æ */
-    CU_OUTPUT_MODE_VERBOSE,             /* Êä³ö¸ü¶àµÄ²âÊÔÐÅÏ¢ */
+    CU_OUTPUT_MODE_NORMAL = 0,          /* è¾“å‡ºå‡ºé”™ä¿¡æ¯åŠæŠ¥å‘Š */
+    CU_OUTPUT_MODE_SILENT,              /* ä»…è¾“å‡ºæµ‹è¯•æŠ¥å‘Š */
+    CU_OUTPUT_MODE_VERBOSE,             /* è¾“å‡ºæ›´å¤šçš„æµ‹è¯•ä¿¡æ¯ */
 } CU_OutputMode;
 
-/* ÔËÐÐ²ÎÊý */
+/* è¿è¡Œå‚æ•° */
 typedef struct
 {
-    Uint32 outputMode;                  /* ²Î¿¼ CU_OutputMode */
-    Uint32 outXmlReport;                /* ÊÇ·ñÊä³ö xml ±¨¸æ */
-    char *xmlFilePrefix;                /* xml ÎÄ¼þÇ°×º */
-    char *xslDir;                       /* xsl ÎÄ¼þÏà¶Ô xml ÎÄ¼þµÄÂ·¾¶ */
+    Uint32 outputMode;                  /* å‚è€ƒ CU_OutputMode */
+    Uint32 outXmlReport;                /* æ˜¯å¦è¾“å‡º xml æŠ¥å‘Š */
+    char *xmlFilePrefix;                /* xml æ–‡ä»¶å‰ç¼€ */
+    char *xslDir;                       /* xsl æ–‡ä»¶ç›¸å¯¹ xml æ–‡ä»¶çš„è·¯å¾„ */
 } CU_RunOpt;
 
-/* suite ³õÊ¼»¯»Øµ÷º¯Êý£¬ÔÚÔËÐÐsuiteÇ°±»µ÷ÓÃ */
+/* suite åˆå§‹åŒ–å›žè°ƒå‡½æ•°ï¼Œåœ¨è¿è¡Œsuiteå‰è¢«è°ƒç”¨ */
 typedef Int32(*CU_InitializeFunc)(void);
 
-/* suite ÇåÀí»Øµ÷º¯Êý£¬ÔÚÍË³ösuiteÊ±±»µ÷ÓÃ */
+/* suite æ¸…ç†å›žè°ƒå‡½æ•°ï¼Œåœ¨é€€å‡ºsuiteæ—¶è¢«è°ƒç”¨ */
 typedef Int32(*CU_CleanupFunc)(void);
 
-/* test º¯ÊýÔ­ÐÎ */
+/* test å‡½æ•°åŽŸå½¢ */
 typedef void (*CU_TestFunc)(void);
 
 #define CU_ADD_TEST(suite, test) (CU_addTest(suite, #test, (CU_TestFunc)test))
@@ -360,40 +360,40 @@ typedef void (*CU_TestFunc)(void);
         __FILE__, "", OSA_TRUE); }
 
 /* ========================================================================== */
-/*                          º¯ÊýÉùÃ÷Çø                                        */
+/*                          å‡½æ•°å£°æ˜ŽåŒº                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
- * º¯ÊýÃû  : CU_init
- * Ãè  Êö  : CUnit ³õÊ¼»¯
- * Êä  Èë  : - : ÎÞ
- * Êä  ³ö  :
- * ·µ»ØÖµ  : OSA_SOK:   ³É¹¦¡£
- *           OSA_EFAIL: Ê§°Ü¡£
+ * å‡½æ•°å  : CU_init
+ * æ  è¿°  : CUnit åˆå§‹åŒ–
+ * è¾“  å…¥  : - : æ— 
+ * è¾“  å‡º  :
+ * è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸã€‚
+ *           OSA_EFAIL: å¤±è´¥ã€‚
  *******************************************************************************/
 Int32 CU_init(void);
 
 
 /*******************************************************************************
- * º¯ÊýÃû  : CU_deInit
- * Ãè  Êö  : CUnit ÇåÀí
- * Êä  Èë  : - : ÎÞ
- * Êä  ³ö  :
- * ·µ»ØÖµ  : OSA_SOK:   ³É¹¦¡£
- *           OSA_EFAIL: Ê§°Ü¡£
+ * å‡½æ•°å  : CU_deInit
+ * æ  è¿°  : CUnit æ¸…ç†
+ * è¾“  å…¥  : - : æ— 
+ * è¾“  å‡º  :
+ * è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸã€‚
+ *           OSA_EFAIL: å¤±è´¥ã€‚
  *******************************************************************************/
 Int32 CU_deInit(void);
 
 
 /*******************************************************************************
- * º¯ÊýÃû  : CU_addSuite
- * Ãè  Êö  : ´´½¨Ò»¸ö suite ²¢Ìí¼Óµ½²âÊÔ¿ò¼ÜÖÐ
- * Êä  Èë  : -strName: suite Ãû³Æ
- *           -pInit  : suite ³õÊ¼»¯»Øµ÷º¯Êý£¬ÔÊÐíÎª NULL
- *           -pClean  : suite ÍË³ö»Øµ÷º¯Êý£¬ÔÊÐíÎª NULL
- * Êä  ³ö  : -phSuite: ÐÂ´´½¨µÄ suite¾ä±ú
- * ·µ»ØÖµ  : OSA_SOK:   ³É¹¦¡£
- *           OSA_EFAIL: Ê§°Ü¡£
+ * å‡½æ•°å  : CU_addSuite
+ * æ  è¿°  : åˆ›å»ºä¸€ä¸ª suite å¹¶æ·»åŠ åˆ°æµ‹è¯•æ¡†æž¶ä¸­
+ * è¾“  å…¥  : -strName: suite åç§°
+ *           -pInit  : suite åˆå§‹åŒ–å›žè°ƒå‡½æ•°ï¼Œå…è®¸ä¸º NULL
+ *           -pClean  : suite é€€å‡ºå›žè°ƒå‡½æ•°ï¼Œå…è®¸ä¸º NULL
+ * è¾“  å‡º  : -phSuite: æ–°åˆ›å»ºçš„ suiteå¥æŸ„
+ * è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸã€‚
+ *           OSA_EFAIL: å¤±è´¥ã€‚
  *******************************************************************************/
 Int32 CU_addSuite(const char *strName,
                   CU_InitializeFunc pInit,
@@ -402,55 +402,55 @@ Int32 CU_addSuite(const char *strName,
 
 
 /*******************************************************************************
- * º¯ÊýÃû  : CU_addTest
- * Ãè  Êö  : ´´½¨Ò»¸ö test ²¢Ìí¼Óµ½ suitÖÐ
- *           Í¨³£Çé¿öÏÂ£¬²âÊÔÃû³ÆÍ¬²âÊÔº¯ÊýÃû£¬½¨ÒéÊ¹ÓÃ CU_ADD_TEST ºê¼ò»¯²Ù×÷
- * Êä  Èë  : -pSuite:Ï£ÍûÌí¼Óµ½µÄsuite
- *           -strName:testµÄÃû³Æ
- *           -pTestFunc:testµÄ²âÊÔº¯Êý
- * Êä  ³ö  : ÎÞ
- * ·µ»ØÖµ  : OSA_SOK:   ³É¹¦¡£
- *           OSA_EFAIL: Ê§°Ü¡£
+ * å‡½æ•°å  : CU_addTest
+ * æ  è¿°  : åˆ›å»ºä¸€ä¸ª test å¹¶æ·»åŠ åˆ° suitä¸­
+ *           é€šå¸¸æƒ…å†µä¸‹ï¼Œæµ‹è¯•åç§°åŒæµ‹è¯•å‡½æ•°åï¼Œå»ºè®®ä½¿ç”¨ CU_ADD_TEST å®ç®€åŒ–æ“ä½œ
+ * è¾“  å…¥  : -pSuite:å¸Œæœ›æ·»åŠ åˆ°çš„suite
+ *           -strName:testçš„åç§°
+ *           -pTestFunc:testçš„æµ‹è¯•å‡½æ•°
+ * è¾“  å‡º  : æ— 
+ * è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸã€‚
+ *           OSA_EFAIL: å¤±è´¥ã€‚
  *******************************************************************************/
 Int32 CU_addTest(CU_SuiteHandle hSuite, const char *strName,
                  CU_TestFunc pTestFunc);
 
 
 /*******************************************************************************
- * º¯ÊýÃû  : CU_runAllTests
- * Ãè  Êö  : ÔËÐÐËùÓÐ²âÊÔ
- *           ÔËÐÐ¹ý³ÌÖÐµÄÊä³ö¼°ÔËÐÐ½á¹û£¬Ä¬ÈÏÎª¿ØÖÆÌ¨
- *           Èç¹ûÖ¸¶¨ pOpt->outXmlReport£¬¿É½«²âÊÔ½á¹ûÍ¬Ê±Êä³öµ½xmlÎÄ¼þÖÐ¡£
- *           ÎªÁËÄÜÔÚIEÖÐÏÔÊ¾¸ÃxmlÎÄ¼þ£¬ÐèÖ¸¶¨xslÎÄ¼þÏà¶ÔxmlÎÄ¼þµÄÂ·¾¶£¬Ò²¿ÉÊ¹ÓÃ
- *           ¾ø¶ÔÂ·¾¶¡£
- * Êä  Èë  : -pOpt: ÔËÐÐÑ¡Ïî
- * Êä  ³ö  : ÎÞ
- * ·µ»ØÖµ  : OSA_SOK:   ³É¹¦¡£
- *           OSA_EFAIL: Ê§°Ü¡£
+ * å‡½æ•°å  : CU_runAllTests
+ * æ  è¿°  : è¿è¡Œæ‰€æœ‰æµ‹è¯•
+ *           è¿è¡Œè¿‡ç¨‹ä¸­çš„è¾“å‡ºåŠè¿è¡Œç»“æžœï¼Œé»˜è®¤ä¸ºæŽ§åˆ¶å°
+ *           å¦‚æžœæŒ‡å®š pOpt->outXmlReportï¼Œå¯å°†æµ‹è¯•ç»“æžœåŒæ—¶è¾“å‡ºåˆ°xmlæ–‡ä»¶ä¸­ã€‚
+ *           ä¸ºäº†èƒ½åœ¨IEä¸­æ˜¾ç¤ºè¯¥xmlæ–‡ä»¶ï¼Œéœ€æŒ‡å®šxslæ–‡ä»¶ç›¸å¯¹xmlæ–‡ä»¶çš„è·¯å¾„ï¼Œä¹Ÿå¯ä½¿ç”¨
+ *           ç»å¯¹è·¯å¾„ã€‚
+ * è¾“  å…¥  : -pOpt: è¿è¡Œé€‰é¡¹
+ * è¾“  å‡º  : æ— 
+ * è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸã€‚
+ *           OSA_EFAIL: å¤±è´¥ã€‚
  *******************************************************************************/
 Int32 CU_runAllTests(CU_RunOpt *pOpt);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : CU_runSuite
-* Ãè  Êö  : ÔËÐÐÄ³¸ösuite
-* Êä  Èë  : - : hSuite ÐèÒªÔËÐÐµÄsuite
-*           - : pOpt   ÔËÐÐÑ¡Ïî
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : CU_runSuite
+* æ  è¿°  : è¿è¡ŒæŸä¸ªsuite
+* è¾“  å…¥  : - : hSuite éœ€è¦è¿è¡Œçš„suite
+*           - : pOpt   è¿è¡Œé€‰é¡¹
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 CU_runSuite(CU_SuiteHandle hSuite, CU_RunOpt *pOpt);
 
 
 /*******************************************************************************
- * º¯ÊýÃû  : CU_assertImplementation
- * Ãè  Êö  : CU¶ÏÑÔµÄÊµÏÖ£¬ÇëÍ¨¹ý CU_ASSERT µÈºêÀ´²Ù×÷£¬²»ÒªÖ±½Óµ÷ÓÃ¡£
- *           ¶ÏÑÔÖ»ÄÜ³öÏÖÔÚtestº¯ÊýÖÐ
- * Êä  Èë  : - :
- * Êä  ³ö  :
- * ·µ»ØÖµ  : OSA_SOK:   ³É¹¦¡£
- *           OSA_EFAIL: Ê§°Ü¡£
+ * å‡½æ•°å  : CU_assertImplementation
+ * æ  è¿°  : CUæ–­è¨€çš„å®žçŽ°ï¼Œè¯·é€šè¿‡ CU_ASSERT ç­‰å®æ¥æ“ä½œï¼Œä¸è¦ç›´æŽ¥è°ƒç”¨ã€‚
+ *           æ–­è¨€åªèƒ½å‡ºçŽ°åœ¨testå‡½æ•°ä¸­
+ * è¾“  å…¥  : - :
+ * è¾“  å‡º  :
+ * è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸã€‚
+ *           OSA_EFAIL: å¤±è´¥ã€‚
  *******************************************************************************/
 Int32 CU_assertImplementation(Bool32 bValue,
                               Uint32 uiLine,

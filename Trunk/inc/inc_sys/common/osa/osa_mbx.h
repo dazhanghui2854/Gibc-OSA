@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2012-7-25 Create
 *
-* Description: OSAÏûÏ¢ÓÊÏä¡£
+* Description: OSAæ¶ˆæ¯é‚®ç®±ã€‚
 *
-*       1. Ó²¼þËµÃ÷¡£
-*          ÎÞ¡£
+*       1. ç¡¬ä»¶è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
-*       2. ³ÌÐò½á¹¹ËµÃ÷¡£
-*          ÎÞ
+*       2. ç¨‹åºç»“æž„è¯´æ˜Žã€‚
+*          æ— 
 *
-*       3. Ê¹ÓÃËµÃ÷¡£
-*          ÎÞ¡£
+*       3. ä½¿ç”¨è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
-*       4. ¾ÖÏÞÐÔËµÃ÷¡£
-*          ÎÞ¡£
+*       4. å±€é™æ€§è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
-*       5. ÆäËûËµÃ÷¡£
-*          ÎÞ¡£
+*       5. å…¶ä»–è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
 * Modification:
 *    Date    :
@@ -40,27 +40,27 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
-/* ÏûÏ¢µÄ±êÖ¾£¬±íÃ÷ÏûÏ¢µÄÊôÐÔ¡£*/
+/* æ¶ˆæ¯çš„æ ‡å¿—ï¼Œè¡¨æ˜Žæ¶ˆæ¯çš„å±žæ€§ã€‚*/
 typedef enum
 {
-    /* ÎÞÐ§±êÖ¾ */
+    /* æ— æ•ˆæ ‡å¿— */
     OSA_MBX_FLAG_NON = 0x0000,
 
-    /* µÈ´ýÏûÏ¢»Ø¸´µÄ±êÖ¾ */
+    /* ç­‰å¾…æ¶ˆæ¯å›žå¤çš„æ ‡å¿— */
     OSA_MBX_WAIT_ACK = 0x0002,
 
-    /* ËµÃ÷ÏûÏ¢±¾ÉíÊÇMallocµÄ£¬ÐèÒª±»Free¡£*/
+    /* è¯´æ˜Žæ¶ˆæ¯æœ¬èº«æ˜¯Mallocçš„ï¼Œéœ€è¦è¢«Freeã€‚*/
     OSA_MBX_FREE_MSG = 0x0004,
 
-    /* ËµÃ÷ÏûÏ¢µÄpPrmÊÇMallocµÄ£¬ÐèÒª±»Free¡£*/
+    /* è¯´æ˜Žæ¶ˆæ¯çš„pPrmæ˜¯Mallocçš„ï¼Œéœ€è¦è¢«Freeã€‚*/
     OSA_MBX_FREE_PRM = 0x0008,
 } OSA_MbxMsgFlags;
 
 
-/* ¹ã²¥ÏûÏ¢Ê±£¬½ÓÊÕÓÊÏä¾ä±ú¶ÓÁÐµÄ×î´óÊýÁ¿¡£*/
+/* å¹¿æ’­æ¶ˆæ¯æ—¶ï¼ŒæŽ¥æ”¶é‚®ç®±å¥æŸ„é˜Ÿåˆ—çš„æœ€å¤§æ•°é‡ã€‚*/
 #define OSA_MBX_BROADCAST_MAX 32
 
 
@@ -68,43 +68,43 @@ typedef void * OSA_MbxHandle;
 
 
 /* ========================================================================== */
-/*                          º¯ÊýÉùÃ÷Çø                                        */
+/*                          å‡½æ•°å£°æ˜ŽåŒº                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mbxCreate
-* Ãè  Êö  : ´´½¨ÓÊÏä¡£
-* Êä  Èë  : - nMsgNum: ÓÊÏäµÄÏûÏ¢ÊýÁ¿¡£
-*         : - phMsgq : ·µ»ØµÄÓÊÏä¾ä±ú£¬ºóÐøËùÓÐ²Ù×÷»ùÓÚ´Ë¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_mbxCreate
+* æ  è¿°  : åˆ›å»ºé‚®ç®±ã€‚
+* è¾“  å…¥  : - nMsgNum: é‚®ç®±çš„æ¶ˆæ¯æ•°é‡ã€‚
+*         : - phMsgq : è¿”å›žçš„é‚®ç®±å¥æŸ„ï¼ŒåŽç»­æ‰€æœ‰æ“ä½œåŸºäºŽæ­¤å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_mbxCreate(Uint32 nMbxNum, OSA_MbxHandle *phMbx);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mbxDelete
-* Ãè  Êö  : É¾³ýÓÊÏä¡£
-* Êä  Èë  - hMbx : ÓÊÏä¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_mbxDelete
+* æ  è¿°  : åˆ é™¤é‚®ç®±ã€‚
+* è¾“  å…¥  - hMbx : é‚®ç®±å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_mbxDelete(OSA_MbxHandle hMbx);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mbxSendMsg
-* Ãè  Êö  : ·¢ËÍÏûÏ¢¡£Í¨¹ýµ¥¸öÐÎÊ½²ÎÊý´«µÝÏûÏ¢ÐÅÏ¢¡£
-* Êä  Èë  : - hMsgqTo  : ½ÓÊÕÕßµÄÓÊÏä¾ä±ú¡£
-*           - hMsgqFrom: ·¢ËÍÕßµÄÓÊÏä¾ä±ú¡£
-*           - cmd      : ÃüÁî¡£
-*           - flags    : ±êÖ¾¡£Æä¶¨Òå¼ûOSA_MbxMsgFlags¡£
-*           - pPrm     : ÏûÏ¢²ÎÊý¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_mbxSendMsg
+* æ  è¿°  : å‘é€æ¶ˆæ¯ã€‚é€šè¿‡å•ä¸ªå½¢å¼å‚æ•°ä¼ é€’æ¶ˆæ¯ä¿¡æ¯ã€‚
+* è¾“  å…¥  : - hMsgqTo  : æŽ¥æ”¶è€…çš„é‚®ç®±å¥æŸ„ã€‚
+*           - hMsgqFrom: å‘é€è€…çš„é‚®ç®±å¥æŸ„ã€‚
+*           - cmd      : å‘½ä»¤ã€‚
+*           - flags    : æ ‡å¿—ã€‚å…¶å®šä¹‰è§OSA_MbxMsgFlagsã€‚
+*           - pPrm     : æ¶ˆæ¯å‚æ•°ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_mbxSendMsg(OSA_MbxHandle hMbxTo,
                      OSA_MbxHandle hMbxFrom,
@@ -114,17 +114,17 @@ Int32 OSA_mbxSendMsg(OSA_MbxHandle hMbxTo,
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mbxBroadcastMsg
-* Ãè  Êö  : ¹ã²¥ÏûÏ¢¡£
-* Êä  Èë  : - phMbxToList  : ½ÓÊÕÕßµÄÓÊÏä¾ä±ú×é£¬°üº¬ËùÓÐ½ÓÊÕÏûÏ¢µÄÓÊÏä¾ä±ú¡£
-*                            Æä×î´óÊýÁ¿¼ûOSA_MBX_BROADCAST_MAX¶¨Òå¡£
-*           - hMsgqFrom    : ·¢ËÍÕßµÄÓÊÏä¾ä±ú¡£
-*           - cmd          : ÃüÁî¡£
-*           - flags        : ±êÖ¾¡£Æä¶¨Òå¼ûOSA_MbxMsgFlags¡£
-*           - pPrm         : ÏûÏ¢²ÎÊý¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_mbxBroadcastMsg
+* æ  è¿°  : å¹¿æ’­æ¶ˆæ¯ã€‚
+* è¾“  å…¥  : - phMbxToList  : æŽ¥æ”¶è€…çš„é‚®ç®±å¥æŸ„ç»„ï¼ŒåŒ…å«æ‰€æœ‰æŽ¥æ”¶æ¶ˆæ¯çš„é‚®ç®±å¥æŸ„ã€‚
+*                            å…¶æœ€å¤§æ•°é‡è§OSA_MBX_BROADCAST_MAXå®šä¹‰ã€‚
+*           - hMsgqFrom    : å‘é€è€…çš„é‚®ç®±å¥æŸ„ã€‚
+*           - cmd          : å‘½ä»¤ã€‚
+*           - flags        : æ ‡å¿—ã€‚å…¶å®šä¹‰è§OSA_MbxMsgFlagsã€‚
+*           - pPrm         : æ¶ˆæ¯å‚æ•°ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_mbxBroadcastMsg(OSA_MbxHandle *phMbxToList,
                           OSA_MbxHandle  hMbxFrom,
@@ -134,66 +134,66 @@ Int32 OSA_mbxBroadcastMsg(OSA_MbxHandle *phMbxToList,
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mbxRecvMsg
-* Ãè  Êö  : ½ÓÊÕÏûÏ¢¡£
-* Êä  Èë  : - hMsgq  : ÓÊÏä¾ä±ú¡£
-*           - ppMsg  : ÏûÏ¢Ö¸Õë¡£×¢ÒâÊÇÖ¸ÕëµÄÖ¸Õë¡£
-*           - timeout: ³¬Ê±Ê±¼ä¡£µ¥Î»ÊÇºÁÃë¡£OSA_TIMEOUT_NONE±íÊ¾²»µÈ´ý£¬
-*                      OSA_TIMEOUT_FOREVER±íÊ¾ÎÞÏÞµÈ´ý¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_mbxRecvMsg
+* æ  è¿°  : æŽ¥æ”¶æ¶ˆæ¯ã€‚
+* è¾“  å…¥  : - hMsgq  : é‚®ç®±å¥æŸ„ã€‚
+*           - ppMsg  : æ¶ˆæ¯æŒ‡é’ˆã€‚æ³¨æ„æ˜¯æŒ‡é’ˆçš„æŒ‡é’ˆã€‚
+*           - timeout: è¶…æ—¶æ—¶é—´ã€‚å•ä½æ˜¯æ¯«ç§’ã€‚OSA_TIMEOUT_NONEè¡¨ç¤ºä¸ç­‰å¾…ï¼Œ
+*                      OSA_TIMEOUT_FOREVERè¡¨ç¤ºæ— é™ç­‰å¾…ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_mbxRecvMsg(OSA_MbxHandle hMbx,
                      OSA_MsgqMsg **pMsg,
                      Uint32        timeOut);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mbxRecvMsg
-* Ãè  Êö  : ¼ì²é²¢½ÓÊÕÏûÏ¢¡£ÓÐÎÞÏûÏ¢¶¼Á¢¼´·µ»Ø£¬²»µÈ´ý¡£
-* Êä  Èë  : - hMsgq  : ÓÊÏä¾ä±ú¡£
-*           - ppMsg  : ÏûÏ¢Ö¸Õë¡£×¢ÒâÊÇÖ¸ÕëµÄÖ¸Õë¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_mbxRecvMsg
+* æ  è¿°  : æ£€æŸ¥å¹¶æŽ¥æ”¶æ¶ˆæ¯ã€‚æœ‰æ— æ¶ˆæ¯éƒ½ç«‹å³è¿”å›žï¼Œä¸ç­‰å¾…ã€‚
+* è¾“  å…¥  : - hMsgq  : é‚®ç®±å¥æŸ„ã€‚
+*           - ppMsg  : æ¶ˆæ¯æŒ‡é’ˆã€‚æ³¨æ„æ˜¯æŒ‡é’ˆçš„æŒ‡é’ˆã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_mbxCheckMsg(OSA_MbxHandle hMbx,
                       OSA_MsgqMsg **pMsg);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mbxAckOrFreeMsg
-* Ãè  Êö  : ·¢ËÍ»Ø¸´²¢ÊÍ·ÅÏûÏ¢ÄÚ´æ¡£
-* Êä  Èë  : - hMsgq    : ÓÊÏä¾ä±ú¡£
-*           - ackRetVal: ·µ»ØÖµ¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_mbxAckOrFreeMsg
+* æ  è¿°  : å‘é€å›žå¤å¹¶é‡Šæ”¾æ¶ˆæ¯å†…å­˜ã€‚
+* è¾“  å…¥  : - hMsgq    : é‚®ç®±å¥æŸ„ã€‚
+*           - ackRetVal: è¿”å›žå€¼ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_mbxAckOrFreeMsg(OSA_MsgqMsg *pMsg, Int32 ackRetVal);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mbxFlush
-* Ãè  Êö  : Ë¢ÐÂÓÊÏä¡£Çå³ýËùÓÐÓÊÏäÖÐµÄÏûÏ¢¡£
-* Êä  Èë  : - hMsgq    : ÓÊÏä¾ä±ú¡£
-*           - ackRetVal: ·µ»ØÖµ¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_mbxFlush
+* æ  è¿°  : åˆ·æ–°é‚®ç®±ã€‚æ¸…é™¤æ‰€æœ‰é‚®ç®±ä¸­çš„æ¶ˆæ¯ã€‚
+* è¾“  å…¥  : - hMsgq    : é‚®ç®±å¥æŸ„ã€‚
+*           - ackRetVal: è¿”å›žå€¼ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_mbxFlush(OSA_MbxHandle hMbx);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mbxWaitCmd
-* Ãè  Êö  : µÈ´ýÖ¸¶¨µÄÃüÁîÖµ¡£
-* Êä  Èë  : - hMsgq  : ÓÊÏä¾ä±ú¡£
-*           - pMsg   : °üº¬ÃüÁîÖµµÄÏûÏ¢¡£
-*           - waitCmd: ÃüÁîÖµ¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_mbxWaitCmd
+* æ  è¿°  : ç­‰å¾…æŒ‡å®šçš„å‘½ä»¤å€¼ã€‚
+* è¾“  å…¥  : - hMsgq  : é‚®ç®±å¥æŸ„ã€‚
+*           - pMsg   : åŒ…å«å‘½ä»¤å€¼çš„æ¶ˆæ¯ã€‚
+*           - waitCmd: å‘½ä»¤å€¼ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_mbxWaitCmd(OSA_MbxHandle hMbx,
                      OSA_MsgqMsg **pMsg,

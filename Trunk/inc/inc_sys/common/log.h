@@ -6,62 +6,62 @@
 * Author : Zheng wei <zheng_wei@dahuatech.com>
 * Version: V1.0.0  2012-10-15 Create
 *
-* Desc: ������־ģ�����ӿ�ͷ�ļ���
+* Desc: 定义日志模块对外接口头文件。
 *
-*       1. Ӳ��˵����
-*          �ޡ�
+*       1. 硬件说明。
+*          无。
 *
-*       2. ����ṹ˵����
-*          ��־ģ���ṩ��һ�׿�ܣ�����ⲿ�������շ�ģ�飬
-*          ʵ�ִӻ�������������־�Ĺ��ܣ�
-*          ����ṹͼ����:
+*       2. 程序结构说明。
+*          日志模块提供了一套框架，配合外部的数据收发模块，
+*          实现从机向主机发送日志的功能，
+*          程序结构图如下:
 *
-*               �ӻ���                   ������
+*               从机端                   主机端
 *
-*              ��־ģ��                 ��־ģ��
+*              日志模块                 日志模块
 *
-*                 ��                       ��
+*                 ↓                       ↑
 *
-*            ���ݷ���ģ��      ��      ���ݽ���ģ��
+*            数据发送模块      →      数据接收模块
 *
-*          1) �ڴӻ��ˣ���־ģ��ͨ���������ݷ���ģ��ע��Ľӿڣ�
-*             ����־���ͳ�ȥ��
-*          2) �ӻ������ݷ���ģ�鸺���ṩ��������ݷ���ͨ����
-*          3) ���������ݽ���ģ�鸺���ṩ��������ݽ���ͨ����
-*             ����־ģ��ע����־���յĺ���
-*          4) ��������־ģ���ڲ�������һ������
-*             ͨ�����ϵ������ݽ���ģ��ע�����־���պ�������ȡ��־��
+*          1) 在从机端，日志模块通过调用数据发送模块注册的接口，
+*             将日志发送出去。
+*          2) 从机端数据发送模块负责提供具体的数据发送通道。
+*          3) 主机端数据接收模块负责提供具体的数据接收通道，
+*             向日志模块注册日志接收的函数
+*          4) 主机端日志模块内部会启动一个任务，
+*             通过不断调用数据接收模块注册的日志接收函数，获取日志。
 *
-*       3. ʹ��˵����
-*          �ӻ�������������־�Ľӿ�ʹ��˵������:
+*       3. 使用说明。
+*          从机向主机发送日志的接口使用说明如下:
 *
-*          1) �ӻ������ݷ���ģ�����LOG_drvRegExtSlave����־ģ��ע��
-*             ��ͨ�����pExtParms->logFlagָ����Щ��־������Ҫͨ���ⲿģ����ɣ�
-*             ����LOG_LOCATION_UART|LOG_LOCATION_FILE��ʾ,
-*             ���дӻ�����Ҫ��ӡ�����ں��ļ�����־��
-*             ����ͨ�����ݷ���ģ�鷢��������ʣ��Ĵ�ӡ���ڲ�RAM����־��
-*             ����Ȼ��ӡ���ӻ��˱��ص��ڲ�RAM�С�
+*          1) 从机端数据发送模块调用LOG_drvRegExtSlave向日志模块注册
+*             可通过入参pExtParms->logFlag指定哪些日志操作需要通过外部模块完成，
+*             比如LOG_LOCATION_UART|LOG_LOCATION_FILE表示,
+*             所有从机端需要打印到串口和文件的日志，
+*             都将通过数据发送模块发给主机，剩余的打印到内部RAM的日志，
+*             则仍然打印到从机端本地的内部RAM中。
 *
-*          2) ���������ݽ���ģ�����LOG_drvRegExtHost����־ģ��ע��,
-*             ע�����־ģ���ڲ�������һ������
-*             ͨ�����ϵ������ݽ���ģ��ע�����־���պ�������ȡ��־��
+*          2) 主机端数据接收模块调用LOG_drvRegExtHost向日志模块注册,
+*             注册后，日志模块内部将启动一个任务，
+*             通过不断调用数据接收模块注册的日志接收函数，获取日志。
 *
-*          3) �ӻ������ݷ���ģ�鲻����Ҫ������������־ʱ����
-*             LOG_drvUnRegExtSlaveȡ��ע��
-*          4) ���������ݽ���ģ�鲻����Ҫ���մӻ�����־ʱ����
-*             LOG_drvUnRegExtHostȡ��ע��
+*          3) 从机端数据发送模块不再需要向主机发送日志时调用
+*             LOG_drvUnRegExtSlave取消注册
+*          4) 主机端数据接收模块不再需要接收从机的日志时调用
+*             LOG_drvUnRegExtHost取消注册
 *
-*       4. ������˵����
-*          �ޡ�
+*       4. 局限性说明。
+*          无。
 *
-*       5. ����˵����
-*          �ޡ�
+*       5. 其他说明。
+*          无。
 *
 * Modification:
 *    Date    :  2013-6-4
 *    Revision:
 *    Author  :  zheng_wei
-*    Contents:  ���Ӵӻ�������������־����
+*    Contents:  增加从机向主机发送日志功能
 *******************************************************************************/
 
 #ifndef _LOG_H_
@@ -70,7 +70,7 @@
 
 
 /* ========================================================================== */
-/*                             ͷ�ļ���                                       */
+/*                             头文件区                                       */
 /* ========================================================================== */
 
 #ifdef __cplusplus
@@ -79,87 +79,87 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ������Ͷ�����                                   */
+/*                           宏和类型定义区                                   */
 /* ========================================================================== */
 
-/* ������־��ӡλ�� */
-#define LOG_LOCATION_NONE   (0)     /* ����ӡ */
-#define LOG_LOCATION_UART   (1<<0)  /* ���� */
-#define LOG_LOCATION_RAM    (1<<1)  /* �ڲ�RAM */
-#define LOG_LOCATION_FILE   (1<<2)  /* �ļ� */
+/* 定义日志打印位置 */
+#define LOG_LOCATION_NONE   (0)     /* 不打印 */
+#define LOG_LOCATION_UART   (1<<0)  /* 串口 */
+#define LOG_LOCATION_RAM    (1<<1)  /* 内部RAM */
+#define LOG_LOCATION_FILE   (1<<2)  /* 文件 */
 
-/* �ӻ���ע��ʱ��ӡǰ׺�Ĵ�С */
+/* 从机端注册时打印前缀的大小 */
 #define LOG_PREFIX_LEN (32)
 
 /* ========================================================================== */
-/*                          ���ݽṹ������                                    */
+/*                          数据结构定义区                                    */
 /* ========================================================================== */
 
-/* �ӻ�������ͨ���ⲿģ�鷢�͵ĵ�����־��Ϣ�ṹ */
+/* 从机向主机通过外部模块发送的单条日志信息结构 */
 typedef struct
 {
-    Uint32 level;       /* ��־���𣬲μ�OSA_LogLevel���� */
-    Uint32 len;         /* ��־���ݳ��� */
-    Char  *pBuf;        /* ��־����bufferָ�� */
+    Uint32 level;       /* 日志级别，参见OSA_LogLevel定义 */
+    Uint32 len;         /* 日志数据长度 */
+    Char  *pBuf;        /* 日志数据buffer指针 */
 
     Uint32 reserved[5];
 }LOG_ExtEntry;
 
-/* �ӻ����ⲿģ����Logע�ᷢ����־�ӿڵĽṹ�壬
-   �ýṹ���е����з������ⲿģ��ʵ�� */
+/* 从机端外部模块向Log注册发送日志接口的结构体，
+   该结构体中的所有方法由外部模块实现 */
 typedef struct
 {
-    /* ���ͽӿ�, ���pLog�е���������־ģ�鸺����� */
+    /* 发送接口, 入参pLog中的内容由日志模块负责填充 */
     Int32 (*OpSendLog)(LOG_ExtEntry *pLog);
 
     Uint32 reserved[7];
 }LOG_ExtSlaveOps;
 
-/* �ӻ����ⲿģ����Logע��ʱ����Ҫ�ṩ�Ĳ��� */
+/* 从机端外部模块向Log注册时，需要提供的参数 */
 typedef struct
 {
     /*
-        ��������־��ǣ�
-        ������LOG_LOCATION_UART��LOG_LOCATION_RAM��LOG_LOCATION_FILE
-        �е�һ�����������ɡ�
-        ��ʾ��Щ��־������Ҫͨ���ⲿģ�����
+        操作的日志标记，
+        可以由LOG_LOCATION_UART、LOG_LOCATION_RAM、LOG_LOCATION_FILE
+        中的一个或多个相或组成。
+        表示哪些日志操作需要通过外部模块完成
     */
     Uint32          logFlag;
 
-    /* �ⲿģ��ע��ʱ����Ҫ���ӵĴ�ӡǰ׺ */
+    /* 外部模块注册时，需要添加的打印前缀 */
     Char            logPrefix[LOG_PREFIX_LEN];
 
-    /* ��־�����ӿ� */
+    /* 日志操作接口 */
     LOG_ExtSlaveOps logOps;
 
     Uint32 reserved[4];
 }LOG_ExtSlaveParams;
 
-/* �������ⲿģ����Logע�������־�ӿڵĽṹ�壬
-   �ýṹ���е����з������ⲿģ��ʵ�� */
+/* 主机端外部模块向Log注册接收日志接口的结构体，
+   该结构体中的所有方法由外部模块实现 */
 typedef struct
 {
-    /* ���սӿ�, ���pLog�е��������ⲿģ�鸺����� */
+    /* 接收接口, 入参pLog中的内容由外部模块负责填充 */
     Int32 (*OpRcvLog)(LOG_ExtEntry *pLog);
 
     Uint32 reserved[7];
 }LOG_ExtHostOps;
 
-/* �������ⲿģ����Logע��ʱ����Ҫ�ṩ�Ĳ��� */
+/* 主机端外部模块向Log注册时，需要提供的参数 */
 typedef struct
 {
-    /* ��־�����ӿ� */
+    /* 日志操作接口 */
     LOG_ExtHostOps logOps;
 
     Uint32 reserved[4];
 }LOG_ExtHostParams;
 
 
-/* pmc��logģ��ע��ı����ں�oops���쳣��־pmc�ӿڼ� */
+/* pmc向log模块注册的保存内核oops等异常日志pmc接口集 */
 typedef struct
 {
 
-    /* pmc�����ں˽�����Ϣע��ӿ� */
+    /* pmc处理内核紧急信息注册接口 */
     Int32 (*OpKernelEmergLogWrite)(const Char *errInfo, Uint32 errInfoLen);
 
     Uint32 res[15];
@@ -167,44 +167,44 @@ typedef struct
 }LOG_PmcOps;
 
 
-/* ��ǰ�豸֮ǰһ���������쳣ԭ�� */
+/* 当前设备之前一次重启的异常原因 */
 typedef enum
 {
-    CRASH_NONE        = 0,        /* û���쳣 */
-    CRASH_LOSTPOWER   = 1 << 0,   /* �ϵ� */
-    CRASH_WDT         = 1 << 1,   /* ���Ź����� */
-    CRASH_OOPS        = 1 << 2,   /* �ں˱��� */
-    CRASH_VDEXIT      = 1 << 3,   /* VideoDaemon�쳣�˳� */
-    CRASH_NOBIT       = 1 << 4,    /* ������ */
+    CRASH_NONE        = 0,        /* 没有异常 */
+    CRASH_LOSTPOWER   = 1 << 0,   /* 断电 */
+    CRASH_WDT         = 1 << 1,   /* 看门狗重启 */
+    CRASH_OOPS        = 1 << 2,   /* 内核崩溃 */
+    CRASH_VDEXIT      = 1 << 3,   /* VideoDaemon异常退出 */
+    CRASH_NOBIT       = 1 << 4,    /* 无码流 */
     BOOT_PROGRAM      = 1 << 5,
 } LOG_CrashFlag;
 
 /* ========================================================================== */
-/*                          ����������                                        */
+/*                          函数声明区                                        */
 /* ========================================================================== */
 
 #ifndef __KERNEL__
 
 /*******************************************************************************
-* ������  : LOG_init
-* ��  ��  : ��ʼ����־���û�̬����SYSBIOS�µ���һ�μ��ɣ��ں�̬���������
-* ��  ��  : - pInitParms: ��ʼ������, Ԥ������������ΪNULL
+* 函数名  : LOG_init
+* 描  述  : 初始化日志，用户态或者SYSBIOS下调用一次即可，内核态下无需调用
+* 输  入  : - pInitParms: 初始化参数, 预留参数，可以为NULL
 *
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK:   �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 输  出  : 无。
+* 返回值  : OSA_SOK:   成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 LOG_init(Ptr pInitParms);
 
 
 /*******************************************************************************
-* ������  : LOG_deInit
-* ��  ��  : ������־ģ�飬�û�̬����SYSBIOS�µ��ã��ں�̬���������
-* ��  ��  : ��
+* 函数名  : LOG_deInit
+* 描  述  : 销毁日志模块，用户态或者SYSBIOS下调用，内核态下无需调用
+* 输  入  : 无
 *
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK:   �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 输  出  : 无。
+* 返回值  : OSA_SOK:   成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 LOG_deInit(void);
 
@@ -214,131 +214,131 @@ Int32 LOG_deInit(void);
 
 #ifdef __KERNEL__
 /*******************************************************************************
-* ������  : LOG_drvRegExtSlave
-* ��  ��  : ����־ģ��ע��ӻ����ⲿģ��
-* ��  ��  : - pExtParms: �ⲿģ��ע�������
+* 函数名  : LOG_drvRegExtSlave
+* 描  述  : 向日志模块注册从机端外部模块
+* 输  入  : - pExtParms: 外部模块注册参数。
 *
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK:   �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 输  出  : 无。
+* 返回值  : OSA_SOK:   成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 LOG_drvRegExtSlave(LOG_ExtSlaveParams *pExtParms);
 
 /*******************************************************************************
-* ������  : LOG_drvUnRegExtSlave
-* ��  ��  : ����־ģ��ȡ����ע��Ĵӻ����ⲿģ��
-* ��  ��  : �ޡ�
+* 函数名  : LOG_drvUnRegExtSlave
+* 描  述  : 向日志模块取消已注册的从机端外部模块
+* 输  入  : 无。
 *
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK:   �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 输  出  : 无。
+* 返回值  : OSA_SOK:   成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 LOG_drvUnRegExtSlave(void);
 
 /*******************************************************************************
-* ������  : LOG_drvRegExtHost
-* ��  ��  : ����־ģ��ע���������ⲿģ��
-* ��  ��  : - pExtParms: �ⲿģ��ע�������
+* 函数名  : LOG_drvRegExtHost
+* 描  述  : 向日志模块注册主机端外部模块
+* 输  入  : - pExtParms: 外部模块注册参数。
 *
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK:   �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 输  出  : 无。
+* 返回值  : OSA_SOK:   成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 LOG_drvRegExtHost(LOG_ExtHostParams *pExtParms);
 
 /*******************************************************************************
-* ������  : LOG_drvUnRegExtHost
-* ��  ��  : ����־ģ��ȡ����ע����������ⲿģ��
-* ��  ��  : �ޡ�
+* 函数名  : LOG_drvUnRegExtHost
+* 描  述  : 向日志模块取消已注册的主机端外部模块
+* 输  入  : 无。
 *
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK:   �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 输  出  : 无。
+* 返回值  : OSA_SOK:   成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 LOG_drvUnRegExtHost(void);
 
 /*******************************************************************************
-* ������  : LOG_drvPmcRegister
-* ��  ��  : pmcģ��ӹ��ں�oops����־ʱ�����ӿ�ע�����logģ�飬logģ���⵽��
-*           ��oopsʱ������pmcע��Ľӹܽӿ�
-* ��  ��  : pOps:pmc��logģ��ע��ı����ں�oops���쳣��־pmc�ӿڼ�
+* 函数名  : LOG_drvPmcRegister
+* 描  述  : pmc模块接管内核oops等日志时，将接口注册给给log模块，log模块检测到发
+*           生oops时，调用pmc注册的接管接口
+* 输  入  : pOps:pmc向log模块注册的保存内核oops等异常日志pmc接口集
 *
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK:   �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 输  出  : 无。
+* 返回值  : OSA_SOK:   成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 LOG_drvPmcRegister(LOG_PmcOps *pOps);
 
 /*******************************************************************************
-* ������  : LOG_drvPmcUnRegister
-* ��  ��  : ��LOG_drvPmcRegister��Ӧ�ĳ���ע��ӿ�
-* ��  ��  : �ޡ�
+* 函数名  : LOG_drvPmcUnRegister
+* 描  述  : 与LOG_drvPmcRegister对应的撤销注册接口
+* 输  入  : 无。
 *
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK:   �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 输  出  : 无。
+* 返回值  : OSA_SOK:   成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 LOG_drvPmcUnRegister(void);
 
 #endif
 
 /*******************************************************************************
-* ������  : LOG_getCrashFlag
-* ��  ��  : ��ȡ�쳣�����ı�־
+* 函数名  : LOG_getCrashFlag
+* 描  述  : 获取异常重启的标志
 *
-* ��  ��  : - �ޡ�
+* 输  入  : - 无。
 *
-* ��  ��  : - pFlag: ��ǰϵͳ�쳣�����ı�־������μ�LOG_CrashFlag
-* ����ֵ  : OSA_SOK:   �ɹ�
-*           OSA_EFAIL: ʧ��
+* 输  出  : - pFlag: 当前系统异常重启的标志，定义参见LOG_CrashFlag
+* 返回值  : OSA_SOK:   成功
+*           OSA_EFAIL: 失败
 *******************************************************************************/
 Int32 LOG_getCrashFlag(Uint32 *pFlag);
 
 /*******************************************************************************
-* ������  : LOG_setCrashFlag
-* ��  ��  : �����쳣�����ı�־,
-*           ����֮ǰҪ�Ȼ�ȡ��־���� ��(|) ���±�־���Է����
-*           �������쳣��־��
-* ��  ��  : - flag: Ҫ���õ�ϵͳ�쳣�����ı�־������μ�LOG_CrashFlag
+* 函数名  : LOG_setCrashFlag
+* 描  述  : 设置异常重启的标志,
+*           设置之前要先获取标志，再 或(|) 上新标志，以防冲掉
+*           其他的异常标志；
+* 输  入  : - flag: 要设置的系统异常重启的标志，定义参见LOG_CrashFlag
 *
-* ��  ��  : - ��
-* ����ֵ  : OSA_SOK:   �ɹ�
-*           OSA_EFAIL: ʧ��
+* 输  出  : - 无
+* 返回值  : OSA_SOK:   成功
+*           OSA_EFAIL: 失败
 *******************************************************************************/
 Int32 LOG_setCrashFlag(Uint32 flag);
 
 /*******************************************************************************
-* ������  : LOG_setCacheFlag
-* ��  ��  :����cache��־�������Ƿ�ˢcache����
-* ��  ��  : - bIsCacheEnable: ��ӡ�����ڴ��Ƿ���cache
+* 函数名  : LOG_setCacheFlag
+* 描  述  :设置cache标志，用于是否刷cache操作
+* 输  入  : - bIsCacheEnable: 打印共享内存是否是cache
 *
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK:   �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 输  出  : 无。
+* 返回值  : OSA_SOK:   成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 LOG_setCacheFlag(Bool bIsCacheEnable);
 
 
 /*******************************************************************************
-* ������  : LOG_setInsteadStdout
-* ��  ��  : �����Ƿ�ӹܱ�׼���
-*           �������ʹ�ñ�׼������ں�printk��tty��������ñ�׼�ں˵ķ�ʽ
-* ��  ��  : - enable: true��ʾ��LOG�ӹܣ�false��ʾʹ���ں�ԭʼ��ʽ
+* 函数名  : LOG_setInsteadStdout
+* 描  述  : 设置是否接管标准输出
+*           如果设置使用标准输出，内核printk、tty输出将采用标准内核的方式
+* 输  入  : - enable: true表示由LOG接管，false表示使用内核原始方式
 *
-* ��  ��  : - ��
-* ����ֵ  : OSA_SOK:   �ɹ�
-*           OSA_EFAIL: ʧ��
+* 输  出  : - 无
+* 返回值  : OSA_SOK:   成功
+*           OSA_EFAIL: 失败
 *******************************************************************************/
 Int32 LOG_setInsteadStdout(Bool32 enable);
 
 /*******************************************************************************
-* ������  : LOG_drvFlushRam
-* ��  ��  : ��log����������ȫ��������ӡ���������������
-* ��  ��  : - ��
+* 函数名  : LOG_drvFlushRam
+* 描  述  : 把log缓冲区数据全部立即打印出来，缓冲区清空
+* 输  入  : - 无
 *
-* ��  ��  : - ��
-* ����ֵ  : OSA_SOK:   �ɹ�
-*           OSA_EFAIL: ʧ��
+* 输  出  : - 无
+* 返回值  : OSA_SOK:   成功
+*           OSA_EFAIL: 失败
 *******************************************************************************/
 Int32 LOG_drvFlushRam(void);
 

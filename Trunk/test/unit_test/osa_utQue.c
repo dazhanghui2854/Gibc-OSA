@@ -4,24 +4,24 @@
  * Copyright (C) 2011-2013 ZheJiang Dahua Technology CO.,LTD.
  *
  * Author : Zheng Wei <zheng_wei@dahuatech.com>
- * Version: V1.0.0  2013Äê9ÔÂ12ÈÕ Create
+ * Version: V1.0.0  2013å¹´9æœˆ12æ—¥ Create
  *
  * Description: 
  *
- *       1. Ó²¼şËµÃ÷
- *          ÎŞ¡£
+ *       1. ç¡¬ä»¶è¯´æ˜
+ *          æ— ã€‚
  *
- *       2. ³ÌĞò½á¹¹ËµÃ÷¡£
- *          ÎŞ¡£
+ *       2. ç¨‹åºç»“æ„è¯´æ˜ã€‚
+ *          æ— ã€‚
  *
- *       3. Ê¹ÓÃËµÃ÷¡£
- *          ÎŞ¡£
+ *       3. ä½¿ç”¨è¯´æ˜ã€‚
+ *          æ— ã€‚
  *
- *       4. ¾ÖÏŞĞÔËµÃ÷¡£
- *          ÎŞ¡£
+ *       4. å±€é™æ€§è¯´æ˜ã€‚
+ *          æ— ã€‚
  *
- *       5. ÆäËûËµÃ÷¡£
- *          ÎŞ¡£
+ *       5. å…¶ä»–è¯´æ˜ã€‚
+ *          æ— ã€‚
  *
  * Modification: 
  *    Date     : 
@@ -31,20 +31,20 @@
  *******************************************************************************/
      
 /* ========================================================================== */
-/*                             Í·ÎÄ¼şÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 
 #include <cunit.h>
 #include <osa.h>
 
 /* ========================================================================== */
-/*                           ºêºÍÀàĞÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»å‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 #define QUE_TEST_NUM 8
 
 
 /* ========================================================================== */
-/*                          Êı¾İ½á¹¹¶¨ÒåÇø                                    */
+/*                          æ•°æ®ç»“æ„å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 typedef struct
 {
@@ -56,19 +56,19 @@ typedef struct
 
 
 /* ========================================================================== */
-/*                          º¯ÊıÉùÃ÷Çø                                        */
+/*                          å‡½æ•°å£°æ˜åŒº                                        */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          È«¾Ö±äÁ¿¶¨ÒåÇø                                    */
+/*                          å…¨å±€å˜é‡å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
 /* ========================================================================== */
-/*                          º¯Êı¶¨ÒåÇø                                        */
+/*                          å‡½æ•°å®šä¹‰åŒº                                        */
 /* ========================================================================== */
 
-/* ²âÊÔ¶ÓÁĞ½Ó¿Ú */
+/* æµ‹è¯•é˜Ÿåˆ—æ¥å£ */
 static void QUE_testQue(void)
 {
     OSA_QueCreate create;
@@ -103,7 +103,7 @@ static void QUE_testQue(void)
     CU_ASSERT(OSA_SOK == status);
 }
 
-/* ²âÊÔÇáÁ¿¼¶¶ÓÁĞ¶ÁĞ´½Ó¿Ú */
+/* æµ‹è¯•è½»é‡çº§é˜Ÿåˆ—è¯»å†™æ¥å£ */
 static void QUE_testQueSl(void)
 {
     OSA_QueCreate create;
@@ -138,7 +138,7 @@ static void QUE_testQueSl(void)
     CU_ASSERT(OSA_SOK == status);
 }
 
-/* ²âÊÔÁ´±í¶ÓÁĞ¶ÁĞ´½Ó¿Ú */
+/* æµ‹è¯•é“¾è¡¨é˜Ÿåˆ—è¯»å†™æ¥å£ */
 static void QUE_testQueList(void)
 {
     OSA_QueCreate create;
@@ -180,7 +180,7 @@ static void QUE_testQueList(void)
     CU_ASSERT(OSA_SOK == status);
 }
 
-/* ²âÊÔ¶ÓÁĞÊÇ·ñÎª¿Õ */
+/* æµ‹è¯•é˜Ÿåˆ—æ˜¯å¦ä¸ºç©º */
 static void QUE_testQueIsEmpty(void)
 {
     OSA_QueCreate create;
@@ -190,7 +190,7 @@ static void QUE_testQueIsEmpty(void)
     QUE_ListElem  queElem;
     Bool32        bisEmpty;
 
-    /* ÆÕÍ¨¶ÓÁĞ */
+    /* æ™®é€šé˜Ÿåˆ— */
     OSA_clear(&create);
     create.maxElems = QUE_TEST_NUM;
     create.pQueue   = aQueArr;
@@ -209,7 +209,7 @@ static void QUE_testQueIsEmpty(void)
     status = OSA_queDelete(hQue);
     CU_ASSERT(OSA_SOK == status);
 
-    /* ÇáÁ¿¼¶¶ÓÁĞ */
+    /* è½»é‡çº§é˜Ÿåˆ— */
     OSA_clear(&create);
     create.maxElems = QUE_TEST_NUM;
     create.pQueue   = aQueArr;
@@ -228,7 +228,7 @@ static void QUE_testQueIsEmpty(void)
     status = OSA_queDelete(hQue);
     CU_ASSERT(OSA_SOK == status);
 
-    /* Á´±í¶ÓÁĞ */
+    /* é“¾è¡¨é˜Ÿåˆ— */
     OSA_listHeadInit(&queElem.node);
 
     OSA_clear(&create);
@@ -249,7 +249,7 @@ static void QUE_testQueIsEmpty(void)
     CU_ASSERT(OSA_SOK == status);
 }
 
-/* ²âÊÔ»ñÈ¡¶ÓÁĞ³¤¶È */
+/* æµ‹è¯•è·å–é˜Ÿåˆ—é•¿åº¦ */
 static void OSA_testQueGetLen(void)
 {
     OSA_QueCreate create;
@@ -258,7 +258,7 @@ static void OSA_testQueGetLen(void)
     Uint32        aQueArr[QUE_TEST_NUM];
     Uint32        queLen = 0;
 
-    /* ÆÕÍ¨¶ÓÁĞ */
+    /* æ™®é€šé˜Ÿåˆ— */
     OSA_clear(&create);
     create.maxElems = QUE_TEST_NUM;
     create.pQueue   = aQueArr;
@@ -271,7 +271,7 @@ static void OSA_testQueGetLen(void)
     status = OSA_queDelete(hQue);
     CU_ASSERT(OSA_SOK == status);
 
-    /* ÇáÁ¿¼¶¶ÓÁĞ */
+    /* è½»é‡çº§é˜Ÿåˆ— */
     OSA_clear(&create);
     create.maxElems = QUE_TEST_NUM;
     create.pQueue   = aQueArr;
@@ -284,7 +284,7 @@ static void OSA_testQueGetLen(void)
     status = OSA_queDelete(hQue);
     CU_ASSERT(OSA_SOK == status);
 
-    /* Á´±í¶ÓÁĞ */
+    /* é“¾è¡¨é˜Ÿåˆ— */
     OSA_clear(&create);
     create.maxElems = QUE_TEST_NUM;
     status = OSA_queListCreate(&create, &hQue);
@@ -297,7 +297,7 @@ static void OSA_testQueGetLen(void)
     CU_ASSERT(OSA_SOK == status);
 }
 
-/* ²âÊÔ»ñÈ¡¶ÓÁĞÖĞµÄ³ÉÔ±¸öÊı */
+/* æµ‹è¯•è·å–é˜Ÿåˆ—ä¸­çš„æˆå‘˜ä¸ªæ•° */
 static void OSA_testQueGetCount(void)
 {
     OSA_QueCreate create;
@@ -307,7 +307,7 @@ static void OSA_testQueGetCount(void)
     QUE_ListElem  queElem;
     Uint32        queCnt;
 
-    /* ÆÕÍ¨¶ÓÁĞ */
+    /* æ™®é€šé˜Ÿåˆ— */
     OSA_clear(&create);
     create.maxElems = QUE_TEST_NUM;
     create.pQueue   = aQueArr;
@@ -323,7 +323,7 @@ static void OSA_testQueGetCount(void)
     status = OSA_queDelete(hQue);
     CU_ASSERT(OSA_SOK == status);
 
-    /* ÇáÁ¿¼¶¶ÓÁĞ */
+    /* è½»é‡çº§é˜Ÿåˆ— */
     OSA_clear(&create);
     create.maxElems = QUE_TEST_NUM;
     create.pQueue   = aQueArr;
@@ -339,7 +339,7 @@ static void OSA_testQueGetCount(void)
     status = OSA_queDelete(hQue);
     CU_ASSERT(OSA_SOK == status);
 
-    /* Á´±í¶ÓÁĞ */
+    /* é“¾è¡¨é˜Ÿåˆ— */
     OSA_listHeadInit(&queElem.node);
 
     OSA_clear(&create);

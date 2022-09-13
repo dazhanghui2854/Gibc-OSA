@@ -6,7 +6,7 @@
 * Author : Zheng wei <zheng_wei@dahuatech.com>
 * Version: V1.0.0  2012-5-23 Create
 *
-* Desc: ����OSAģ������ṩ���ļ������ӿ�
+* Desc: 定义OSA模块对外提供的文件操作接口
 *
 * Modification: 
 *    Date    :  
@@ -20,11 +20,11 @@
 #define _OSA_FILE_H_
 
 
-/*��linux�ں�̬���û�̬֧���ļ�������TI SYSBIOS��֧��*/
+/*仅linux内核态与用户态支持文件操作，TI SYSBIOS不支持*/
 #ifndef ___DSPBIOS___
 
 /* ========================================================================== */
-/*                             ͷ�ļ���                                       */
+/*                             头文件区                                       */
 /* ========================================================================== */
 
 #ifdef __cplusplus
@@ -33,179 +33,179 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ������Ͷ�����                                   */
+/*                           宏和类型定义区                                   */
 /* ========================================================================== */
-/*�ļ��������,�ϲ�ģ�鲻��Ҫ�������еľ�������,*/
-/*ֻ��Ҫ�ڵ��ø��ļ������ӿ�ʱ�Ѿ�����뼴��*/
+/*文件句柄类型,上层模块不需要关心其中的具体内容,*/
+/*只需要在调用各文件操作接口时把句柄传入即可*/
 typedef Handle OSA_FileHandle;
 
-/* �ļ��Ĳ���ģʽ*/
+/* 文件的操作模式*/
 typedef enum
 {
-    OSA_FILEMODE_RDONLY  = 0, /* ֻ��, ���ļ������ڽ�ʧ��*/
-    OSA_FILEMODE_WRONLY,      /* ֻд,���ļ�ͷ��ʼд,ԭ�����ݽ������, ���ļ������ڽ�����*/
-    OSA_FILEMODE_RDWR,        /* ��д,���ļ�ͷ��ʼд,ԭ�����ݽ������, ���ļ������ڽ�����*/
-    OSA_FILEMODE_WRAPPEND,    /* ׷��д,���ļ�β��׷��д, ���ļ������ڽ�����*/   
-    OSA_FILEMODE_RDWR_NOCLR,  /* ���ļ���д��,��������,���ļ������ڽ�����*/
-    OSA_FILEMODE_FEXIST,      /* �����ļ��Ƿ���� */
+    OSA_FILEMODE_RDONLY  = 0, /* 只读, 若文件不存在将失败*/
+    OSA_FILEMODE_WRONLY,      /* 只写,从文件头开始写,原有数据将被清掉, 若文件不存在将创建*/
+    OSA_FILEMODE_RDWR,        /* 读写,从文件头开始写,原有数据将被清掉, 若文件不存在将创建*/
+    OSA_FILEMODE_WRAPPEND,    /* 追加写,从文件尾部追加写, 若文件不存在将创建*/   
+    OSA_FILEMODE_RDWR_NOCLR,  /* 从文件读写打开,不清数据,若文件不存在将创建*/
+    OSA_FILEMODE_FEXIST,      /* 测试文件是否存在 */
 } OSA_FileMode;
 
-/*�ļ���Seek����*/
+/*文件的Seek类型*/
 typedef enum
 {
-    OSA_FILESEEK_SET  = 0,    /* ���ļ�ͷ��ʼSeek*/
-    OSA_FILESEEK_CUR,         /* ���ļ���ǰλ�ÿ�ʼSeek*/
-    OSA_FILESEEK_END          /* ���ļ�β��ʼSeek*/
+    OSA_FILESEEK_SET  = 0,    /* 从文件头开始Seek*/
+    OSA_FILESEEK_CUR,         /* 从文件当前位置开始Seek*/
+    OSA_FILESEEK_END          /* 从文件尾开始Seek*/
 } OSA_FileSeekType;
 
 
 
 /* ========================================================================== */
-/*                          ���ݽṹ������                                    */
+/*                          数据结构定义区                                    */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          ����������                                        */
+/*                          函数声明区                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* ������  : OSA_fileAccess
-* ��  ��  : �ýӿڿ������ж��ļ��Ƿ�������Ƿ���Ȩ�޷���,ͨ��mode����ָ�����ʵ�Ȩ�ޡ�
-*           ��modeΪOSA_FILEMODE_RDONLY,����ļ��Ƿ��ж���Ȩ��
-*           ��modeΪOSA_FILEMODE_WRONLY,����ļ��Ƿ���д��Ȩ��
-*           ��modeΪOSA_FILEMODE_WRAPPEND,����ļ��Ƿ���д��Ȩ��
-*           ��modeΪOSA_FILEMODE_RDWR,����ļ��Ƿ��ж���д��Ȩ��
-*           ��modeΪOSA_FILEMODE_FEXIST���������ļ��Ƿ����
-*           �ú����������ں�̬�ж������ĵ���
+* 函数名  : OSA_fileAccess
+* 描  述  : 该接口可用于判断文件是否存在且是否有权限访问,通过mode参数指定访问的权限。
+*           若mode为OSA_FILEMODE_RDONLY,检查文件是否有读的权限
+*           若mode为OSA_FILEMODE_WRONLY,检查文件是否有写的权限
+*           若mode为OSA_FILEMODE_WRAPPEND,检查文件是否有写的权限
+*           若mode为OSA_FILEMODE_RDWR,检查文件是否有读和写的权限
+*           若mode为OSA_FILEMODE_FEXIST，仅测试文件是否存在
+*           该函数不能在内核态中断上下文调用
 *
-* ��  ��  : - fileName: �����ļ�·����Ϣ�������ļ���
-*           - mode:     �ļ�����ģʽ,�μ�OSA_FileMode����
-* ��  ��  : ��
-* ����ֵ  : OSA_SOK:    �ļ���������Ȩ�޷���
-*           OSA_EFAIL:  �ļ������ڻ���û��Ȩ�޷���
+* 输  入  : - fileName: 包含文件路径信息的完整文件名
+*           - mode:     文件操作模式,参见OSA_FileMode定义
+* 输  出  : 无
+* 返回值  : OSA_SOK:    文件存在且有权限访问
+*           OSA_EFAIL:  文件不存在或者没有权限访问
 *******************************************************************************/
 Int32 OSA_fileAccess(const Char *fileName, OSA_FileMode mode);
 
 /*******************************************************************************
-* ������  : OSA_fileRemove
-* ��  ��  : �ýӿڿ�����ɾ��fileName�ƶ�·���µ��ļ����ļ���
-*           �ú�����ʱ��֧��Linux�û�̬
+* 函数名  : OSA_fileRemove
+* 描  述  : 该接口可用于删除fileName制定路径下的文件或文件夹
+*           该函数暂时仅支持Linux用户态
 *
-* ��  ��  : - fileName: �����ļ�·����Ϣ�������ļ���
-* ��  ��  : ��
-* ����ֵ  : OSA_SOK:    �ļ�ɾ���ɹ�
-*           OSA_EFAIL:  �ļ�ɾ��ʧ��
+* 输  入  : - fileName: 包含文件路径信息的完整文件名
+* 输  出  : 无
+* 返回值  : OSA_SOK:    文件删除成功
+*           OSA_EFAIL:  文件删除失败
 *******************************************************************************/
 Int32 OSA_fileRemove(const Char *fileName);
 
 /*******************************************************************************
-* ������  : OSA_fileOpen
-* ��  ��  : �ú��������һ���ļ�,֧�����ֲ���ģʽ: ֻ����ֻд����д������׷��д
-*           ���ļ��򿪳ɹ�,������һ���ļ����,�����������ļ������ӿ�ʱ����
-*           �ú����������ں�̬�ж������ĵ���
+* 函数名  : OSA_fileOpen
+* 描  述  : 该函数负责打开一个文件,支持四种操作模式: 只读、只写、读写创建、追加写
+*           若文件打开成功,将返回一个文件句柄,供调用其他文件操作接口时传入
+*           该函数不能在内核态中断上下文调用
 *
-* ��  ��  : - fileName: �����ļ�·����Ϣ�������ļ���
-*           - mode:     �ļ�����ģʽ,�μ�OSA_FileMode����
+* 输  入  : - fileName: 包含文件路径信息的完整文件名
+*           - mode:     文件操作模式,参见OSA_FileMode定义
 *
-* ��  ��  : - phFile:   �ļ����ָ��,���򿪳ɹ�ʱ����ļ����
-* ����ֵ  :  OSA_SOK:   �򿪳ɹ�
-*            OSA_EFAIL: ��ʧ��
+* 输  出  : - phFile:   文件句柄指针,当打开成功时输出文件句柄
+* 返回值  :  OSA_SOK:   打开成功
+*            OSA_EFAIL: 打开失败
 *******************************************************************************/
 Int32 OSA_fileOpen(const Char *fileName, OSA_FileMode mode, 
                     OSA_FileHandle *phFile);
 
 /*******************************************************************************
-* ������  : OSA_fileClose
-* ��  ��  : �ú�������ر�һ���ļ�,�������ļ����ָ��Ķ���,
-*           ��˵��øýӿں�ԭ�е��ļ����������ʹ�á�
-*           �ú����������ں�̬�ж������ĵ���
+* 函数名  : OSA_fileClose
+* 描  述  : 该函数负责关闭一个文件,将销毁文件句柄指向的对象,
+*           因此调用该接口后原有的文件句柄不能再使用。
+*           该函数不能在内核态中断上下文调用
 *
-* ��  ��  : - hFile: �ļ����
-* ��  ��  : ��
-* ����ֵ  : OSA_SOK:   �رճɹ�
-*           OSA_EFAIL: �ر�ʧ��
+* 输  入  : - hFile: 文件句柄
+* 输  出  : 无
+* 返回值  : OSA_SOK:   关闭成功
+*           OSA_EFAIL: 关闭失败
 *******************************************************************************/
 Int32 OSA_fileClose(OSA_FileHandle hFile);
 
 /*******************************************************************************
-* ������  : OSA_fileSync
-* ��  ��  : �ú��������ļ������������ˢ��Ӳ���������û�̬��Ч���ں�̬���ú���Ч����
+* 函数名  : OSA_fileSync
+* 描  述  : 该函数负责将文件缓冲里的数据刷到硬件，仅在用户态有效，内核态调用后无效果。
 *
-* ��  ��  : - hFile: �ļ����
-* ��  ��  : ��
-* ����ֵ  : OSA_SOK:   �ɹ�
-*           OSA_EFAIL: ʧ��
+* 输  入  : - hFile: 文件句柄
+* 输  出  : 无
+* 返回值  : OSA_SOK:   成功
+*           OSA_EFAIL: 失败
 *******************************************************************************/
 Int32 OSA_fileSync(OSA_FileHandle hFile);
 
 /*******************************************************************************
-* ������  : OSA_fileRead
-* ��  ��  : �ú�������ʵ���ļ��Ķ�����,����������ɵ���������,�ҵ����߱��뱣֤
-*           buffer�ĳ���Ҫ���ڵ���size
-*           �ú����������ں�̬�ж������ĵ���
+* 函数名  : OSA_fileRead
+* 描  述  : 该函数负责实现文件的读操作,读缓冲必须由调用者申请,且调用者必须保证
+*           buffer的长度要大于等于size
+*           该函数不能在内核态中断上下文调用
 *
-* ��  ��  : - hFile:   �ļ����
-*           - buffer:  ��������
-*           - size:    Ҫ��ȡ�ĳ���
-* ��  ��  : ��
-* ����ֵ  : OSA_EFAIL: ��ȡʧ��
-*           >= 0:      ������ȡ���ֽ���
+* 输  入  : - hFile:   文件句柄
+*           - buffer:  读缓冲区
+*           - size:    要读取的长度
+* 输  出  : 无
+* 返回值  : OSA_EFAIL: 读取失败
+*           >= 0:      真正读取的字节数
 *******************************************************************************/
 Int32 OSA_fileRead (OSA_FileHandle hFile, Int8 *buffer, Uint32 size);
 
 /*******************************************************************************
-* ������  : OSA_fileWrite
-* ��  ��  : �ú�������ʵ���ļ���д����,������buffer�����ɵ���������,�ҵ����߱��뱣֤
-*           buffer�ĳ���Ҫ���ڵ���size
-*           �ú����������ں�̬�ж������ĵ���
+* 函数名  : OSA_fileWrite
+* 描  述  : 该函数负责实现文件的写操作,缓冲区buffer必须由调用者申请,且调用者必须保证
+*           buffer的长度要大于等于size
+*           该函数不能在内核态中断上下文调用
 *
-* ��  ��  : - hFile:   �ļ����
-*           - buffer:  д������
-*           - size:    Ҫд��ĳ���
-* ��  ��  : ��
-* ����ֵ  : OSA_EFAIL: д��ʧ��
-*           >= 0:      ����д����ֽ���
+* 输  入  : - hFile:   文件句柄
+*           - buffer:  写缓冲区
+*           - size:    要写入的长度
+* 输  出  : 无
+* 返回值  : OSA_EFAIL: 写入失败
+*           >= 0:      真正写入的字节数
 *******************************************************************************/
 Int32 OSA_fileWrite(OSA_FileHandle hFile, Int8 *buffer, Uint32 size);
 
 
 /*******************************************************************************
-* ������  : OSA_fileSeek
-* ��  ��  : �ú�������ʵ���ļ���Seek����
-*           �ú����������ں�̬�ж������ĵ���
+* 函数名  : OSA_fileSeek
+* 描  述  : 该函数负责实现文件的Seek操作
+*           该函数不能在内核态中断上下文调用
 *
-* ��  ��  : - hFile:   �ļ����
-*           - offset:  seek��ƫ��
-*           - type:    seek������,�μ�OSA_FileSeekType����
-* ��  ��  : ��
-* ����ֵ  : OSA_EFAIL: seekʧ��
-*           OSA_SOK:   seek�ɹ�
+* 输  入  : - hFile:   文件句柄
+*           - offset:  seek的偏移
+*           - type:    seek的类型,参见OSA_FileSeekType定义
+* 输  出  : 无
+* 返回值  : OSA_EFAIL: seek失败
+*           OSA_SOK:   seek成功
 *******************************************************************************/
 Int32 OSA_fileSeek (OSA_FileHandle hFile, Int32 offset, Int32 type);
 
 /*******************************************************************************
-* ������  : OSA_fileTell
-* ��  ��  : �ú�����ȡ��ǰ�ļ��Ķ�дλ��
-*           �ú����������ں�̬�ж������ĵ���
+* 函数名  : OSA_fileTell
+* 描  述  : 该函数获取当前文件的读写位置
+*           该函数可以在内核态中断上下文调用
 *
-* ��  ��  : - hFile:   �ļ����
-* ��  ��  : - pOffset: ��ǰ�Ķ�дλ��
-* ����ֵ  : OSA_EFAIL: ʧ��
-*           OSA_SOK:   �ɹ�
+* 输  入  : - hFile:   文件句柄
+* 输  出  : - pOffset: 当前的读写位置
+* 返回值  : OSA_EFAIL: 失败
+*           OSA_SOK:   成功
 *******************************************************************************/
 Int32 OSA_fileTell (OSA_FileHandle hFile, Uint32 *pOffset);
 
 /*******************************************************************************
-* ������  : OSA_fgets
-* ��  ��  : �ú�����ȡ��ǰ�ļ��е�һ���Ի��л���EOFΪ��β������
-*           �ú�����֧��Linux�û�̬
+* 函数名  : OSA_fgets
+* 描  述  : 该函数读取当前文件中的一行以换行或者EOF为结尾的数据
+*           该函数仅支持Linux用户态
 *
-* ��  ��  : - hFile:   �ļ����
-*           - size: �ַ�����󳤶�
-* ��  ��  : - s: ��ȡ�����ַ���
-* ����ֵ  : OSA_EFAIL: ʧ��
-*           OSA_SOK:   �ɹ�
+* 输  入  : - hFile:   文件句柄
+*           - size: 字符串最大长度
+* 输  出  : - s: 读取到的字符串
+* 返回值  : OSA_EFAIL: 失败
+*           OSA_SOK:   成功
 *******************************************************************************/
 Int32 OSA_fgets(Char *s, Int32 size, OSA_FileHandle hFile);
 

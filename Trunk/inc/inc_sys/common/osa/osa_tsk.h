@@ -6,25 +6,25 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2010-8-31 Create
 *
-* Description: OSAµÄÈÎÎñTaskÄ£¿é£¬°üº¬ÈÎÎñ´´½¨¡¢×¢Ïú¡¢¿ØÖÆµÈÒ»ÏµÁÐ²Ù×÷½Ó¿Ú¡£
-*              ÄÚ²¿»áÆô¶¯Ò»¸ö¼à²âÈÎÎñ£¬¼à²âÆäËûÈÎÎñÊÇ·ñ³¬Ê±£¬³¬Ê±Ôò´òÓ¡³ö³¬Ê±
-*              Ê±¼äÖµ¡£ÈÎÎñ´´½¨²¢³É¹¦ÔËÐÐºó£¬Ä¬ÈÏ±»¼ÓÈëµ½±»¼à²âÁ´±íÖÐ¡£
+* Description: OSAçš„ä»»åŠ¡Taskæ¨¡å—ï¼ŒåŒ…å«ä»»åŠ¡åˆ›å»ºã€æ³¨é”€ã€æŽ§åˆ¶ç­‰ä¸€ç³»åˆ—æ“ä½œæŽ¥å£ã€‚
+*              å†…éƒ¨ä¼šå¯åŠ¨ä¸€ä¸ªç›‘æµ‹ä»»åŠ¡ï¼Œç›‘æµ‹å…¶ä»–ä»»åŠ¡æ˜¯å¦è¶…æ—¶ï¼Œè¶…æ—¶åˆ™æ‰“å°å‡ºè¶…æ—¶
+*              æ—¶é—´å€¼ã€‚ä»»åŠ¡åˆ›å»ºå¹¶æˆåŠŸè¿è¡ŒåŽï¼Œé»˜è®¤è¢«åŠ å…¥åˆ°è¢«ç›‘æµ‹é“¾è¡¨ä¸­ã€‚
 *
-*       1. Ó²¼þËµÃ÷¡£
-*          ÎÞ¡£
+*       1. ç¡¬ä»¶è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
-*       2. ³ÌÐò½á¹¹ËµÃ÷¡£
-*          ÎÞ¡£
+*       2. ç¨‹åºç»“æž„è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
-*       3. Ê¹ÓÃËµÃ÷¡£
-*          Ò»°ãÆô¶¯ÈÎÎñÊ±£¬Ï£ÍûÄÜ¿ØÖÆÈÎÎñÆô¶¯µÄÊ±»ú£¬ÈçÏ£ÍûËùÓÐÈÎÎñÆô¶¯²¢³õÊ¼»¯
-*          ¸÷×ÔµÄÄ£¿éºó£¬ÔÙÕæÕý¿ªÊ¼¸÷ÈÎÎñµÄ×ÔÐÐÑ­»·Ö´ÐÐ£¬ËùÒÔ±¾Ä£¿éÌá¹©ÁË´ËÀà½Ó¿Ú£¬
-*          ÊÇ´´½¨²ÎÊýOSA_TskCreateÖÐµÄOSA_TskOpsºÍOSA_TskCreateFlag£¬ÕâÁ½¸ö½á¹¹Ìå
-*          ÖÐµÄ³ÉÔ±¿É¿ØÖÆÈÎÎñµÄ´´½¨¹ý³Ì£¬ÏêÏ¸Çë²Î¼û¸÷³ÉÔ±ËµÃ÷¡£Ò»µ©ÉèÖÃÁË
-*          OSA_TskCreateFlagµÄÄ³¸ö±êÖ¾£¬Ôò±ØÐëÔÚÈÎÎñ´´½¨ºó£¬µ÷ÓÃÏàÓ¦µÄÃüÁî½Ó¿Ú£¬
-*          ÐÎÊ½ÊÇOSA_tskCmdxxx()£¬·ñÔòÈÎÎñ²»»áÕæÕýÖ´ÐÐÏÂÈ¥£¬¶øÊÇÒ»Ö±ÔÚµÈ´ý¸ÃÃüÁî¡£
+*       3. ä½¿ç”¨è¯´æ˜Žã€‚
+*          ä¸€èˆ¬å¯åŠ¨ä»»åŠ¡æ—¶ï¼Œå¸Œæœ›èƒ½æŽ§åˆ¶ä»»åŠ¡å¯åŠ¨çš„æ—¶æœºï¼Œå¦‚å¸Œæœ›æ‰€æœ‰ä»»åŠ¡å¯åŠ¨å¹¶åˆå§‹åŒ–
+*          å„è‡ªçš„æ¨¡å—åŽï¼Œå†çœŸæ­£å¼€å§‹å„ä»»åŠ¡çš„è‡ªè¡Œå¾ªçŽ¯æ‰§è¡Œï¼Œæ‰€ä»¥æœ¬æ¨¡å—æä¾›äº†æ­¤ç±»æŽ¥å£ï¼Œ
+*          æ˜¯åˆ›å»ºå‚æ•°OSA_TskCreateä¸­çš„OSA_TskOpså’ŒOSA_TskCreateFlagï¼Œè¿™ä¸¤ä¸ªç»“æž„ä½“
+*          ä¸­çš„æˆå‘˜å¯æŽ§åˆ¶ä»»åŠ¡çš„åˆ›å»ºè¿‡ç¨‹ï¼Œè¯¦ç»†è¯·å‚è§å„æˆå‘˜è¯´æ˜Žã€‚ä¸€æ—¦è®¾ç½®äº†
+*          OSA_TskCreateFlagçš„æŸä¸ªæ ‡å¿—ï¼Œåˆ™å¿…é¡»åœ¨ä»»åŠ¡åˆ›å»ºåŽï¼Œè°ƒç”¨ç›¸åº”çš„å‘½ä»¤æŽ¥å£ï¼Œ
+*          å½¢å¼æ˜¯OSA_tskCmdxxx()ï¼Œå¦åˆ™ä»»åŠ¡ä¸ä¼šçœŸæ­£æ‰§è¡Œä¸‹åŽ»ï¼Œè€Œæ˜¯ä¸€ç›´åœ¨ç­‰å¾…è¯¥å‘½ä»¤ã€‚
 *
-*          1) ÈÎÎñ´´½¨ºÍÆô¶¯Ê±½Ó¿Úµ÷ÓÃÁ÷³ÌÈçÏÂ:
+*          1) ä»»åŠ¡åˆ›å»ºå’Œå¯åŠ¨æ—¶æŽ¥å£è°ƒç”¨æµç¨‹å¦‚ä¸‹:
 *           ==========================
 *              OSA_tskCreate()
 *                    |
@@ -37,17 +37,17 @@
 *                   \|/
 *                   Run
 *           ===========================
-*          2) Ïú»ÙÈÎÎñ£¬µ÷ÓÃ½Ó¿ÚOSA_tskDelete()¡£
-*          3) ·¢ËÍ»ò¹ã²¥ÏûÏ¢£¬·Ö±ðµ÷ÓÃOSA_tskSendMsg()ºÍOSA_tskBroadcastMsg()¡£
-*          4) ÔÝÍ£ºÍÖØÐÂÆô¶¯ÈÎÎñ£¬·Ö±ðµ÷ÓÃOSA_tskStop()ºÍOSA_tskStart()¡£
-*          5) ´òÓ¡Ö¸¶¨ÈÎÎñºóÈ«²¿ÈÎÎñÍ³¼ÆÖµ£¬·Ö±ðµ÷ÓÃOSA_tskPrintStat()ºÍ
-*             OSA_tskPrintAllStat()¡£
+*          2) é”€æ¯ä»»åŠ¡ï¼Œè°ƒç”¨æŽ¥å£OSA_tskDelete()ã€‚
+*          3) å‘é€æˆ–å¹¿æ’­æ¶ˆæ¯ï¼Œåˆ†åˆ«è°ƒç”¨OSA_tskSendMsg()å’ŒOSA_tskBroadcastMsg()ã€‚
+*          4) æš‚åœå’Œé‡æ–°å¯åŠ¨ä»»åŠ¡ï¼Œåˆ†åˆ«è°ƒç”¨OSA_tskStop()å’ŒOSA_tskStart()ã€‚
+*          5) æ‰“å°æŒ‡å®šä»»åŠ¡åŽå…¨éƒ¨ä»»åŠ¡ç»Ÿè®¡å€¼ï¼Œåˆ†åˆ«è°ƒç”¨OSA_tskPrintStat()å’Œ
+*             OSA_tskPrintAllStat()ã€‚
 *
-*       4. ¾ÖÏÞÐÔËµÃ÷¡£
-*          ÓÃ»§µÄÃüÁîcmd×î¸ßÎ»²»ÄÜÊÇ1£¬Ò²¾ÍÊÇ²»ÄÜÊÇ0x8XXX£¬´ËÀàÃüÁîÄÚ²¿Ê¹ÓÃ¡£
+*       4. å±€é™æ€§è¯´æ˜Žã€‚
+*          ç”¨æˆ·çš„å‘½ä»¤cmdæœ€é«˜ä½ä¸èƒ½æ˜¯1ï¼Œä¹Ÿå°±æ˜¯ä¸èƒ½æ˜¯0x8XXXï¼Œæ­¤ç±»å‘½ä»¤å†…éƒ¨ä½¿ç”¨ã€‚
 *
-*       5. ÆäËûËµÃ÷¡£
-*          ÎÞ¡£
+*       5. å…¶ä»–è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
 * Modification:
 *    Date    :
@@ -65,10 +65,10 @@ extern "C" {
 #endif
 
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
-/* ÈÎÎñ¾ä±ú */
+/* ä»»åŠ¡å¥æŸ„ */
 typedef Handle OSA_TskHandle;
 
 
@@ -77,42 +77,42 @@ typedef enum
     OSA_TSK_FLAG_NONE     =  0x00,
 
     /*
-      ¸Ã±êÖ¾ÉèÖÃºó£¬Ò»¶¨Òª×¢²áOpTskCreate()»Øµ÷º¯Êý£¬²¢µ÷ÓÃ
-      OSA_tskCmdCreate()º¯Êý¡£Ã»ÓÐÉèÖÃ£¬ÔòÎÞÐèµ÷ÓÃ¡£
+      è¯¥æ ‡å¿—è®¾ç½®åŽï¼Œä¸€å®šè¦æ³¨å†ŒOpTskCreate()å›žè°ƒå‡½æ•°ï¼Œå¹¶è°ƒç”¨
+      OSA_tskCmdCreate()å‡½æ•°ã€‚æ²¡æœ‰è®¾ç½®ï¼Œåˆ™æ— éœ€è°ƒç”¨ã€‚
      */
     OSA_TSK_FLAG_CREATE   =  0x01,
 
     /*
-      ¸Ã±êÖ¾ÉèÖÃºó£¬Ò»¶¨Òª×¢²áOpTskStart()»Øµ÷º¯Êý£¬²¢µ÷ÓÃ
-      OSA_tskCmdStart()º¯Êý¡£Ã»ÓÐÉèÖÃ£¬ÔòÎÞÐèµ÷ÓÃ¡£
+      è¯¥æ ‡å¿—è®¾ç½®åŽï¼Œä¸€å®šè¦æ³¨å†ŒOpTskStart()å›žè°ƒå‡½æ•°ï¼Œå¹¶è°ƒç”¨
+      OSA_tskCmdStart()å‡½æ•°ã€‚æ²¡æœ‰è®¾ç½®ï¼Œåˆ™æ— éœ€è°ƒç”¨ã€‚
      */
     OSA_TSK_FLAG_START    =  0x02,
 } OSA_TskCreateFlag;
 
 
 /* ========================================================================== */
-/*                          Êý¾Ý½á¹¹¶¨ÒåÇø                                    */
+/*                          æ•°æ®ç»“æž„å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
-/* ÈÎÎñÏà¹ØµÄ²Ù×÷º¯Êý */
+/* ä»»åŠ¡ç›¸å…³çš„æ“ä½œå‡½æ•° */
 typedef struct
 {
     /*
-       ÒÔÏÂÁ½¸ö»Øµ÷º¯ÊýÊÇÔÚÈÎÎñ´´½¨Ê±±»µ÷ÓÃ£¬Á½ÕßÍ¬Ê±´æÔÚÊ±£¬
-       ÏÈµ÷ÓÃOpTskCreateÔÙµ÷ÓÃOpTskStart¡£Í¨¹ýOSA_TskCreate.createFlags
-       Ö¸Ê¾ÊÇ·ñµ÷ÓÃÕâÁ½¸öº¯Êý£¬Ò»µ©Ö¸¶¨ÁË£¬Èç¹ûº¯ÊýÖ¸ÕëÎÞÐ§£¬Ôò»á¾¯¸æ¡£
-       ÕâÈý¸ö»Øµ÷º¯ÊýµÄÄ¿µÄÊÇ·½±ãÓÃ»§¿ØÖÆÆäÄ£¿éµÄ³õÊ¼»¯¡¢Ïú»ÙºÍÆô¶¯¡£
+       ä»¥ä¸‹ä¸¤ä¸ªå›žè°ƒå‡½æ•°æ˜¯åœ¨ä»»åŠ¡åˆ›å»ºæ—¶è¢«è°ƒç”¨ï¼Œä¸¤è€…åŒæ—¶å­˜åœ¨æ—¶ï¼Œ
+       å…ˆè°ƒç”¨OpTskCreateå†è°ƒç”¨OpTskStartã€‚é€šè¿‡OSA_TskCreate.createFlags
+       æŒ‡ç¤ºæ˜¯å¦è°ƒç”¨è¿™ä¸¤ä¸ªå‡½æ•°ï¼Œä¸€æ—¦æŒ‡å®šäº†ï¼Œå¦‚æžœå‡½æ•°æŒ‡é’ˆæ— æ•ˆï¼Œåˆ™ä¼šè­¦å‘Šã€‚
+       è¿™ä¸‰ä¸ªå›žè°ƒå‡½æ•°çš„ç›®çš„æ˜¯æ–¹ä¾¿ç”¨æˆ·æŽ§åˆ¶å…¶æ¨¡å—çš„åˆå§‹åŒ–ã€é”€æ¯å’Œå¯åŠ¨ã€‚
      */
     Int32 (*OpTskCreate)(Ptr pUsrArgs);
     Int32 (*OpTskStart)(Ptr pUsrArgs);
 
-    /* ´Ë»Øµ÷º¯ÊýÔÚÉ¾³ýTaskÊ±±»µ÷ÓÃ¡£*/
+    /* æ­¤å›žè°ƒå‡½æ•°åœ¨åˆ é™¤Taskæ—¶è¢«è°ƒç”¨ã€‚*/
     Int32 (*OpTskDelete)(Ptr pUsrArgs);
 
     /*
-      ÈÎÎñµÄÔËÐÐ»Øµ÷º¯Êý£¬Çë²»ÒªÔÚ¸Ãº¯ÊýÖÐÖ÷¶¯ÐÝÃß£¬¿ÉÔÚ´´½¨ÔËÐÐÈÎÎñÊÇÖ¸¶¨
-      ÐÝÃßÊ±¼ä¡£pCmdPrmsÊÇcmdÃüÁîÏà¹ØµÄÊý¾Ý£¬ÓÐ¿ÉÄÜÎªNULL£¬Ê¹ÓÃÇ°Ò»¶¨Òª¼ì²é
-      ÓÐÐ§ÐÔ¡£pUsrArgsÊÇÓÃ»§×¢²áÊ±Ìá¹©µÄË½ÓÐÊý¾Ý¡£
+      ä»»åŠ¡çš„è¿è¡Œå›žè°ƒå‡½æ•°ï¼Œè¯·ä¸è¦åœ¨è¯¥å‡½æ•°ä¸­ä¸»åŠ¨ä¼‘çœ ï¼Œå¯åœ¨åˆ›å»ºè¿è¡Œä»»åŠ¡æ˜¯æŒ‡å®š
+      ä¼‘çœ æ—¶é—´ã€‚pCmdPrmsæ˜¯cmdå‘½ä»¤ç›¸å…³çš„æ•°æ®ï¼Œæœ‰å¯èƒ½ä¸ºNULLï¼Œä½¿ç”¨å‰ä¸€å®šè¦æ£€æŸ¥
+      æœ‰æ•ˆæ€§ã€‚pUsrArgsæ˜¯ç”¨æˆ·æ³¨å†Œæ—¶æä¾›çš„ç§æœ‰æ•°æ®ã€‚
     */
     Int32 (*OpTskRun)(Uint32 cmd,
                       Ptr    pCmdPrms,
@@ -123,54 +123,54 @@ typedef struct
 
 
 
-/* ³öÏÖÈÎÎñÔËÐÐ³¬Ê±ºóµÄ´¦Àíº¯Êý£¬ÓÉÓÃ»§Ìá¹©¡£*/
+/* å‡ºçŽ°ä»»åŠ¡è¿è¡Œè¶…æ—¶åŽçš„å¤„ç†å‡½æ•°ï¼Œç”±ç”¨æˆ·æä¾›ã€‚*/
 typedef Int32 (*OSA_TskTimeOutAck)(Ptr pUsrArgs);
 
 
-/* TaskÊôÐÔ */
+/* Taskå±žæ€§ */
 typedef struct
 {
-    OSA_ThrAttr     thrAttr;     /* Ïß³ÌÊôÐÔ */
-    Uint64          reserved[8]; /* ±£Áô×Ö¶Î */
+    OSA_ThrAttr     thrAttr;     /* çº¿ç¨‹å±žæ€§ */
+    Uint64          reserved[8]; /* ä¿ç•™å­—æ®µ */
 } OSA_TskAttr;
 
 
-/* ÈÎÎñ´´½¨Ê±Ö¸¶¨µÄ²ÎÊý¡£*/
+/* ä»»åŠ¡åˆ›å»ºæ—¶æŒ‡å®šçš„å‚æ•°ã€‚*/
 typedef struct
 {
-    const Char *pName; /* ÈÎÎñÃû×Ö */
+    const Char *pName; /* ä»»åŠ¡åå­— */
 
-    OSA_TskOps  tskOps; /* ÈÎÎñ»Øµ÷½Ó¿Ú */
+    OSA_TskOps  tskOps; /* ä»»åŠ¡å›žè°ƒæŽ¥å£ */
 
-    Uint32      tskPol;     /* ÈÎÎñµ÷¶È²ßÂÔ£¬Æä¶¨Òå¼ûOSA_thrSchedPolicy */
-    Uint32      tskPri;     /* ÈÎÎñµ÷¶ÈÓÅÏÈ¼¶ */
+    Uint32      tskPol;     /* ä»»åŠ¡è°ƒåº¦ç­–ç•¥ï¼Œå…¶å®šä¹‰è§OSA_thrSchedPolicy */
+    Uint32      tskPri;     /* ä»»åŠ¡è°ƒåº¦ä¼˜å…ˆçº§ */
 
     /*
-    Õ»´óÐ¡£¬OSA_THR_STACK_SIZE_DEFAULT±íÊ¾Ä¬ÈÏÕ»´óÐ¡£¬Èç¹ûÎªÄ¬ÈÏ´óÐ¡£¬
-    ÔòpStackAddr²»Æð×÷ÓÃ
+    æ ˆå¤§å°ï¼ŒOSA_THR_STACK_SIZE_DEFAULTè¡¨ç¤ºé»˜è®¤æ ˆå¤§å°ï¼Œå¦‚æžœä¸ºé»˜è®¤å¤§å°ï¼Œ
+    åˆ™pStackAddrä¸èµ·ä½œç”¨
     */
     Uint32      stackSize;
 
-    Uint32      nMsgNum;    /* ÈÎÎñÏûÏ¢¶ÓÁÐÖÐÏûÏ¢ÊýÁ¿ */
+    Uint32      nMsgNum;    /* ä»»åŠ¡æ¶ˆæ¯é˜Ÿåˆ—ä¸­æ¶ˆæ¯æ•°é‡ */
 
-    /* ÈÎÎñÐÝÃßÊ±¼ä¡£ÒÔmsÎªµ¥Î»£¬ OSA_TIMEOUT_NONE±íÊ¾²»ÐÝÃß¡£*/
+    /* ä»»åŠ¡ä¼‘çœ æ—¶é—´ã€‚ä»¥msä¸ºå•ä½ï¼Œ OSA_TIMEOUT_NONEè¡¨ç¤ºä¸ä¼‘çœ ã€‚*/
     Uint32      nTimeSleep;
 
     /*
-      ÈÎÎñ³¬Ê±Ê±¼ä£¬±íÊ¾Ò»¸öÈÎÎñ¶à¾ÃÃ»ÓÐÔËÐÐ¾Í±íÃ÷Òì³££¬Ò»µ©³¬Ê±¼ì²âÈÎÎñ½«»á±¨¾¯¡£
-      ÒÔmsÎªµ¥Î»£¬ OSA_TIMEOUT_FOREVER±íÊ¾ÓÀ²»³¬Ê±¡£
+      ä»»åŠ¡è¶…æ—¶æ—¶é—´ï¼Œè¡¨ç¤ºä¸€ä¸ªä»»åŠ¡å¤šä¹…æ²¡æœ‰è¿è¡Œå°±è¡¨æ˜Žå¼‚å¸¸ï¼Œä¸€æ—¦è¶…æ—¶æ£€æµ‹ä»»åŠ¡å°†ä¼šæŠ¥è­¦ã€‚
+      ä»¥msä¸ºå•ä½ï¼Œ OSA_TIMEOUT_FOREVERè¡¨ç¤ºæ°¸ä¸è¶…æ—¶ã€‚
     */
     Uint32      nTimeOut;
 
-    /* ÈÎÎñ³¬Ê±ºóµÄÏìÓ¦º¯Êý */
+    /* ä»»åŠ¡è¶…æ—¶åŽçš„å“åº”å‡½æ•° */
     OSA_TskTimeOutAck OpTimeOutAck;
 
-    /* ¿ØÖÆÈÎÎñÆô¶¯¹ý³ÌµÄ±êÖ¾£¬Æä¶¨Òå¼ûOSA_TskCreateFlag¡£*/
+    /* æŽ§åˆ¶ä»»åŠ¡å¯åŠ¨è¿‡ç¨‹çš„æ ‡å¿—ï¼Œå…¶å®šä¹‰è§OSA_TskCreateFlagã€‚*/
     Uint32      createFlags;
 
-    Ptr         pUsrArgs;   /* ÓÃ»§×Ô¶¨Òå²ÎÊý */
+    Ptr         pUsrArgs;   /* ç”¨æˆ·è‡ªå®šä¹‰å‚æ•° */
 
-    Ptr         pStackAddr; /* Õ»ÆðÊ¼µØÖ·£¬LinuxÄÚºËÌ¬ÖÐÎÞÐ§£¬²»Ê¹ÓÃÊ±ÇëÉèÎªNULL¡£*/
+    Ptr         pStackAddr; /* æ ˆèµ·å§‹åœ°å€ï¼ŒLinuxå†…æ ¸æ€ä¸­æ— æ•ˆï¼Œä¸ä½¿ç”¨æ—¶è¯·è®¾ä¸ºNULLã€‚*/
 
     Ptr_t(OSA_TskAttr, pAttr);
 
@@ -179,21 +179,21 @@ typedef struct
 
 
 /* ========================================================================== */
-/*                          º¯ÊýÉùÃ÷Çø                                        */
+/*                          å‡½æ•°å£°æ˜ŽåŒº                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskSendMsg
-* Ãè  Êö  : ÏòÖ¸¶¨µÄÈÎÎñ·¢ÏûÏ¢¡£
-* Êä  Èë  : - hTskTo  : Ä¿µÄÈÎÎñ¾ä±ú¡£
-*         : - hTskFrom: Ô´ÈÎÎñ¾ä±ú¡£
-*         : - cmd     : ÃüÁîÖµ¡£×î¸ß1Î»²»ÄÜÊ¹ÓÃ£¬ÄÚ²¿Ê¹ÓÃ¡£
-*         : - flags   : ÏûÏ¢µÄ±êÖ¾£¬±íÃ÷¸ÃÏûÏ¢µÄÒ»Ð©ÊôÐÔ£¬¶¨ÒåÇë²é¿´
-*                       OSA_MbxMsgFlags¡£
-*         : - pPrm    : ÃüÁî°éËæµÄ²ÎÊý
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskSendMsg
+* æ  è¿°  : å‘æŒ‡å®šçš„ä»»åŠ¡å‘æ¶ˆæ¯ã€‚
+* è¾“  å…¥  : - hTskTo  : ç›®çš„ä»»åŠ¡å¥æŸ„ã€‚
+*         : - hTskFrom: æºä»»åŠ¡å¥æŸ„ã€‚
+*         : - cmd     : å‘½ä»¤å€¼ã€‚æœ€é«˜1ä½ä¸èƒ½ä½¿ç”¨ï¼Œå†…éƒ¨ä½¿ç”¨ã€‚
+*         : - flags   : æ¶ˆæ¯çš„æ ‡å¿—ï¼Œè¡¨æ˜Žè¯¥æ¶ˆæ¯çš„ä¸€äº›å±žæ€§ï¼Œå®šä¹‰è¯·æŸ¥çœ‹
+*                       OSA_MbxMsgFlagsã€‚
+*         : - pPrm    : å‘½ä»¤ä¼´éšçš„å‚æ•°
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskSendMsg(OSA_TskHandle hTskTo,
                       OSA_TskHandle hTskFrom,
@@ -202,17 +202,17 @@ Int32 OSA_tskSendMsg(OSA_TskHandle hTskTo,
                       Ptr pPrm);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskBroadcastMsg
-* Ãè  Êö  : ÏòÖ¸¶¨ÊýÁ¿µÄÈÎÎñ¹ã²¥ÏûÏ¢¡£
-* Êä  Èë  : - phTskToList  : Ä¿µÄÈÎÎñ¾ä±úÊý×é£¬ÒÔNULL½áÎ²¡£
-*         : - hTskFrom     : Ô´ÈÎÎñ¾ä±ú¡£
-*         : - cmd          : ÃüÁîÖµ¡£×î¸ß1Î»²»ÄÜÊ¹ÓÃ£¬ÄÚ²¿Ê¹ÓÃ¡£
-*         : - flags        : ÏûÏ¢µÄ±êÖ¾£¬±íÃ÷¸ÃÏûÏ¢µÄÒ»Ð©ÊôÐÔ£¬¶¨ÒåÇë²é¿´
-*                            OSA_MbxMsgFlags¡£
-*         : - pPrm         : ÃüÁî°éËæµÄ²ÎÊý
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskBroadcastMsg
+* æ  è¿°  : å‘æŒ‡å®šæ•°é‡çš„ä»»åŠ¡å¹¿æ’­æ¶ˆæ¯ã€‚
+* è¾“  å…¥  : - phTskToList  : ç›®çš„ä»»åŠ¡å¥æŸ„æ•°ç»„ï¼Œä»¥NULLç»“å°¾ã€‚
+*         : - hTskFrom     : æºä»»åŠ¡å¥æŸ„ã€‚
+*         : - cmd          : å‘½ä»¤å€¼ã€‚æœ€é«˜1ä½ä¸èƒ½ä½¿ç”¨ï¼Œå†…éƒ¨ä½¿ç”¨ã€‚
+*         : - flags        : æ¶ˆæ¯çš„æ ‡å¿—ï¼Œè¡¨æ˜Žè¯¥æ¶ˆæ¯çš„ä¸€äº›å±žæ€§ï¼Œå®šä¹‰è¯·æŸ¥çœ‹
+*                            OSA_MbxMsgFlagsã€‚
+*         : - pPrm         : å‘½ä»¤ä¼´éšçš„å‚æ•°
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskBroadcastMsg(OSA_TskHandle *phTskToList,
                            OSA_TskHandle  hTskFrom,
@@ -221,117 +221,117 @@ Int32 OSA_tskBroadcastMsg(OSA_TskHandle *phTskToList,
                            Ptr pPrm);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskFlushMsg
-* Ãè  Êö  : Çå³ýÖ¸¶¨ÈÎÎñÒÑ¾­½ÓÊÕµ½µÄËùÓÐÏûÏ¢¡£
-* Êä  Èë  : - hTsk   : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskFlushMsg
+* æ  è¿°  : æ¸…é™¤æŒ‡å®šä»»åŠ¡å·²ç»æŽ¥æ”¶åˆ°çš„æ‰€æœ‰æ¶ˆæ¯ã€‚
+* è¾“  å…¥  : - hTsk   : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskFlushMsg(OSA_TskHandle hTsk);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskStartMon
-* Ãè  Êö  : Æô¶¯¼à²âÖ¸¶¨µÄÈÎÎñ£¬Ö÷ÒªÊÇ¼à²âÈÎÎñÊÇ·ñ³¬Ê±¡£
-* Êä  Èë  : - hTsk   : ½«Òª±»¼à²âµÄÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskStartMon
+* æ  è¿°  : å¯åŠ¨ç›‘æµ‹æŒ‡å®šçš„ä»»åŠ¡ï¼Œä¸»è¦æ˜¯ç›‘æµ‹ä»»åŠ¡æ˜¯å¦è¶…æ—¶ã€‚
+* è¾“  å…¥  : - hTsk   : å°†è¦è¢«ç›‘æµ‹çš„ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskStartMon(OSA_TskHandle hTsk);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskStopMon
-* Ãè  Êö  : Í£Ö¹¼à²âÖ¸¶¨µÄÈÎÎñ¡£
-* Êä  Èë  : - hTsk   : ½«Òª±»¼à²âµÄÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskStopMon
+* æ  è¿°  : åœæ­¢ç›‘æµ‹æŒ‡å®šçš„ä»»åŠ¡ã€‚
+* è¾“  å…¥  : - hTsk   : å°†è¦è¢«ç›‘æµ‹çš„ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskStopMon(OSA_TskHandle hTsk);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskCmdCreate
-* Ãè  Êö  : ÏòÈÎÎñ·¢ËÍ´´½¨ÃüÁî£¬»áµ÷ÓÃÓÃ»§×¢²áµÄOpTskCreate()»Øµ÷º¯Êý¡£
-* Êä  Èë  : - hTsk   : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskCmdCreate
+* æ  è¿°  : å‘ä»»åŠ¡å‘é€åˆ›å»ºå‘½ä»¤ï¼Œä¼šè°ƒç”¨ç”¨æˆ·æ³¨å†Œçš„OpTskCreate()å›žè°ƒå‡½æ•°ã€‚
+* è¾“  å…¥  : - hTsk   : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskCmdCreate(OSA_TskHandle hTsk);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskCmdStart
-* Ãè  Êö  : ÏòÈÎÎñ·¢ËÍÆô¶¯ÃüÁî£¬»áµ÷ÓÃÓÃ»§×¢²áµÄOpTskStart()»Øµ÷º¯Êý¡£
-* Êä  Èë  : - hTsk   : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskCmdStart
+* æ  è¿°  : å‘ä»»åŠ¡å‘é€å¯åŠ¨å‘½ä»¤ï¼Œä¼šè°ƒç”¨ç”¨æˆ·æ³¨å†Œçš„OpTskStart()å›žè°ƒå‡½æ•°ã€‚
+* è¾“  å…¥  : - hTsk   : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskCmdStart(OSA_TskHandle hTsk);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskStop
-* Ãè  Êö  : ÔÝÍ£ÈÎÎñ¡£ÔÚµÈ´ýÈÎÎñÍ£Ö¹ÆÚ¼ä»áÐÝÃß¡£ÒªÓëOSA_tskStart()½Ó¿Ú³É¶ÔÊ¹ÓÃ¡£
-* Êä  Èë  : - hTsk   : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskStop
+* æ  è¿°  : æš‚åœä»»åŠ¡ã€‚åœ¨ç­‰å¾…ä»»åŠ¡åœæ­¢æœŸé—´ä¼šä¼‘çœ ã€‚è¦ä¸ŽOSA_tskStart()æŽ¥å£æˆå¯¹ä½¿ç”¨ã€‚
+* è¾“  å…¥  : - hTsk   : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskStop(OSA_TskHandle hTsk);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskStart
-* Ãè  Êö  : ÖØÐÂÆô¶¯ÈÎÎñ¡£ÒªÓëOSA_tskStop()½Ó¿Ú³É¶ÔÊ¹ÓÃ£¬ÏÈµ÷ÓÃËü£¬È»ºóµ÷ÓÃ±¾½Ó¿Ú¡£
-* Êä  Èë  : - hTsk  : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskStart
+* æ  è¿°  : é‡æ–°å¯åŠ¨ä»»åŠ¡ã€‚è¦ä¸ŽOSA_tskStop()æŽ¥å£æˆå¯¹ä½¿ç”¨ï¼Œå…ˆè°ƒç”¨å®ƒï¼Œç„¶åŽè°ƒç”¨æœ¬æŽ¥å£ã€‚
+* è¾“  å…¥  : - hTsk  : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskStart(OSA_TskHandle hTsk);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskCreate
-* Ãè  Êö  : ´´½¨ÈÎÎñ¡£
-* Êä  Èë  : - pCreate : ´´½¨²ÎÊý£¬²»ÄÜÎªNULL¡£
-* Êä  ³ö  : - phTsk   : ÈÎÎñ¾ä±úÖ¸Õë£¬Êä³ö¸øµ÷ÓÃÕßÊ¹ÓÃ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskCreate
+* æ  è¿°  : åˆ›å»ºä»»åŠ¡ã€‚
+* è¾“  å…¥  : - pCreate : åˆ›å»ºå‚æ•°ï¼Œä¸èƒ½ä¸ºNULLã€‚
+* è¾“  å‡º  : - phTsk   : ä»»åŠ¡å¥æŸ„æŒ‡é’ˆï¼Œè¾“å‡ºç»™è°ƒç”¨è€…ä½¿ç”¨ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskCreate(OSA_TskCreate *pCreate,
                      OSA_TskHandle *phTsk);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskCreate
-* Ãè  Êö  : Ïú»ÙÈÎÎñ¡£
-* Êä  Èë  : - hTsk : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskCreate
+* æ  è¿°  : é”€æ¯ä»»åŠ¡ã€‚
+* è¾“  å…¥  : - hTsk : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskDelete(OSA_TskHandle hTsk);
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskPrintStat
-* Ãè  Êö  : ´òÓ¡Ö¸¶¨TaskµÄÍ³¼ÆÊý¾Ý¡£
-* Êä  Èë  : - hTsk  : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK: ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskPrintStat
+* æ  è¿°  : æ‰“å°æŒ‡å®šTaskçš„ç»Ÿè®¡æ•°æ®ã€‚
+* è¾“  å…¥  : - hTsk  : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK: æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskPrintStat(OSA_TskHandle hTsk);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskPrintAllStat
-* Ãè  Êö  : ´òÓ¡ËùÓÐTaskµÄÍ³¼ÆÊý¾Ý¡£
-* Êä  Èë  : - hTsk  : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskPrintAllStat
+* æ  è¿°  : æ‰“å°æ‰€æœ‰Taskçš„ç»Ÿè®¡æ•°æ®ã€‚
+* è¾“  å…¥  : - hTsk  : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskPrintAllStat(void);
 

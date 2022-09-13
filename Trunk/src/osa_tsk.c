@@ -6,25 +6,25 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2010-8-31 Create
 *
-* Description: OSAµÄÈÎÎñTaskÄ£¿é£¬°üº¬ÈÎÎñ´´½¨¡¢×¢Ïú¡¢¿ØÖÆµÈÒ»ÏµÁÐ²Ù×÷½Ó¿Ú¡£
-*              ÄÚ²¿»áÆô¶¯Ò»¸ö¼à²âÈÎÎñ£¬¼à²âÆäËûÈÎÎñÊÇ·ñ³¬Ê±£¬³¬Ê±Ôò´òÓ¡³ö³¬Ê±
-*              Ê±¼äÖµ¡£ÈÎÎñ´´½¨²¢³É¹¦ÔËÐÐºó£¬Ä¬ÈÏ±»¼ÓÈëµ½±»¼à²âÁ´±íÖÐ¡£
+* Description: OSAçš„ä»»åŠ¡Taskæ¨¡å—ï¼ŒåŒ…å«ä»»åŠ¡åˆ›å»ºã€æ³¨é”€ã€æŽ§åˆ¶ç­‰ä¸€ç³»åˆ—æ“ä½œæŽ¥å£ã€‚
+*              å†…éƒ¨ä¼šå¯åŠ¨ä¸€ä¸ªç›‘æµ‹ä»»åŠ¡ï¼Œç›‘æµ‹å…¶ä»–ä»»åŠ¡æ˜¯å¦è¶…æ—¶ï¼Œè¶…æ—¶åˆ™æ‰“å°å‡ºè¶…æ—¶
+*              æ—¶é—´å€¼ã€‚ä»»åŠ¡åˆ›å»ºå¹¶æˆåŠŸè¿è¡ŒåŽï¼Œé»˜è®¤è¢«åŠ å…¥åˆ°è¢«ç›‘æµ‹é“¾è¡¨ä¸­ã€‚
 *
-*       1. Ó²¼þËµÃ÷¡£
-*          ÎÞ¡£
+*       1. ç¡¬ä»¶è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
-*       2. ³ÌÐò½á¹¹ËµÃ÷¡£
-*          ÎÞ¡£
+*       2. ç¨‹åºç»“æž„è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
-*       3. Ê¹ÓÃËµÃ÷¡£
-*          Ò»°ãÆô¶¯ÈÎÎñÊ±£¬Ï£ÍûÄÜ¿ØÖÆÈÎÎñÆô¶¯µÄÊ±»ú£¬ÈçÏ£ÍûËùÓÐÈÎÎñÆô¶¯²¢³õÊ¼»¯
-*          ¸÷×ÔµÄÄ£¿éºó£¬ÔÙÕæÕý¿ªÊ¼¸÷ÈÎÎñµÄ×ÔÐÐÑ­»·Ö´ÐÐ£¬ËùÒÔ±¾Ä£¿éÌá¹©ÁË´ËÀà½Ó¿Ú£¬
-*          ÊÇ´´½¨²ÎÊýOSA_TskCreateÖÐµÄOSA_TskOpsºÍOSA_TskCreateFlag£¬ÕâÁ½¸ö½á¹¹Ìå
-*          ÖÐµÄ³ÉÔ±¿É¿ØÖÆÈÎÎñµÄ´´½¨¹ý³Ì£¬ÏêÏ¸Çë²Î¼û¸÷³ÉÔ±ËµÃ÷¡£Ò»µ©ÉèÖÃÁË
-*          OSA_TskCreateFlagµÄÄ³¸ö±êÖ¾£¬Ôò±ØÐëÔÚÈÎÎñ´´½¨ºó£¬µ÷ÓÃÏàÓ¦µÄÃüÁî½Ó¿Ú£¬
-*          ÐÎÊ½ÊÇOSA_tskCmdxxx()£¬·ñÔòÈÎÎñ²»»áÕæÕýÖ´ÐÐÏÂÈ¥£¬¶øÊÇÒ»Ö±ÔÚµÈ´ý¸ÃÃüÁî¡£
+*       3. ä½¿ç”¨è¯´æ˜Žã€‚
+*          ä¸€èˆ¬å¯åŠ¨ä»»åŠ¡æ—¶ï¼Œå¸Œæœ›èƒ½æŽ§åˆ¶ä»»åŠ¡å¯åŠ¨çš„æ—¶æœºï¼Œå¦‚å¸Œæœ›æ‰€æœ‰ä»»åŠ¡å¯åŠ¨å¹¶åˆå§‹åŒ–
+*          å„è‡ªçš„æ¨¡å—åŽï¼Œå†çœŸæ­£å¼€å§‹å„ä»»åŠ¡çš„è‡ªè¡Œå¾ªçŽ¯æ‰§è¡Œï¼Œæ‰€ä»¥æœ¬æ¨¡å—æä¾›äº†æ­¤ç±»æŽ¥å£ï¼Œ
+*          æ˜¯åˆ›å»ºå‚æ•°OSA_TskCreateä¸­çš„OSA_TskOpså’ŒOSA_TskCreateFlagï¼Œè¿™ä¸¤ä¸ªç»“æž„ä½“
+*          ä¸­çš„æˆå‘˜å¯æŽ§åˆ¶ä»»åŠ¡çš„åˆ›å»ºè¿‡ç¨‹ï¼Œè¯¦ç»†è¯·å‚è§å„æˆå‘˜è¯´æ˜Žã€‚ä¸€æ—¦è®¾ç½®äº†
+*          OSA_TskCreateFlagçš„æŸä¸ªæ ‡å¿—ï¼Œåˆ™å¿…é¡»åœ¨ä»»åŠ¡åˆ›å»ºåŽï¼Œè°ƒç”¨ç›¸åº”çš„å‘½ä»¤æŽ¥å£ï¼Œ
+*          å½¢å¼æ˜¯OSA_tskCmdxxx()ï¼Œå¦åˆ™ä»»åŠ¡ä¸ä¼šçœŸæ­£æ‰§è¡Œä¸‹åŽ»ï¼Œè€Œæ˜¯ä¸€ç›´åœ¨ç­‰å¾…è¯¥å‘½ä»¤ã€‚
 *
-*          1) ÈÎÎñ´´½¨ºÍÆô¶¯Ê±½Ó¿Úµ÷ÓÃÁ÷³ÌÈçÏÂ:
+*          1) ä»»åŠ¡åˆ›å»ºå’Œå¯åŠ¨æ—¶æŽ¥å£è°ƒç”¨æµç¨‹å¦‚ä¸‹:
 *           ==========================
 *              OSA_tskCreate()
 *                    |
@@ -37,17 +37,17 @@
 *                   \|/
 *                   Run
 *           ===========================
-*          2) Ïú»ÙÈÎÎñ£¬µ÷ÓÃ½Ó¿ÚOSA_tskDelete()¡£
-*          3) ·¢ËÍ»ò¹ã²¥ÏûÏ¢£¬·Ö±ðµ÷ÓÃOSA_tskSendMsg()ºÍOSA_tskBroadcastMsg()¡£
-*          4) ÔÝÍ£ºÍÖØÐÂÆô¶¯ÈÎÎñ£¬·Ö±ðµ÷ÓÃOSA_tskStop()ºÍOSA_tskStart()¡£
-*          5) ´òÓ¡Ö¸¶¨ÈÎÎñºóÈ«²¿ÈÎÎñÍ³¼ÆÖµ£¬·Ö±ðµ÷ÓÃOSA_tskPrintStat()ºÍ
-*             OSA_tskPrintAllStat()¡£
+*          2) é”€æ¯ä»»åŠ¡ï¼Œè°ƒç”¨æŽ¥å£OSA_tskDelete()ã€‚
+*          3) å‘é€æˆ–å¹¿æ’­æ¶ˆæ¯ï¼Œåˆ†åˆ«è°ƒç”¨OSA_tskSendMsg()å’ŒOSA_tskBroadcastMsg()ã€‚
+*          4) æš‚åœå’Œé‡æ–°å¯åŠ¨ä»»åŠ¡ï¼Œåˆ†åˆ«è°ƒç”¨OSA_tskStop()å’ŒOSA_tskStart()ã€‚
+*          5) æ‰“å°æŒ‡å®šä»»åŠ¡åŽå…¨éƒ¨ä»»åŠ¡ç»Ÿè®¡å€¼ï¼Œåˆ†åˆ«è°ƒç”¨OSA_tskPrintStat()å’Œ
+*             OSA_tskPrintAllStat()ã€‚
 *
-*       4. ¾ÖÏÞÐÔËµÃ÷¡£
-*          ÓÃ»§µÄÃüÁîcmd×î¸ßÎ»²»ÄÜÊÇ1£¬Ò²¾ÍÊÇ²»ÄÜÊÇ0x8XXX£¬´ËÀàÃüÁîÄÚ²¿Ê¹ÓÃ¡£
+*       4. å±€é™æ€§è¯´æ˜Žã€‚
+*          ç”¨æˆ·çš„å‘½ä»¤cmdæœ€é«˜ä½ä¸èƒ½æ˜¯1ï¼Œä¹Ÿå°±æ˜¯ä¸èƒ½æ˜¯0x8XXXï¼Œæ­¤ç±»å‘½ä»¤å†…éƒ¨ä½¿ç”¨ã€‚
 *
-*       5. ÆäËûËµÃ÷¡£
-*          ÎÞ¡£
+*       5. å…¶ä»–è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
 * Modification:
 *    Date    :
@@ -61,57 +61,57 @@
 #include <osa_priv.h>
 
 
-/* ÄÚ²¿Ê¹ÓÃµÄ±ê×¼ÃüÁî£¬ÓÃ»§²»ÄÜÊ¹ÓÃ¡£ÓÃÓÚÊµÏÖ¿ØÖÆÈÎÎñµÄÆô¶¯Ê±»ú¡£*/
+/* å†…éƒ¨ä½¿ç”¨çš„æ ‡å‡†å‘½ä»¤ï¼Œç”¨æˆ·ä¸èƒ½ä½¿ç”¨ã€‚ç”¨äºŽå®žçŽ°æŽ§åˆ¶ä»»åŠ¡çš„å¯åŠ¨æ—¶æœºã€‚*/
 typedef enum
 {
     OSA_TSK_CMD_FLAG   = 0x8000,
-    OSA_TSK_CMD_CREATE = 0x8001,  /* ÈÎÎñ´´½¨ÃüÁî */
-    OSA_TSK_CMD_DELETE = 0x8002,  /* ÈÎÎñÉ¾³ýÃüÁî */
-    OSA_TSK_CMD_START  = 0x8004,  /* ÈÎÎñÆô¶¯ÃüÁî */
+    OSA_TSK_CMD_CREATE = 0x8001,  /* ä»»åŠ¡åˆ›å»ºå‘½ä»¤ */
+    OSA_TSK_CMD_DELETE = 0x8002,  /* ä»»åŠ¡åˆ é™¤å‘½ä»¤ */
+    OSA_TSK_CMD_START  = 0x8004,  /* ä»»åŠ¡å¯åŠ¨å‘½ä»¤ */
 
     OSA_TSK_CMD_MASK   = 0x7fff,
 } OSA_TskCmdFlags;
 
 
-/* Í³¼ÆÐÅÏ¢¶ÔÏó£¬Ã¿¸öÈÎÎñÉú³ÉÒ»¸öÊµÀý¡£*/
+/* ç»Ÿè®¡ä¿¡æ¯å¯¹è±¡ï¼Œæ¯ä¸ªä»»åŠ¡ç”Ÿæˆä¸€ä¸ªå®žä¾‹ã€‚*/
 typedef struct
 {
-    Uint32 curRunTime;      /* Taskµ±Ç°Ñ­»·ÔËÐÐÊ±¼ä       */
-    Uint32 minRunTime;      /* Taskµ¥¸öÑ­»·×îÐ¡ÔËÐÐÊ±¼ä   */
-    Uint32 maxRunTime;      /* Taskµ¥¸öÑ­»·×î´óÔËÐÐÊ±¼ä   */
-    Uint32 totalRunTime;    /* TaskËùÓÐÑ­»·µÄ×Ü¹²ÔËÐÐÊ±¼ä */
-    Uint32 totalRunCnt;     /* TaskÑ­»·´ÎÊý */
+    Uint32 curRunTime;      /* Taskå½“å‰å¾ªçŽ¯è¿è¡Œæ—¶é—´       */
+    Uint32 minRunTime;      /* Taskå•ä¸ªå¾ªçŽ¯æœ€å°è¿è¡Œæ—¶é—´   */
+    Uint32 maxRunTime;      /* Taskå•ä¸ªå¾ªçŽ¯æœ€å¤§è¿è¡Œæ—¶é—´   */
+    Uint32 totalRunTime;    /* Taskæ‰€æœ‰å¾ªçŽ¯çš„æ€»å…±è¿è¡Œæ—¶é—´ */
+    Uint32 totalRunCnt;     /* Taskå¾ªçŽ¯æ¬¡æ•° */
 
-    Uint16 tskPri;  /* TaskÓÅÏÈ¼¶ */
-    Uint16 tskPol;  /* Taskµ÷¶È²ßÂÔ */
-    Int32  tskTid;  /* TaskÏß³ÌºÅ */
-    Int32  tskPid;  /* Task½ø³ÌºÅ */
+    Uint16 tskPri;  /* Taskä¼˜å…ˆçº§ */
+    Uint16 tskPol;  /* Taskè°ƒåº¦ç­–ç•¥ */
+    Int32  tskTid;  /* Taskçº¿ç¨‹å· */
+    Int32  tskPid;  /* Taskè¿›ç¨‹å· */
 } OSA_TskStatObj;
 
 
-/* ÈÎÎñ¹ÜÀí¶ÔÏó£¬Ã¿¸öÈÎÎñÉú³ÉÒ»¸öÊµÀý¡£*/
+/* ä»»åŠ¡ç®¡ç†å¯¹è±¡ï¼Œæ¯ä¸ªä»»åŠ¡ç”Ÿæˆä¸€ä¸ªå®žä¾‹ã€‚*/
 typedef struct
 {
     OSA_ThrHandle  hThr;
 
     OSA_MbxHandle  hMbx;      /* Mailbox handle */
 
-    OSA_MutexHandle hLock;    /* Í£Ö¹TaskÓÃµÄËø */
+    OSA_MutexHandle hLock;    /* åœæ­¢Taskç”¨çš„é” */
 
-    OSA_TskOps     tskOps;    /* ÈÎÎñ¶ÔÓ¦µÄ´¦Àíº¯Êý£¬ÓÉÓÃ»§×¢²á´«Èë¡£*/
+    OSA_TskOps     tskOps;    /* ä»»åŠ¡å¯¹åº”çš„å¤„ç†å‡½æ•°ï¼Œç”±ç”¨æˆ·æ³¨å†Œä¼ å…¥ã€‚*/
 
-    /* ÈÎÎñÐÝÃßÊ±¼ä¡£ÒÔmsÎªµ¥Î»£¬ OSA_TIMEOUT_NONE±íÊ¾²»ÐÝÃß¡£*/
+    /* ä»»åŠ¡ä¼‘çœ æ—¶é—´ã€‚ä»¥msä¸ºå•ä½ï¼Œ OSA_TIMEOUT_NONEè¡¨ç¤ºä¸ä¼‘çœ ã€‚*/
     Uint32         nTimeSleep;
 
-    Ptr            pUsrArgs;  /* ÓÃ»§×Ô¶¨Òå²ÎÊý */
+    Ptr            pUsrArgs;  /* ç”¨æˆ·è‡ªå®šä¹‰å‚æ•° */
 
-    /* ÈÎÎñ´´½¨¿ØÖÆ±êÖ¾£¬Æä¶¨Òå¼ûOSA_TskCreateFlag¡£*/
+    /* ä»»åŠ¡åˆ›å»ºæŽ§åˆ¶æ ‡å¿—ï¼Œå…¶å®šä¹‰è§OSA_TskCreateFlagã€‚*/
     Uint32         createFlags;
 
-    /* ÒÑ¾­Ö´ÐÐµÄÃüÁî±ê¼Ç£¬Æä¶¨Òå¼ûOSA_TskCmdFlags¡£*/
+    /* å·²ç»æ‰§è¡Œçš„å‘½ä»¤æ ‡è®°ï¼Œå…¶å®šä¹‰è§OSA_TskCmdFlagsã€‚*/
     Uint32         cmdFlags;
 
-    OSA_TskStatObj statObj;    /* Í³¼ÆÐÅÏ¢ */
+    OSA_TskStatObj statObj;    /* ç»Ÿè®¡ä¿¡æ¯ */
 
     Int8           name[32];
 
@@ -121,50 +121,50 @@ typedef struct
 } OSA_TskObj;
 
 
-/* ÈÎÎñ¹ÜÀí¶ÔÏóµÄWrapper£¬Ôö¼ÓÁËÈÎÎñ¼à²âÓÃµÄ³ÉÔ±£¬Ã¿¸öÈÎÎñÉú³ÉÒ»¸öÊµÀý¡£*/
+/* ä»»åŠ¡ç®¡ç†å¯¹è±¡çš„Wrapperï¼Œå¢žåŠ äº†ä»»åŠ¡ç›‘æµ‹ç”¨çš„æˆå‘˜ï¼Œæ¯ä¸ªä»»åŠ¡ç”Ÿæˆä¸€ä¸ªå®žä¾‹ã€‚*/
 typedef struct
 {
     /*
-      ÈÎÎñ¶ÔÏó¡£tskObj±ØÐë´æ·ÅÔÚÊ×Î»ÖÃ£¬ÒòÎª³ÌÐòÀï»áÊ¹ÓÃÇ¿ÖÆÀàÐÍ×ª»»£¬
-      »¥ÓÃOSA_TskObjºÍOSA_TskMonObjÁ½ÖÖÀàÐÍµÄÖ¸Õë¡£
+      ä»»åŠ¡å¯¹è±¡ã€‚tskObjå¿…é¡»å­˜æ”¾åœ¨é¦–ä½ç½®ï¼Œå› ä¸ºç¨‹åºé‡Œä¼šä½¿ç”¨å¼ºåˆ¶ç±»åž‹è½¬æ¢ï¼Œ
+      äº’ç”¨OSA_TskObjå’ŒOSA_TskMonObjä¸¤ç§ç±»åž‹çš„æŒ‡é’ˆã€‚
       */
     OSA_TskObj tskObj;
 
-    /* ÈÎÎñ³¬Ê±Ê±¼ä¡£ÒÔmsÎªµ¥Î»£¬ OSA_TIMEOUT_FOREVER±íÊ¾ÓÀ²»³¬Ê±¡£*/
+    /* ä»»åŠ¡è¶…æ—¶æ—¶é—´ã€‚ä»¥msä¸ºå•ä½ï¼Œ OSA_TIMEOUT_FOREVERè¡¨ç¤ºæ°¸ä¸è¶…æ—¶ã€‚*/
     Uint32 nTimeOut;
 
-    /* ÈÎÎñ³¬Ê±ºóµÄÏìÓ¦º¯Êý */
+    /* ä»»åŠ¡è¶…æ—¶åŽçš„å“åº”å‡½æ•° */
     OSA_TskTimeOutAck OpTimeOutAck;
 
-    /* ÈÎÎñÁ´±í¹ÜÀí³ÉÔ±£¬ÓÃÓÚÁ´½ÓÆäËûÈÎÎñ¡£*/
+    /* ä»»åŠ¡é“¾è¡¨ç®¡ç†æˆå‘˜ï¼Œç”¨äºŽé“¾æŽ¥å…¶ä»–ä»»åŠ¡ã€‚*/
     OSA_ListHead tskElem;
 } OSA_TskMonObj;
 
 
-/* Õû¸öosa_tskÄ£¿éµÄ¹ÜÀí¶ÔÏó£¬Õû¸öÄ£¿éÖ»ÓÐÒ»¸öÊµÀý¡£*/
+/* æ•´ä¸ªosa_tskæ¨¡å—çš„ç®¡ç†å¯¹è±¡ï¼Œæ•´ä¸ªæ¨¡å—åªæœ‰ä¸€ä¸ªå®žä¾‹ã€‚*/
 typedef struct
 {
-    /* Ò»µ©ÈÎÎñ´´½¨ºó£¬Ò»¶¨´æÔÚÓÚÒÔÏÂÁ½¸öÁ´±íÖÐµÄÒ»¸öµ±ÖÐ¡£*/
+    /* ä¸€æ—¦ä»»åŠ¡åˆ›å»ºåŽï¼Œä¸€å®šå­˜åœ¨äºŽä»¥ä¸‹ä¸¤ä¸ªé“¾è¡¨ä¸­çš„ä¸€ä¸ªå½“ä¸­ã€‚*/
 
-    /* ´¦ÓÚ±»¼à²â×´Ì¬µÄÈÎÎñÁ´±í */
+    /* å¤„äºŽè¢«ç›‘æµ‹çŠ¶æ€çš„ä»»åŠ¡é“¾è¡¨ */
     OSA_ListHead actvTskList;
-    /* ´¦ÓÚÎ´±»¼à²â×´Ì¬µÄÁ´±í */
+    /* å¤„äºŽæœªè¢«ç›‘æµ‹çŠ¶æ€çš„é“¾è¡¨ */
     OSA_ListHead idleTskList;
 
-    /* ¼à²âÈÎÎñµÄ¾ä±ú£¬Õû¸öÄ£¿éÖ»ÓÐÒ»¸ö¼à²âÈÎÎñ */
+    /* ç›‘æµ‹ä»»åŠ¡çš„å¥æŸ„ï¼Œæ•´ä¸ªæ¨¡å—åªæœ‰ä¸€ä¸ªç›‘æµ‹ä»»åŠ¡ */
     OSA_TskHandle hMonTsk;
 
-    /* ¶àÏß³Ì·ÃÎÊÁ´±íµÄËø */
+    /* å¤šçº¿ç¨‹è®¿é—®é“¾è¡¨çš„é” */
     OSA_MutexHandle hLock;
 
 } OSA_TskModuleObj;
 
 
-/* osa_tskÄ£¿é¹ÜÀí¶ÔÏóµÄÊµÀý */
+/* osa_tskæ¨¡å—ç®¡ç†å¯¹è±¡çš„å®žä¾‹ */
 static OSA_TskModuleObj gTskModObj;
 
 
-/* ¸üÐÂÍ³¼ÆÊ±¼ä */
+/* æ›´æ–°ç»Ÿè®¡æ—¶é—´ */
 static inline void TSK_updateStatTime(OSA_TskStatObj *pStatObj,
                                       Uint32 startTime,
                                       Uint32 endTime)
@@ -173,7 +173,7 @@ static inline void TSK_updateStatTime(OSA_TskStatObj *pStatObj,
 
     OSA_assertNotNull(pStatObj);
 
-    /* ¸üÐÂÔËÐÐÊ±¼ä£¬¿¼ÂÇÁËÒç³öÇé¿ö¡£*/
+    /* æ›´æ–°è¿è¡Œæ—¶é—´ï¼Œè€ƒè™‘äº†æº¢å‡ºæƒ…å†µã€‚*/
     runTime = endTime >= startTime ? endTime - startTime
                   : endTime + ((Uint32)(~0) - startTime);
 
@@ -195,7 +195,7 @@ static inline void TSK_updateStatTime(OSA_TskStatObj *pStatObj,
 }
 
 
-/* ½«ÈÎÎñ·ÅÈë»î¶¯Á´±íÖÐ */
+/* å°†ä»»åŠ¡æ”¾å…¥æ´»åŠ¨é“¾è¡¨ä¸­ */
 static Int32 OSA_tskPutActv(OSA_TskMonObj *pTskMonObj)
 {
     OSA_listAddTail(&pTskMonObj->tskElem, &gTskModObj.actvTskList);
@@ -203,7 +203,7 @@ static Int32 OSA_tskPutActv(OSA_TskMonObj *pTskMonObj)
 }
 
 
-/* ÅÐ¶ÏÈÎÎñÊÇ·ñ´æÔÚ»î¶¯Á´±íÖÐ */
+/* åˆ¤æ–­ä»»åŠ¡æ˜¯å¦å­˜åœ¨æ´»åŠ¨é“¾è¡¨ä¸­ */
 static Bool32 OSA_tskIsInActv(OSA_TskMonObj *pTskMonObj)
 {
 
@@ -228,7 +228,7 @@ static Bool32 OSA_tskIsInActv(OSA_TskMonObj *pTskMonObj)
 }
 
 
-/* ½«ÈÎÎñ·ÅÈë¿ÕÏÐÁ´±íÖÐ */
+/* å°†ä»»åŠ¡æ”¾å…¥ç©ºé—²é“¾è¡¨ä¸­ */
 static Int32 OSA_tskPutIdle(OSA_TskMonObj *pTskMonObj)
 {
     OSA_listAddTail(&pTskMonObj->tskElem, &gTskModObj.idleTskList);
@@ -236,7 +236,7 @@ static Int32 OSA_tskPutIdle(OSA_TskMonObj *pTskMonObj)
 }
 
 
-/* ÅÐ¶ÏÈÎÎñÊÇ·ñ´æÔÚ¿ÕÏÐÁ´±íÖÐ */
+/* åˆ¤æ–­ä»»åŠ¡æ˜¯å¦å­˜åœ¨ç©ºé—²é“¾è¡¨ä¸­ */
 static Bool32 OSA_tskIsInIdle(OSA_TskMonObj *pTskMonObj)
 {
 
@@ -260,7 +260,7 @@ static Bool32 OSA_tskIsInIdle(OSA_TskMonObj *pTskMonObj)
 }
 
 
-/* ´ÓÁ´±íÖÐÉ¾³ýÈÎÎñ */
+/* ä»Žé“¾è¡¨ä¸­åˆ é™¤ä»»åŠ¡ */
 static Int32 OSA_tskDelList(OSA_TskMonObj *pTskMonObj)
 {
     OSA_listDel(&pTskMonObj->tskElem);
@@ -268,7 +268,7 @@ static Int32 OSA_tskDelList(OSA_TskMonObj *pTskMonObj)
 }
 
 
-/* ÉêÇëÈÎÎñ¹ÜÀí¶ÔÏó */
+/* ç”³è¯·ä»»åŠ¡ç®¡ç†å¯¹è±¡ */
 static OSA_TskMonObj *OSA_tskAllocObj(void)
 {
     OSA_TskMonObj *pTskMonObj;
@@ -286,7 +286,7 @@ static OSA_TskMonObj *OSA_tskAllocObj(void)
 }
 
 
-/* ÊÍ·ÅÈÎÎñ¹ÜÀí¶ÔÏó */
+/* é‡Šæ”¾ä»»åŠ¡ç®¡ç†å¯¹è±¡ */
 static void OSA_tskFreeObj(OSA_TskMonObj *pTskMonObj)
 {
     if(OSA_SOK != OSA_memFree(pTskMonObj))
@@ -294,7 +294,7 @@ static void OSA_tskFreeObj(OSA_TskMonObj *pTskMonObj)
 }
 
 
-/* ¼à²âÈÎÎñµÄÖ´ÐÐº¯Êý */
+/* ç›‘æµ‹ä»»åŠ¡çš„æ‰§è¡Œå‡½æ•° */
 static Int32 OSA_tskMonRun(Uint32 cmd,
                            Ptr    pCmdPrms,
                            Ptr    pUsrArgs)
@@ -308,14 +308,14 @@ static Int32 OSA_tskMonRun(Uint32 cmd,
     (void)pCmdPrms;
 
 
-    /* ±éÀúËùÓÐ±»¼à²âµÄÈÎÎñ£¬¼ì²éÊÇ·ñ³¬Ê±¡£*/
+    /* éåŽ†æ‰€æœ‰è¢«ç›‘æµ‹çš„ä»»åŠ¡ï¼Œæ£€æŸ¥æ˜¯å¦è¶…æ—¶ã€‚*/
     OSA_listForEach(pTskList, &pTskModObj->actvTskList)
     {
         pTskMonObj = OSA_listEntry(pTskList, OSA_TskMonObj,
                                    tskElem);
         pTskObj = &pTskMonObj->tskObj;
 
-        /* ¼ì²éÈÎÎñÊÇ·ñ³¬Ê± */
+        /* æ£€æŸ¥ä»»åŠ¡æ˜¯å¦è¶…æ—¶ */
         if (pTskObj->statObj.curRunTime
                       > pTskMonObj->nTimeOut)
         {
@@ -324,7 +324,7 @@ static Int32 OSA_tskMonRun(Uint32 cmd,
                             pTskObj->statObj.curRunTime,
                             pTskMonObj->nTimeOut);
 
-            /* µ÷ÓÃÓÃ»§×¢²áµÄ³¬Ê±´¦Àí½Ó¿Ú£¬ÒÔ±ãÓÃ»§´¦Àí´ËÒì³£Çé¿ö¡£*/
+            /* è°ƒç”¨ç”¨æˆ·æ³¨å†Œçš„è¶…æ—¶å¤„ç†æŽ¥å£ï¼Œä»¥ä¾¿ç”¨æˆ·å¤„ç†æ­¤å¼‚å¸¸æƒ…å†µã€‚*/
             if (OSA_isNotNull(pTskMonObj->OpTimeOutAck))
             {
                 pTskMonObj->OpTimeOutAck(pUsrArgs);
@@ -337,17 +337,17 @@ static Int32 OSA_tskMonRun(Uint32 cmd,
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskSendMsg
-* Ãè  Êö  : ÏòÖ¸¶¨µÄÈÎÎñ·¢ÏûÏ¢¡£
-* Êä  Èë  : - hTskTo  : Ä¿µÄÈÎÎñ¾ä±ú¡£
-*         : - hTskFrom: Ô´ÈÎÎñ¾ä±ú¡£
-*         : - cmd     : ÃüÁîÖµ¡£
-*         : - flags   : ÏûÏ¢µÄ±êÖ¾£¬±íÃ÷¸ÃÏûÏ¢µÄÒ»Ð©ÊôÐÔ£¬¶¨ÒåÇë²é¿´
-*                       OSA_MbxMsgFlags¡£
-*         : - pPrm    : ÃüÁî°éËæµÄ²ÎÊý
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskSendMsg
+* æ  è¿°  : å‘æŒ‡å®šçš„ä»»åŠ¡å‘æ¶ˆæ¯ã€‚
+* è¾“  å…¥  : - hTskTo  : ç›®çš„ä»»åŠ¡å¥æŸ„ã€‚
+*         : - hTskFrom: æºä»»åŠ¡å¥æŸ„ã€‚
+*         : - cmd     : å‘½ä»¤å€¼ã€‚
+*         : - flags   : æ¶ˆæ¯çš„æ ‡å¿—ï¼Œè¡¨æ˜Žè¯¥æ¶ˆæ¯çš„ä¸€äº›å±žæ€§ï¼Œå®šä¹‰è¯·æŸ¥çœ‹
+*                       OSA_MbxMsgFlagsã€‚
+*         : - pPrm    : å‘½ä»¤ä¼´éšçš„å‚æ•°
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskSendMsg(OSA_TskHandle hTskTo,
                      OSA_TskHandle hTskFrom,
@@ -382,17 +382,17 @@ Int32 OSA_tskSendMsg(OSA_TskHandle hTskTo,
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskBroadcastMsg
-* Ãè  Êö  : ÏòÖ¸¶¨ÊýÁ¿µÄÈÎÎñ¹ã²¥ÏûÏ¢¡£
-* Êä  Èë  : - phTskToList  : Ä¿µÄÈÎÎñ¾ä±úÊý×é£¬ÒÔNULL½áÎ²¡£
-*         : - hTskFrom     : Ô´ÈÎÎñ¾ä±ú¡£
-*         : - cmd          : ÃüÁîÖµ¡£
-*         : - flags        : ÏûÏ¢µÄ±êÖ¾£¬±íÃ÷¸ÃÏûÏ¢µÄÒ»Ð©ÊôÐÔ£¬¶¨ÒåÇë²é¿´
-*                            OSA_MbxMsgFlags¡£
-*         : - pPrm         : ÃüÁî°éËæµÄ²ÎÊý
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskBroadcastMsg
+* æ  è¿°  : å‘æŒ‡å®šæ•°é‡çš„ä»»åŠ¡å¹¿æ’­æ¶ˆæ¯ã€‚
+* è¾“  å…¥  : - phTskToList  : ç›®çš„ä»»åŠ¡å¥æŸ„æ•°ç»„ï¼Œä»¥NULLç»“å°¾ã€‚
+*         : - hTskFrom     : æºä»»åŠ¡å¥æŸ„ã€‚
+*         : - cmd          : å‘½ä»¤å€¼ã€‚
+*         : - flags        : æ¶ˆæ¯çš„æ ‡å¿—ï¼Œè¡¨æ˜Žè¯¥æ¶ˆæ¯çš„ä¸€äº›å±žæ€§ï¼Œå®šä¹‰è¯·æŸ¥çœ‹
+*                            OSA_MbxMsgFlagsã€‚
+*         : - pPrm         : å‘½ä»¤ä¼´éšçš„å‚æ•°
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskBroadcastMsg(OSA_TskHandle *phTskToList,
                           OSA_TskHandle  hTskFrom,
@@ -436,7 +436,7 @@ Int32 OSA_tskBroadcastMsg(OSA_TskHandle *phTskToList,
         hMbxToList[numMbx] = pTskObjTo->hMbx;
         numMbx++;
 
-        /* ²»ÄÜ³¬¹ý×î´óÓÊÏäÊýOSA_mbx_BROADCAST_MAX */
+        /* ä¸èƒ½è¶…è¿‡æœ€å¤§é‚®ç®±æ•°OSA_mbx_BROADCAST_MAX */
         if(numMbx >= OSA_MBX_BROADCAST_MAX)
         {
             OSA_ERROR("Too many tasks !\n");
@@ -444,7 +444,7 @@ Int32 OSA_tskBroadcastMsg(OSA_TskHandle *phTskToList,
         }
     }
 
-    /* Èç¹ûÓÃ»§Ã»ÓÐ´«µÝÓÐÐ§µÄ¾ä±ú£¬ÔòÖ±½Ó·µ»Ø¡£*/
+    /* å¦‚æžœç”¨æˆ·æ²¡æœ‰ä¼ é€’æœ‰æ•ˆçš„å¥æŸ„ï¼Œåˆ™ç›´æŽ¥è¿”å›žã€‚*/
     if(numMbx == 0)
     {
         return OSA_SOK;
@@ -457,12 +457,12 @@ Int32 OSA_tskBroadcastMsg(OSA_TskHandle *phTskToList,
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskFlushMsg
-* Ãè  Êö  : Çå³ýÖ¸¶¨ÈÎÎñÒÑ¾­½ÓÊÕµ½µÄËùÓÐÏûÏ¢¡£
-* Êä  Èë  : - hTsk   : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskFlushMsg
+* æ  è¿°  : æ¸…é™¤æŒ‡å®šä»»åŠ¡å·²ç»æŽ¥æ”¶åˆ°çš„æ‰€æœ‰æ¶ˆæ¯ã€‚
+* è¾“  å…¥  : - hTsk   : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskFlushMsg(OSA_TskHandle hTsk)
 {
@@ -480,12 +480,12 @@ Int32 OSA_tskFlushMsg(OSA_TskHandle hTsk)
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskStartMon
-* Ãè  Êö  : Æô¶¯¼à²âÖ¸¶¨µÄÈÎÎñ£¬Ö÷ÒªÊÇ¼à²âÈÎÎñÊÇ·ñ³¬Ê±¡£
-* Êä  Èë  : - hTsk   : ½«Òª±»¼à²âµÄÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskStartMon
+* æ  è¿°  : å¯åŠ¨ç›‘æµ‹æŒ‡å®šçš„ä»»åŠ¡ï¼Œä¸»è¦æ˜¯ç›‘æµ‹ä»»åŠ¡æ˜¯å¦è¶…æ—¶ã€‚
+* è¾“  å…¥  : - hTsk   : å°†è¦è¢«ç›‘æµ‹çš„ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskStartMon(OSA_TskHandle hTsk)
 {
@@ -498,7 +498,7 @@ Int32 OSA_tskStartMon(OSA_TskHandle hTsk)
 
     OSA_mutexLock(gTskModObj.hLock);
 
-    /* Èç¹ûÒÑ¾­¿ªÊ¼Ôò²»´¦Àí¡£*/
+    /* å¦‚æžœå·²ç»å¼€å§‹åˆ™ä¸å¤„ç†ã€‚*/
     isExit = OSA_tskIsInActv(pTskMonObj);
     if (isExit)
     {
@@ -511,9 +511,9 @@ Int32 OSA_tskStartMon(OSA_TskHandle hTsk)
     {
         OSA_tskDelList(pTskMonObj);
 
-        /* Ö»ÓÐµ±ÈÎÎñ´¦ÓÚ¿ÕÏÐ¶ÓÁÐÊ±£¬²Å½«ÈÎÎñ¼ÓÈëActive¶ÓÁÐ */
-        /* Èç¹û¸ÃÈÎÎñ²»´¦ÓÚÈÎºÎ¶ÓÁÐÖÐ£¬ÔòËµÃ÷¸ÃÈÎÎñÕýÔÚ±»É¾³ýÖÐ£¬
-             ´ËÊ±²»ÄÜÔÙ¼ÓÈëActive¶ÓÁÐ£¬·ñÔò»áµ¼ÖÂ¶Î´íÎó */
+        /* åªæœ‰å½“ä»»åŠ¡å¤„äºŽç©ºé—²é˜Ÿåˆ—æ—¶ï¼Œæ‰å°†ä»»åŠ¡åŠ å…¥Activeé˜Ÿåˆ— */
+        /* å¦‚æžœè¯¥ä»»åŠ¡ä¸å¤„äºŽä»»ä½•é˜Ÿåˆ—ä¸­ï¼Œåˆ™è¯´æ˜Žè¯¥ä»»åŠ¡æ­£åœ¨è¢«åˆ é™¤ä¸­ï¼Œ
+             æ­¤æ—¶ä¸èƒ½å†åŠ å…¥Activeé˜Ÿåˆ—ï¼Œå¦åˆ™ä¼šå¯¼è‡´æ®µé”™è¯¯ */
         OSA_tskPutActv(pTskMonObj);
     }
 
@@ -524,12 +524,12 @@ Int32 OSA_tskStartMon(OSA_TskHandle hTsk)
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskStopMon
-* Ãè  Êö  : Í£Ö¹¼à²âÖ¸¶¨µÄÈÎÎñ¡£
-* Êä  Èë  : - hTsk   : ½«Òª±»¼à²âµÄÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskStopMon
+* æ  è¿°  : åœæ­¢ç›‘æµ‹æŒ‡å®šçš„ä»»åŠ¡ã€‚
+* è¾“  å…¥  : - hTsk   : å°†è¦è¢«ç›‘æµ‹çš„ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskStopMon(OSA_TskHandle hTsk)
 {
@@ -543,7 +543,7 @@ Int32 OSA_tskStopMon(OSA_TskHandle hTsk)
 
     if(OSA_isNotNull(gTskModObj.hMonTsk))
     {
-        /* ÏÈÍ£Ö¹¼à²âÈÎÎñ±¾Éí£¬·ÀÖ¹Í¬Ê±·ÃÎÊ£¬³öÏÖÁÙ½çÇé¿ö¡£*/
+        /* å…ˆåœæ­¢ç›‘æµ‹ä»»åŠ¡æœ¬èº«ï¼Œé˜²æ­¢åŒæ—¶è®¿é—®ï¼Œå‡ºçŽ°ä¸´ç•Œæƒ…å†µã€‚*/
         status = OSA_tskStop(gTskModObj.hMonTsk);
 		if(OSA_isFail(status))
 	    {
@@ -554,7 +554,7 @@ Int32 OSA_tskStopMon(OSA_TskHandle hTsk)
 
     OSA_mutexLock(gTskModObj.hLock);
 
-    /* Èç¹ûÒÑ¾­Í£Ö¹Ôò²»´¦Àí¡£*/
+    /* å¦‚æžœå·²ç»åœæ­¢åˆ™ä¸å¤„ç†ã€‚*/
     isExit = OSA_tskIsInIdle(pTskMonObj);
     if (isExit)
     {
@@ -566,9 +566,9 @@ Int32 OSA_tskStopMon(OSA_TskHandle hTsk)
     {
         OSA_tskDelList(pTskMonObj);
 
-        /* Ö»ÓÐµ±ÈÎÎñ´¦ÓÚActive¶ÓÁÐÊ±£¬²Å½«ÈÎÎñ¼ÓÈë¿ÕÏÐ¶ÓÁÐ */
-        /* Èç¹û¸ÃÈÎÎñ²»´¦ÓÚÈÎºÎ¶ÓÁÐÖÐ£¬ÔòËµÃ÷¸ÃÈÎÎñÕýÔÚ±»É¾³ýÖÐ£¬
-             ´ËÊ±²»ÄÜÔÙ¼ÓÈë¿ÕÏÐ¶ÓÁÐ£¬·ñÔò»áµ¼ÖÂ¶Î´íÎó */
+        /* åªæœ‰å½“ä»»åŠ¡å¤„äºŽActiveé˜Ÿåˆ—æ—¶ï¼Œæ‰å°†ä»»åŠ¡åŠ å…¥ç©ºé—²é˜Ÿåˆ— */
+        /* å¦‚æžœè¯¥ä»»åŠ¡ä¸å¤„äºŽä»»ä½•é˜Ÿåˆ—ä¸­ï¼Œåˆ™è¯´æ˜Žè¯¥ä»»åŠ¡æ­£åœ¨è¢«åˆ é™¤ä¸­ï¼Œ
+             æ­¤æ—¶ä¸èƒ½å†åŠ å…¥ç©ºé—²é˜Ÿåˆ—ï¼Œå¦åˆ™ä¼šå¯¼è‡´æ®µé”™è¯¯ */
         OSA_tskPutIdle(pTskMonObj);		 
     }
 
@@ -589,7 +589,7 @@ DONE:
 }
 
 
-/* Í¨¹ý·¢ÃüÁîÉ¾³ýÖ¸¶¨µÄÈÎÎñ£¬ÄÚ²¿Ê¹ÓÃ¡£*/
+/* é€šè¿‡å‘å‘½ä»¤åˆ é™¤æŒ‡å®šçš„ä»»åŠ¡ï¼Œå†…éƒ¨ä½¿ç”¨ã€‚*/
 static Int32 OSA_tskCmdDelete(OSA_TskHandle hTsk)
 {
     OSA_assertNotNull(hTsk);
@@ -602,12 +602,12 @@ static Int32 OSA_tskCmdDelete(OSA_TskHandle hTsk)
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskCmdCreate
-* Ãè  Êö  : ÏòÈÎÎñ·¢ËÍ´´½¨ÃüÁî£¬»áµ÷ÓÃÓÃ»§×¢²áµÄOpTskCreate()»Øµ÷º¯Êý¡£
-* Êä  Èë  : - hTsk   : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskCmdCreate
+* æ  è¿°  : å‘ä»»åŠ¡å‘é€åˆ›å»ºå‘½ä»¤ï¼Œä¼šè°ƒç”¨ç”¨æˆ·æ³¨å†Œçš„OpTskCreate()å›žè°ƒå‡½æ•°ã€‚
+* è¾“  å…¥  : - hTsk   : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskCmdCreate(OSA_TskHandle hTsk)
 {
@@ -621,12 +621,12 @@ Int32 OSA_tskCmdCreate(OSA_TskHandle hTsk)
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskCmdStart
-* Ãè  Êö  : ÏòÈÎÎñ·¢ËÍÆô¶¯ÃüÁî£¬»áµ÷ÓÃÓÃ»§×¢²áµÄOpTskStart()»Øµ÷º¯Êý¡£
-* Êä  Èë  : - hTsk   : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskCmdStart
+* æ  è¿°  : å‘ä»»åŠ¡å‘é€å¯åŠ¨å‘½ä»¤ï¼Œä¼šè°ƒç”¨ç”¨æˆ·æ³¨å†Œçš„OpTskStart()å›žè°ƒå‡½æ•°ã€‚
+* è¾“  å…¥  : - hTsk   : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskCmdStart(OSA_TskHandle hTsk)
 {
@@ -640,12 +640,12 @@ Int32 OSA_tskCmdStart(OSA_TskHandle hTsk)
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskStop
-* Ãè  Êö  : ÔÝÍ£ÈÎÎñ¡£ÔÚµÈ´ýÈÎÎñÍ£Ö¹ÆÚ¼ä»áÐÝÃß¡£ÒªÓëOSA_tskStart()½Ó¿Ú³É¶ÔÊ¹ÓÃ¡£
-* Êä  Èë  : - hTsk  : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskStop
+* æ  è¿°  : æš‚åœä»»åŠ¡ã€‚åœ¨ç­‰å¾…ä»»åŠ¡åœæ­¢æœŸé—´ä¼šä¼‘çœ ã€‚è¦ä¸ŽOSA_tskStart()æŽ¥å£æˆå¯¹ä½¿ç”¨ã€‚
+* è¾“  å…¥  : - hTsk  : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskStop(OSA_TskHandle hTsk)
 {
@@ -673,12 +673,12 @@ Int32 OSA_tskStop(OSA_TskHandle hTsk)
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskStart
-* Ãè  Êö  : ÖØÐÂÆô¶¯ÈÎÎñ¡£ÒªÓëOSA_tskStop()½Ó¿Ú³É¶ÔÊ¹ÓÃ£¬ÏÈµ÷ÓÃËü£¬È»ºóµ÷ÓÃ±¾½Ó¿Ú¡£
-* Êä  Èë  : - hTsk  : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK: ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskStart
+* æ  è¿°  : é‡æ–°å¯åŠ¨ä»»åŠ¡ã€‚è¦ä¸ŽOSA_tskStop()æŽ¥å£æˆå¯¹ä½¿ç”¨ï¼Œå…ˆè°ƒç”¨å®ƒï¼Œç„¶åŽè°ƒç”¨æœ¬æŽ¥å£ã€‚
+* è¾“  å…¥  : - hTsk  : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK: æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskStart(OSA_TskHandle hTsk)
 {
@@ -694,7 +694,7 @@ Int32 OSA_tskStart(OSA_TskHandle hTsk)
 }
 
 
-/* É¾³ýÈÎÎñ£¬ÊÍ·ÅËùÓÐÒÑ¾­·ÖÅäµÄ×ÊÔ´¡£*/
+/* åˆ é™¤ä»»åŠ¡ï¼Œé‡Šæ”¾æ‰€æœ‰å·²ç»åˆ†é…çš„èµ„æºã€‚*/
 static Int32 OSA_tskFree(OSA_TskObj *pTskObj)
 {
     OSA_TskMonObj *pTskMonObj    = NULL;
@@ -705,7 +705,7 @@ static Int32 OSA_tskFree(OSA_TskObj *pTskObj)
 
     OSA_mutexLock(gTskModObj.hLock);
 
-    /* ´Ó¼à²â¿ÕÏÐÁ´±íÖÐÉ¾³ý¸ÃObj */
+    /* ä»Žç›‘æµ‹ç©ºé—²é“¾è¡¨ä¸­åˆ é™¤è¯¥Obj */
     OSA_tskDelList(pTskMonObj);
 
     OSA_mutexUnlock(gTskModObj.hLock);
@@ -728,7 +728,7 @@ static Int32 OSA_tskFree(OSA_TskObj *pTskObj)
 }
 
 
-/* ÏìÓ¦±ê×¼ÃüÁî */
+/* å“åº”æ ‡å‡†å‘½ä»¤ */
 static Int32 OSA_tskDoCmd(OSA_TskObj *pTskObj, OSA_MsgqMsg *pMsg)
 {
     Int32  status = OSA_SOK;
@@ -767,7 +767,7 @@ static Int32 OSA_tskDoCmd(OSA_TskObj *pTskObj, OSA_MsgqMsg *pMsg)
 
         case OSA_TSK_CMD_DELETE:
 
-            /* »Øµ÷º¯Êý±ØÐëÓÐÐ§²¢ÇÒÖ´ÐÐ¹ýCREATEÃüÁî¡£*/
+            /* å›žè°ƒå‡½æ•°å¿…é¡»æœ‰æ•ˆå¹¶ä¸”æ‰§è¡Œè¿‡CREATEå‘½ä»¤ã€‚*/
             if (OSA_isNotNull(pTskObj->tskOps.OpTskDelete)
                 && (pTskObj->cmdFlags & OSA_TSK_CMD_CREATE))
             {
@@ -825,7 +825,7 @@ static Int32 OSA_tskDoCmd(OSA_TskObj *pTskObj, OSA_MsgqMsg *pMsg)
 }
 
 
-/* ËùÓÐÈÎÎñµÄÖ´ÐÐÌå¡£*/
+/* æ‰€æœ‰ä»»åŠ¡çš„æ‰§è¡Œä½“ã€‚*/
 static Int32 OSA_tskRun(Ptr pPrm)
 {
     Int32  status = OSA_SOK;
@@ -841,7 +841,7 @@ static Int32 OSA_tskRun(Ptr pPrm)
     pTskObj->statObj.tskTid = OSA_thrGetTid();
     pTskObj->statObj.tskPid = OSA_thrGetPid();
 
-    /* ÕâÀï½«¼ÇÂ¼ÐÅÏ¢Ìæ»»³ÉÓÃ»§×¢²áµÄ»Øµ÷º¯ÊýÐÅÏ¢ */
+    /* è¿™é‡Œå°†è®°å½•ä¿¡æ¯æ›¿æ¢æˆç”¨æˆ·æ³¨å†Œçš„å›žè°ƒå‡½æ•°ä¿¡æ¯ */
     OSA_delTidInfo(pTskObj->statObj.tskTid);
 
     info.tid       = pTskObj->statObj.tskTid;
@@ -857,7 +857,7 @@ static Int32 OSA_tskRun(Ptr pPrm)
                   pTskObj->statObj.tskPid,
                   pTskObj->statObj.tskTid);
 
-    /* ËùÓÐÈÎÎñ£¬Ò»µ©´´½¨Ê±Ö¸¶¨ÁËÕâÐ©±êÖ¾Î»£¬ÄÇÃ´¾Í±ØÐëÊ¹ÓÃ¶ÔÓ¦µÄÃüÁî½Ó¿ÚÀ´Æô¶¯¡£*/
+    /* æ‰€æœ‰ä»»åŠ¡ï¼Œä¸€æ—¦åˆ›å»ºæ—¶æŒ‡å®šäº†è¿™äº›æ ‡å¿—ä½ï¼Œé‚£ä¹ˆå°±å¿…é¡»ä½¿ç”¨å¯¹åº”çš„å‘½ä»¤æŽ¥å£æ¥å¯åŠ¨ã€‚*/
 
     if (pTskObj->createFlags & OSA_TSK_FLAG_CREATE)
     {
@@ -907,7 +907,7 @@ static Int32 OSA_tskRun(Ptr pPrm)
         OSA_DEBUG("%s Task Start  OK !\n", pTskObj->name);
     }
 
-    /* Æô¶¯¼à²â */
+    /* å¯åŠ¨ç›‘æµ‹ */
     OSA_tskStartMon((OSA_TskHandle)pTskObj);
 
     while(!OSA_thrShouldStop())
@@ -915,7 +915,7 @@ static Int32 OSA_tskRun(Ptr pPrm)
         Uint32 startTime, endTime;
         Ptr    pCmdPrms = NULL;
 
-        /* ¼ì²é²¢»ñÈ¡ÏûÏ¢ */
+        /* æ£€æŸ¥å¹¶èŽ·å–æ¶ˆæ¯ */
         status = OSA_mbxCheckMsg(pTskObj->hMbx, &pMsg);
         if(OSA_isSuccess(status))
         {
@@ -927,7 +927,7 @@ static Int32 OSA_tskRun(Ptr pPrm)
 
         if(OSA_TRUE == pTskObj->isActive)
         {
-             /* »ñÈ¡ÔËÐÐÊ±¼ä */
+             /* èŽ·å–è¿è¡Œæ—¶é—´ */
             startTime = OSA_getCurTimeInMsec();
 
             status = pTskObj->tskOps.OpTskRun(cmd,
@@ -951,7 +951,7 @@ static Int32 OSA_tskRun(Ptr pPrm)
             pTskObj->isStop = OSA_TRUE;
         }
 
-        /* ¼ì²é¸ÃÃüÁîÊÇÍâ²¿ÃüÁî»¹ÊÇÄÚ²¿±ê×¼ÃüÁî£¬²¢²ÉÈ¡ÏàÓ¦µÄÏìÓ¦·½Ê½¡£*/
+        /* æ£€æŸ¥è¯¥å‘½ä»¤æ˜¯å¤–éƒ¨å‘½ä»¤è¿˜æ˜¯å†…éƒ¨æ ‡å‡†å‘½ä»¤ï¼Œå¹¶é‡‡å–ç›¸åº”çš„å“åº”æ–¹å¼ã€‚*/
         if (cmd)
         {
             if (cmd & OSA_TSK_CMD_FLAG)
@@ -975,14 +975,14 @@ static Int32 OSA_tskRun(Ptr pPrm)
             cmd = 0;
         }
 
-        /* ÈÎÎñ´´½¨Ê±£¬Èç¹ûÖ¸¶¨ÁËÐÝÃßÊ±¼ä£¬ÔòÐÝÃß¡£*/
+        /* ä»»åŠ¡åˆ›å»ºæ—¶ï¼Œå¦‚æžœæŒ‡å®šäº†ä¼‘çœ æ—¶é—´ï¼Œåˆ™ä¼‘çœ ã€‚*/
         if (pTskObj->nTimeSleep != OSA_TIMEOUT_NONE)
         {
             OSA_msleep(pTskObj->nTimeSleep);
         }
         else if(OSA_FALSE == pTskObj->isActive)
         {
-            /* Èç¹û±»stopÁË£¬ÇÒÎ´Ö¸¶¨ÐÝÃßÊ±³¤µÄÇé¿öÏÂ */
+            /* å¦‚æžœè¢«stopäº†ï¼Œä¸”æœªæŒ‡å®šä¼‘çœ æ—¶é•¿çš„æƒ…å†µä¸‹ */
             OSA_msleep(40);
         }
     }
@@ -991,12 +991,12 @@ LOOP_EXIT:
 
     OSA_INFO("%s Task loop Exit !\n", pTskObj->name);
 /*
- ÓÉÓÚOSA_tskFreeÀïÃæÏÈµ÷ÓÃOSA_tskCmdDelete£¬µ¼ÖÂOSA_tskRun´ÓwhileÑ­»·ÖÐÍË³ö,
- ÔÚlinuxÄÚºËÌ¬ÏÂ£¬Èç¹û²»½øÐÐµÈ´ý¾ÍÖ±½ÓÍË³ö£¬½«µ¼ÖÂºóÐøµ÷ÓÃOSA_thrDeleteÊ±³ö´í£¬
- 2.6.18±íÏÖÎª¹ÒÆð£¬2.6.37ÄÚºËÖ±½Ó±ÀÀ££¬Òò´ËÔÚlinuxÄÚºËÌ¬ÏÂÐèÒªÒÔÏÂ´úÂë
+ ç”±äºŽOSA_tskFreeé‡Œé¢å…ˆè°ƒç”¨OSA_tskCmdDeleteï¼Œå¯¼è‡´OSA_tskRunä»Žwhileå¾ªçŽ¯ä¸­é€€å‡º,
+ åœ¨linuxå†…æ ¸æ€ä¸‹ï¼Œå¦‚æžœä¸è¿›è¡Œç­‰å¾…å°±ç›´æŽ¥é€€å‡ºï¼Œå°†å¯¼è‡´åŽç»­è°ƒç”¨OSA_thrDeleteæ—¶å‡ºé”™ï¼Œ
+ 2.6.18è¡¨çŽ°ä¸ºæŒ‚èµ·ï¼Œ2.6.37å†…æ ¸ç›´æŽ¥å´©æºƒï¼Œå› æ­¤åœ¨linuxå†…æ ¸æ€ä¸‹éœ€è¦ä»¥ä¸‹ä»£ç 
 */
 #ifdef __KERNEL__
-#if (LINUX_VERSION_CODE == KERNEL_VERSION(2, 4, 24))/* DH5000µÄÄÚºËÊÇlinux2.4.24 */
+#if (LINUX_VERSION_CODE == KERNEL_VERSION(2, 4, 24))/* DH5000çš„å†…æ ¸æ˜¯linux2.4.24 */
    while(current->vfork_done != NULL)
 #else
     while(!kthread_should_stop())
@@ -1011,9 +1011,9 @@ LOOP_EXIT:
 }
 
 
-/* ´òÓ¡Ö¸¶¨TaskµÄÍ³¼ÆÊý¾Ý */
+/* æ‰“å°æŒ‡å®šTaskçš„ç»Ÿè®¡æ•°æ® */
 
-/*ÓÉÓÚlinuxÄÚºËÌ¬²»Ö§³Ö¸¡µãÔËËã£¬Òò´Ë¸Ãº¯ÊýÖÐÊ¹ÓÃÕûÐÍÔËËã*/
+/*ç”±äºŽlinuxå†…æ ¸æ€ä¸æ”¯æŒæµ®ç‚¹è¿ç®—ï¼Œå› æ­¤è¯¥å‡½æ•°ä¸­ä½¿ç”¨æ•´åž‹è¿ç®—*/
 #ifdef __KERNEL__
 static Int32 OSA_tskPrint(OSA_TskHandle hTsk, Bool32 isTitle)
 {
@@ -1029,12 +1029,12 @@ static Int32 OSA_tskPrint(OSA_TskHandle hTsk, Bool32 isTitle)
     fre = (pStatObj->totalRunTime != 0) ?
             (pStatObj->totalRunCnt * 1000) / pStatObj->totalRunTime
             : 0;
-    fre = fre > 999 ? 999 : fre; /* ÎªÁËÏÔÊ¾µÄÃÀ¹Û£¬½ØÈ¡µ½999 */
+    fre = fre > 999 ? 999 : fre; /* ä¸ºäº†æ˜¾ç¤ºçš„ç¾Žè§‚ï¼Œæˆªå–åˆ°999 */
 
     avg = (pStatObj->totalRunCnt != 0) ?
             pStatObj->totalRunTime / pStatObj->totalRunCnt
             : 0,
-    avg = avg > 999 ? 999 : avg; /* ÎªÁËÏÔÊ¾µÄÃÀ¹Û£¬½ØÈ¡µ½999 */
+    avg = avg > 999 ? 999 : avg; /* ä¸ºäº†æ˜¾ç¤ºçš„ç¾Žè§‚ï¼Œæˆªå–åˆ°999 */
 
 
     OSA_INFOCYANR("%-12s: %-4d %-4d %-4d %-5u %-5u %-4u %-4u %-4u\n",
@@ -1066,12 +1066,12 @@ static Int32 OSA_tskPrint(OSA_TskHandle hTsk, Bool32 isTitle)
     fre = (pStatObj->totalRunTime != 0) ?
             (pStatObj->totalRunCnt * 1000.0f) / pStatObj->totalRunTime
             : 0.0f;
-    fre = fre > 999.9f ? 999.9f : fre; /* ÎªÁËÏÔÊ¾µÄÃÀ¹Û£¬½ØÈ¡µ½999.9 */
+    fre = fre > 999.9f ? 999.9f : fre; /* ä¸ºäº†æ˜¾ç¤ºçš„ç¾Žè§‚ï¼Œæˆªå–åˆ°999.9 */
 
     avg = (pStatObj->totalRunCnt != 0) ?
             (Float32)pStatObj->totalRunTime / pStatObj->totalRunCnt
             : 0.0f,
-    avg = avg > 999.9f ? 999.9f : avg; /* ÎªÁËÏÔÊ¾µÄÃÀ¹Û£¬½ØÈ¡µ½999.9 */
+    avg = avg > 999.9f ? 999.9f : avg; /* ä¸ºäº†æ˜¾ç¤ºçš„ç¾Žè§‚ï¼Œæˆªå–åˆ°999.9 */
 
 
     OSA_INFOCYANR("%-12s: %-4d %-4d %-4d %-5.1f %-5.1f %-4u %-4u %-4u\n",
@@ -1091,12 +1091,12 @@ static Int32 OSA_tskPrint(OSA_TskHandle hTsk, Bool32 isTitle)
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskPrintStat
-* Ãè  Êö  : ´òÓ¡Ö¸¶¨TaskµÄÍ³¼ÆÊý¾Ý¡£
-* Êä  Èë  : - hTsk  : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK: ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskPrintStat
+* æ  è¿°  : æ‰“å°æŒ‡å®šTaskçš„ç»Ÿè®¡æ•°æ®ã€‚
+* è¾“  å…¥  : - hTsk  : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK: æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskPrintStat(OSA_TskHandle hTsk)
 {
@@ -1109,12 +1109,12 @@ Int32 OSA_tskPrintStat(OSA_TskHandle hTsk)
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskPrintAllStat
-* Ãè  Êö  : ´òÓ¡ËùÓÐTaskµÄÍ³¼ÆÊý¾Ý¡£
-* Êä  Èë  : - hTsk  : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK: ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskPrintAllStat
+* æ  è¿°  : æ‰“å°æ‰€æœ‰Taskçš„ç»Ÿè®¡æ•°æ®ã€‚
+* è¾“  å…¥  : - hTsk  : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK: æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskPrintAllStat(void)
 {
@@ -1142,12 +1142,12 @@ Int32 OSA_tskPrintAllStat(void)
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskCreate
-* Ãè  Êö  : ´´½¨ÈÎÎñ¡£
-* Êä  Èë  : - pCreate : ´´½¨²ÎÊý£¬²»ÄÜÎªNULL¡£
-* Êä  ³ö  : - phTsk   : ÈÎÎñ¾ä±úÖ¸Õë£¬Êä³ö¸øµ÷ÓÃÕßÊ¹ÓÃ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskCreate
+* æ  è¿°  : åˆ›å»ºä»»åŠ¡ã€‚
+* è¾“  å…¥  : - pCreate : åˆ›å»ºå‚æ•°ï¼Œä¸èƒ½ä¸ºNULLã€‚
+* è¾“  å‡º  : - phTsk   : ä»»åŠ¡å¥æŸ„æŒ‡é’ˆï¼Œè¾“å‡ºç»™è°ƒç”¨è€…ä½¿ç”¨ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskCreate(OSA_TskCreate *pCreate,
                     OSA_TskHandle *phTsk)
@@ -1209,7 +1209,7 @@ Int32 OSA_tskCreate(OSA_TskCreate *pCreate,
 
     pTskObj->statObj.tskPri = (Uint16)pCreate->tskPri;
 
-    /* ³õÊ¼»¯ÎªÒ»¸ö±È½Ï´óµÄÖµ¡£ */
+    /* åˆå§‹åŒ–ä¸ºä¸€ä¸ªæ¯”è¾ƒå¤§çš„å€¼ã€‚ */
     pTskObj->statObj.minRunTime = 1000;
 
     if (pCreate->createFlags & OSA_TSK_FLAG_CREATE)
@@ -1243,19 +1243,19 @@ Int32 OSA_tskCreate(OSA_TskCreate *pCreate,
 		goto ERR_DONE;
 	}
 
-    /* ÉèÖÃ¼à²â·½ÃæµÄ²ÎÊý */
+    /* è®¾ç½®ç›‘æµ‹æ–¹é¢çš„å‚æ•° */
     pTskMonObj->nTimeOut     = pCreate->nTimeOut;
     pTskMonObj->OpTimeOutAck = pCreate->OpTimeOutAck;
 
     OSA_listHeadInit(&pTskMonObj->tskElem);
 
-    /* ²»Æô¶¯¼à²â */
+    /* ä¸å¯åŠ¨ç›‘æµ‹ */
     OSA_tskPutIdle(pTskMonObj);
 
-    /* isStopºÍisActiveÄ¬ÈÏ³õÊ¼Öµ¶¼ÉèÖÃÎªTrue,ÊÇÎªÁË±ÜÃâÔÚ´´½¨ÈÎÎñÊ±,
-    * »¹Ã»ÓÐÕýÊ½½øÈëÑ­»·Ìå£¬¾Íµ÷ÓÃÁËstop£¬µ¼ÖÂOSA_tskStopÎÞ·¨Õý³£ÍË³ö,
-    * ´óÖÂÁ÷³ÌÎª:Ä³Ð©µØ·½µØ·½µ÷ÓÃstart£¬È»ºóÃ´ÓÐÕýÊ½½øÈëwhileÑ­»·£¬Ö±½Ó,
-    * µ÷ÓÃOSA_tskStop£¬µ¼ÖÂOSA_tskStopÌõ¼þµÃ²»µ½Âú×ã£¬ÎÞ·¨ÍË³ö */
+    /* isStopå’ŒisActiveé»˜è®¤åˆå§‹å€¼éƒ½è®¾ç½®ä¸ºTrue,æ˜¯ä¸ºäº†é¿å…åœ¨åˆ›å»ºä»»åŠ¡æ—¶,
+    * è¿˜æ²¡æœ‰æ­£å¼è¿›å…¥å¾ªçŽ¯ä½“ï¼Œå°±è°ƒç”¨äº†stopï¼Œå¯¼è‡´OSA_tskStopæ— æ³•æ­£å¸¸é€€å‡º,
+    * å¤§è‡´æµç¨‹ä¸º:æŸäº›åœ°æ–¹åœ°æ–¹è°ƒç”¨startï¼Œç„¶åŽä¹ˆæœ‰æ­£å¼è¿›å…¥whileå¾ªçŽ¯ï¼Œç›´æŽ¥,
+    * è°ƒç”¨OSA_tskStopï¼Œå¯¼è‡´OSA_tskStopæ¡ä»¶å¾—ä¸åˆ°æ»¡è¶³ï¼Œæ— æ³•é€€å‡º */
     pTskObj->isStop         = OSA_TRUE;
     pTskObj->isActive       = OSA_TRUE;
 
@@ -1296,12 +1296,12 @@ ERR_DONE:
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_tskCreate
-* Ãè  Êö  : Ïú»ÙÈÎÎñ¡£
-* Êä  Èë  : - hTsk : ÈÎÎñ¾ä±ú¡£
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK  : ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_tskCreate
+* æ  è¿°  : é”€æ¯ä»»åŠ¡ã€‚
+* è¾“  å…¥  : - hTsk : ä»»åŠ¡å¥æŸ„ã€‚
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK  : æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_tskDelete(OSA_TskHandle hTsk)
 {
@@ -1318,7 +1318,7 @@ Int32 OSA_tskDelete(OSA_TskHandle hTsk)
 }
 
 
-/* ³õÊ¼»¯osa_tskÄ£¿é£¬¸ù¾ÝisStartMonTask¾õµÃÊÇ·ñ´´½¨¼à²âÈÎÎñ¡£ÄÚ²¿Ê¹ÓÃ¡£*/
+/* åˆå§‹åŒ–osa_tskæ¨¡å—ï¼Œæ ¹æ®isStartMonTaskè§‰å¾—æ˜¯å¦åˆ›å»ºç›‘æµ‹ä»»åŠ¡ã€‚å†…éƒ¨ä½¿ç”¨ã€‚*/
 Int32 OSA_tskInit(Bool32 isStartMonTask)
 {
     Int32 status = OSA_SOK;
@@ -1334,7 +1334,7 @@ Int32 OSA_tskInit(Bool32 isStartMonTask)
         return OSA_EFAIL;
     }
 
-    /* ÊÇ·ñ¿ªÆô¼à²âÈÎÎñ£¬ÓÃÓÚ¼à²âÆäËûÈÎÎñÊÇ·ñ³¬Ê±¼°ÆäËûÒì³£Çé¿ö¡£*/
+    /* æ˜¯å¦å¼€å¯ç›‘æµ‹ä»»åŠ¡ï¼Œç”¨äºŽç›‘æµ‹å…¶ä»–ä»»åŠ¡æ˜¯å¦è¶…æ—¶åŠå…¶ä»–å¼‚å¸¸æƒ…å†µã€‚*/
     if (isStartMonTask)
     {
         OSA_clear(&tskCreate);
@@ -1344,7 +1344,7 @@ Int32 OSA_tskInit(Bool32 isStartMonTask)
         tskCreate.tskOps.OpTskRun = OSA_tskMonRun;
         tskCreate.tskPol          = OSA_SCHED_OTHER;
         #ifdef __RTEMS__
-        tskCreate.tskPri          = (Uint32)OSA_THR_PRI_DEFAULT(OSA_SCHED_OTHER); // ÈôÓÅÏÈ¼¶Ì«µÍÏß³ÌÅÜ²»ÆðÀ´
+        tskCreate.tskPri          = (Uint32)OSA_THR_PRI_DEFAULT(OSA_SCHED_OTHER); // è‹¥ä¼˜å…ˆçº§å¤ªä½Žçº¿ç¨‹è·‘ä¸èµ·æ¥
         #else
         tskCreate.tskPri          = (Uint32)OSA_THR_PRI_MIN(OSA_SCHED_OTHER);
         #endif
@@ -1367,7 +1367,7 @@ Int32 OSA_tskInit(Bool32 isStartMonTask)
 }
 
 
-/* Ïú»Ùosa_tskÄ£¿é¡£*/
+/* é”€æ¯osa_tskæ¨¡å—ã€‚*/
 Int32 OSA_tskDeinit(void)
 {
     OSA_TskMonObj *pTskMonObj    = NULL;
@@ -1375,7 +1375,7 @@ Int32 OSA_tskDeinit(void)
     OSA_ListHead  *pTskListUsed  = NULL;
     OSA_ListHead  *pListTmp      = NULL;
 
-    /* ÏÈÏú»Ù¼à²âÈÎÎñ */
+    /* å…ˆé”€æ¯ç›‘æµ‹ä»»åŠ¡ */
     if (OSA_isNotNull(gTskModObj.hMonTsk))
     {
         OSA_tskDelete(gTskModObj.hMonTsk);
@@ -1384,7 +1384,7 @@ Int32 OSA_tskDeinit(void)
 
     OSA_mutexLock(gTskModObj.hLock);
 
-    /* ½Ó×Å±éÀúÁ½¸öÁ´±í£¬Ïú»ÙËùÓÐÒÑ¾­´´½¨µÄÈÎÎñ¡£*/
+    /* æŽ¥ç€éåŽ†ä¸¤ä¸ªé“¾è¡¨ï¼Œé”€æ¯æ‰€æœ‰å·²ç»åˆ›å»ºçš„ä»»åŠ¡ã€‚*/
 
     pTskListUsed = &gTskModObj.actvTskList;
 

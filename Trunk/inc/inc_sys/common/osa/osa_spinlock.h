@@ -1,14 +1,8 @@
 /*******************************************************************************
 * osa_kspinlock.c
+* Desc: å®žçŽ°OSAæ¨¡å—å¯¹å¤–æä¾›çš„è‡ªæ—‹é”æŽ¥å£
 *
-* Copyright (C) 2011-2013 ZheJiang Dahua Technology CO.,LTD.
-*
-* Author : Zheng wei <zheng_wei@dahuatech.com>
-* Version: V1.0.0  2012-5-23 Create
-*
-* Desc: ÊµÏÖOSAÄ£¿é¶ÔÍâÌá¹©µÄ×ÔÐýËø½Ó¿Ú
-*
-*           ½Ó¿Úµ÷ÓÃÁ÷³ÌÈçÏÂ:
+*           æŽ¥å£è°ƒç”¨æµç¨‹å¦‚ä¸‹:
 *           ==========================
 *                   |                            
 *           OSA_spinlockCreate
@@ -22,8 +16,8 @@
 *    Date    :  2012-10-25
 *    Revision:  V1.10
 *    Author  :  Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
-*    Contents:  ¾«¼òµ÷ÓÃ·½Ê½£¬Ê¹ÓÃ»Øµ÷º¯ÊýÊµÏÖ¡£Ãû×ÖÖÐÈ¥µô´ú±íkernelµÄ'k'£¬ÒòÎª
-*               ÔÚÆäËûºËÖÐÒ²ÒªÊµÏÖ¡£
+*    Contents:  ç²¾ç®€è°ƒç”¨æ–¹å¼ï¼Œä½¿ç”¨å›žè°ƒå‡½æ•°å®žçŽ°ã€‚åå­—ä¸­åŽ»æŽ‰ä»£è¡¨kernelçš„'k'ï¼Œå› ä¸º
+*               åœ¨å…¶ä»–æ ¸ä¸­ä¹Ÿè¦å®žçŽ°ã€‚
 *******************************************************************************/
 
 
@@ -32,7 +26,7 @@
 
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼þÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 
 #ifdef __cplusplus
@@ -41,96 +35,96 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
-/* µ÷ÓÃOSA_kSpinlockCreate·µ»ØµÄ×ÔÐýËø¾ä±úÀàÐÍ,ÉÏ²ãÄ£¿é²»ÐèÒª¹ØÐÄÆäÖÐµÄ¾ßÌåÄÚÈÝ,*/
-/* Ö»ÐèÒªÔÚ¸÷×ÔÐýËø²Ù×÷½Ó¿ÚÖÐ´«Èë¸Ã¾ä±ú¼´¿É*/
+/* è°ƒç”¨OSA_kSpinlockCreateè¿”å›žçš„è‡ªæ—‹é”å¥æŸ„ç±»åž‹,ä¸Šå±‚æ¨¡å—ä¸éœ€è¦å…³å¿ƒå…¶ä¸­çš„å…·ä½“å†…å®¹,*/
+/* åªéœ€è¦åœ¨å„è‡ªæ—‹é”æ“ä½œæŽ¥å£ä¸­ä¼ å…¥è¯¥å¥æŸ„å³å¯*/
 typedef Handle OSA_SpinlockHandle;
 
 
-/* ×ÔÐýËø¼Ó½âËøµÄÀàÐÍ¡£SYSBIOSÖÐÖ§³ÖOSA_SPINLOCK_IRQ¡£*/
+/* è‡ªæ—‹é”åŠ è§£é”çš„ç±»åž‹ã€‚SYSBIOSä¸­æ”¯æŒOSA_SPINLOCK_IRQã€‚*/
 typedef enum
 {
-    OSA_SPINLOCK_NORMAL  = 0,  /* ¶ÔÓ¦spin_lock¡¢spin_unlock */
-    OSA_SPINLOCK_BH,           /* ¶ÔÓ¦spin_lock_bh¡¢spin_unlock_bh */
-    OSA_SPINLOCK_IRQ,          /* ¶ÔÓ¦spin_lock_irq¡¢spin_unlock_irq */
-    OSA_SPINLOCK_IRQSAVE       /* ¶ÔÓ¦spin_lock_irqsave¡¢spin_unlock_irqrestore*/
+    OSA_SPINLOCK_NORMAL  = 0,  /* å¯¹åº”spin_lockã€spin_unlock */
+    OSA_SPINLOCK_BH,           /* å¯¹åº”spin_lock_bhã€spin_unlock_bh */
+    OSA_SPINLOCK_IRQ,          /* å¯¹åº”spin_lock_irqã€spin_unlock_irq */
+    OSA_SPINLOCK_IRQSAVE       /* å¯¹åº”spin_lock_irqsaveã€spin_unlock_irqrestore*/
 } OSA_SpinlockType;
 
 /* ========================================================================== */
-/*                          Êý¾Ý½á¹¹¶¨ÒåÇø                                    */
+/*                          æ•°æ®ç»“æž„å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          º¯ÊýÉùÃ÷Çø                                        */
+/*                          å‡½æ•°å£°æ˜ŽåŒº                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_spinlockCreate
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔð´´½¨Ò»¸ö×ÔÐýËø
-*           ¸Ã½Ó¿Ú²»ÄÜÔÚÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_spinlockCreate
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£åˆ›å»ºä¸€ä¸ªè‡ªæ—‹é”
+*           è¯¥æŽ¥å£ä¸èƒ½åœ¨ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - spinType  : ¼ÓËøÀàÐÍ,¾ßÌå¶¨Òå²Î¼ûOSA_SpinlockType¡£
+* è¾“  å…¥  : - spinType  : åŠ é”ç±»åž‹,å…·ä½“å®šä¹‰å‚è§OSA_SpinlockTypeã€‚
 *
-* Êä  ³ö  : - phSpinlock: ×ÔÐýËø ¾ä±úÖ¸Õë,µ±´´½¨³É¹¦Ê±Êä³ö×ÔÐýËø¾ä±ú
-* ·µ»ØÖµ  : OSA_SOK:      ´´½¨³É¹¦
-*           OSA_EFAIL:    ´´½¨Ê§°Ü
+* è¾“  å‡º  : - phSpinlock: è‡ªæ—‹é” å¥æŸ„æŒ‡é’ˆ,å½“åˆ›å»ºæˆåŠŸæ—¶è¾“å‡ºè‡ªæ—‹é”å¥æŸ„
+* è¿”å›žå€¼  : OSA_SOK:      åˆ›å»ºæˆåŠŸ
+*           OSA_EFAIL:    åˆ›å»ºå¤±è´¥
 *******************************************************************************/
 Int32 OSA_spinlockCreate(OSA_SpinlockType    spinType, 
                          OSA_SpinlockHandle *phSpinlock);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_spinLock
-* Ãè  Êö  : ×ÔÐýËø¼ÓËø²Ù×÷
-*           ¸Ã½Ó¿Ú¿ÉÒÔÔÚÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_spinLock
+* æ  è¿°  : è‡ªæ—‹é”åŠ é”æ“ä½œ
+*           è¯¥æŽ¥å£å¯ä»¥åœ¨ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - hSpinlock: ×ÔÐýËø¾ä±ú
+* è¾“  å…¥  : - hSpinlock: è‡ªæ—‹é”å¥æŸ„
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  :  OSA_SOK:    ³É¹¦
-*            OSA_EFAIL:  Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  :  OSA_SOK:    æˆåŠŸ
+*            OSA_EFAIL:  å¤±è´¥
 *******************************************************************************/
 Int32 OSA_spinLock(OSA_SpinlockHandle hSpinlock);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_spinUnlock
-* Ãè  Êö  : ×ÔÐýËø½âËø²Ù×÷
-*           ¸Ã½Ó¿Ú¿ÉÒÔÔÚÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_spinUnlock
+* æ  è¿°  : è‡ªæ—‹é”è§£é”æ“ä½œ
+*           è¯¥æŽ¥å£å¯ä»¥åœ¨ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - hSpinlock: ×ÔÐýËø¾ä±ú
-*           - type:      ¼ÓËøÀàÐÍ,¾ßÌå¶¨Òå²Î¼ûOSA_KSpinlockType
+* è¾“  å…¥  : - hSpinlock: è‡ªæ—‹é”å¥æŸ„
+*           - type:      åŠ é”ç±»åž‹,å…·ä½“å®šä¹‰å‚è§OSA_KSpinlockType
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  :  OSA_SOK:    ³É¹¦
-*            OSA_EFAIL:  Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  :  OSA_SOK:    æˆåŠŸ
+*            OSA_EFAIL:  å¤±è´¥
 *******************************************************************************/
 Int32 OSA_spinUnlock(OSA_SpinlockHandle hSpinlock);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_spinTrylock
-* Ãè  Êö  : ×ÔÐýËø³¢ÊÔ¼ÓËø²Ù×÷
-*           ¸Ã½Ó¿Ú¿ÉÒÔÔÚÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_spinTrylock
+* æ  è¿°  : è‡ªæ—‹é”å°è¯•åŠ é”æ“ä½œ
+*           è¯¥æŽ¥å£å¯ä»¥åœ¨ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - hSpinlock:  ×ÔÐýËø¾ä±ú
-*           - type:       ¼ÓËøÀàÐÍ,¾ßÌå¶¨Òå²Î¼ûOSA_KSpinlockType
+* è¾“  å…¥  : - hSpinlock:  è‡ªæ—‹é”å¥æŸ„
+*           - type:       åŠ é”ç±»åž‹,å…·ä½“å®šä¹‰å‚è§OSA_KSpinlockType
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK:      ¼ÓËø³É¹¦
-*           OSA_EFAIL:    »ñµÃËøÊ§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK:      åŠ é”æˆåŠŸ
+*           OSA_EFAIL:    èŽ·å¾—é”å¤±è´¥
 *******************************************************************************/
 Int32 OSA_spinTrylock(OSA_SpinlockHandle hSpinlock);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_spinlockDelete
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÏú»ÙÒ»¸ö×ÔÐýËø
-*           ¸Ã½Ó¿Ú²»ÄÜÔÚÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_spinlockDelete
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£é”€æ¯ä¸€ä¸ªè‡ªæ—‹é”
+*           è¯¥æŽ¥å£ä¸èƒ½åœ¨ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - hSpinlock:  ÒªÏú»ÙµÄ×ÔÐýËø¾ä±ú
+* è¾“  å…¥  : - hSpinlock:  è¦é”€æ¯çš„è‡ªæ—‹é”å¥æŸ„
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK:      ³É¹¦
-*           OSA_EFAIL:    Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK:      æˆåŠŸ
+*           OSA_EFAIL:    å¤±è´¥
 *******************************************************************************/
 Int32 OSA_spinlockDelete(OSA_SpinlockHandle hSpinlock);
 

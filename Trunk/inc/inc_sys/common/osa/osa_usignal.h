@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-/*½ölinuxÓÃ»§Ì¬Ö§³ÖÒÔÏÂ½Ó¿Ú*/
+/*ä»…linuxç”¨æˆ·æ€æ”¯æŒä»¥ä¸‹æ¥å£*/
 #if !defined(__KERNEL__) && !defined(___DSPBIOS___)
 
 Int32  OSA_attachSignalHandler(Int32 sigId, void (*handler)(Int32) );

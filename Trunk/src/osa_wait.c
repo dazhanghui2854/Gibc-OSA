@@ -2,7 +2,7 @@
 
 #include <osa.h>
 
-/* 该接口用OSA_msleep替代 */
+/* 璇ユ帴鍙ｇ敤OSA_msleep鏇夸唬 */
 #if 0
 void OSA_waitMsecs(Uint32 msecs)
 {

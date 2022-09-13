@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2010-8-31 Create
 *
-* Description: OSAÄ£¿éÏµÍ³Í·ÎÄ¼ş¡£°üÀ¨ÁËËùÓĞ²Ù×÷ÏµÍ³Ïà¹ØµÄÍ·ÎÄ¼ş¡£
+* Description: OSAæ¨¡å—ç³»ç»Ÿå¤´æ–‡ä»¶ã€‚åŒ…æ‹¬äº†æ‰€æœ‰æ“ä½œç³»ç»Ÿç›¸å…³çš„å¤´æ–‡ä»¶ã€‚
 *
-*       1. Ó²¼şËµÃ÷¡£
-*          ÎŞ¡£
+*       1. ç¡¬ä»¶è¯´æ˜ã€‚
+*          æ— ã€‚
 *
-*       2. ³ÌĞò½á¹¹ËµÃ÷¡£
-*          ÎŞ
+*       2. ç¨‹åºç»“æ„è¯´æ˜ã€‚
+*          æ— 
 *
-*       3. Ê¹ÓÃËµÃ÷¡£
-*          ÎŞ¡£
+*       3. ä½¿ç”¨è¯´æ˜ã€‚
+*          æ— ã€‚
 *
-*       4. ¾ÖÏŞĞÔËµÃ÷¡£
-*          ÎŞ¡£
+*       4. å±€é™æ€§è¯´æ˜ã€‚
+*          æ— ã€‚
 *
-*       5. ÆäËûËµÃ÷¡£
-*          ÎŞ¡£
+*       5. å…¶ä»–è¯´æ˜ã€‚
+*          æ— ã€‚
 *
 * Modification:
 *    Date    :
@@ -36,7 +36,7 @@
 
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼şÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 
 /*lint -save -e* */
@@ -181,12 +181,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-#include <unistd.h>         //Unix±ê×¼º¯Êı¶¨Òå
+#include <unistd.h>         //Unixæ ‡å‡†å‡½æ•°å®šä¹‰
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>          //ÎÄ¼ş¿ØÖÆ¶¨Òå
-#include <errno.h>          //´íÎóºÅ¶¨Òå
-#include <string.h>         //´íÎóºÅ¶¨Òå
+#include <fcntl.h>          //æ–‡ä»¶æ§åˆ¶å®šä¹‰
+#include <errno.h>          //é”™è¯¯å·å®šä¹‰
+#include <string.h>         //é”™è¯¯å·å®šä¹‰
 #include <pthread.h>
 #include <assert.h>
 #include <signal.h>
@@ -244,7 +244,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#ifndef ST_OS21        /*Ê¹ÓÃ/opt/STM/ST200R7.3.0/bin/st200ccÃ»ÓĞÏÂÃæÕâĞ©Í·ÎÄ¼ş*/
+#ifndef ST_OS21        /*ä½¿ç”¨/opt/STM/ST200R7.3.0/bin/st200ccæ²¡æœ‰ä¸‹é¢è¿™äº›å¤´æ–‡ä»¶*/
 #include <linux/unistd.h>
 #include <semaphore.h>
 #include <sys/vfs.h>

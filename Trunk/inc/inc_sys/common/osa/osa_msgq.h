@@ -1,27 +1,21 @@
 /*******************************************************************************
 * osa_msgq.h
+* Description: OSA消息队列。
 *
-* Copyright (C) 2010-2013 ZheJiang Dahua Technology CO.,LTD.
+*       1. 硬件说明。
+*          无。
 *
-* Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
-* Version: V1.0.0  2012-7-25 Create
+*       2. 程序结构说明。
+*          无
 *
-* Description: OSA��Ϣ���С�
+*       3. 使用说明。
+*          无。
 *
-*       1. Ӳ��˵����
-*          �ޡ�
+*       4. 局限性说明。
+*          无。
 *
-*       2. ����ṹ˵����
-*          ��
-*
-*       3. ʹ��˵����
-*          �ޡ�
-*
-*       4. ������˵����
-*          �ޡ�
-*
-*       5. ����˵����
-*          �ޡ�
+*       5. 其他说明。
+*          无。
 *
 * Modification:
 *    Date    :
@@ -40,7 +34,7 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ������Ͷ�����                                   */
+/*                           宏和类型定义区                                   */
 /* ========================================================================== */
 
 #define OSA_msgGetCmd(msg)         ( (msg)->cmd )
@@ -51,10 +45,10 @@ typedef Handle OSA_MsgqHandle;
 
 
 /* ========================================================================== */
-/*                          ���ݽṹ������                                    */
+/*                          数据结构定义区                                    */
 /* ========================================================================== */
 
-/* ��Ϣ */
+/* 消息 */
 typedef struct
 {
     Uint16 cmd;
@@ -65,42 +59,42 @@ typedef struct
 
 
 /* ========================================================================== */
-/*                          ����������                                        */
+/*                          函数声明区                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* ������  : OSA_msgqCreate
-* ��  ��  : ������Ϣ���С�
-* ��  ��  : - nMsgNum: ���е���Ϣ������
-*         : - phMsgq : ���ص���Ϣ���о�����������в������ڴ˾����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_msgqCreate
+* 描  述  : 创建消息队列。
+* 输  入  : - nMsgNum: 队列的消息数量。
+*         : - phMsgq : 返回的消息队列句柄，后续所有操作基于此句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_msgqCreate(Uint32 nMsgNum, OSA_MsgqHandle *phMsgq);
 
 
 /*******************************************************************************
-* ������  : OSA_msgqDelete
-* ��  ��  : ������Ϣ���С�
-* ��  ��  : - hMsgq: ��Ϣ���о����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_msgqDelete
+* 描  述  : 销毁消息队列。
+* 输  入  : - hMsgq: 消息队列句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_msgqDelete(OSA_MsgqHandle hMsgq);
 
 
 /*******************************************************************************
-* ������  : OSA_msgqSend
-* ��  ��  : ������Ϣ��
-* ��  ��  : - hMsgq  : ��Ϣ���о����
-*           - pMsg   : ��Ϣ��
-*           - timeout: ��ʱʱ�䡣��λ�Ǻ��롣OSA_TIMEOUT_NONE��ʾ���ȴ���
-*                      OSA_TIMEOUT_FOREVER��ʾ���޵ȴ���
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_msgqSend
+* 描  述  : 发送消息。
+* 输  入  : - hMsgq  : 消息队列句柄。
+*           - pMsg   : 消息。
+*           - timeout: 超时时间。单位是毫秒。OSA_TIMEOUT_NONE表示不等待，
+*                      OSA_TIMEOUT_FOREVER表示无限等待。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_msgqSend(OSA_MsgqHandle hMsgq,
                    OSA_MsgqMsg   *pMsg,
@@ -108,17 +102,17 @@ Int32 OSA_msgqSend(OSA_MsgqHandle hMsgq,
 
 
 /*******************************************************************************
-* ������  : OSA_msgqSendMsg
-* ��  ��  : ������Ϣ��ͨ��������ʽ����������Ϣ��Ϣ��
-* ��  ��  : - hMsgqTo  : �����ߵ���Ϣ���о����
-*           - hMsgqFrom: �����ߵ���Ϣ���о����
-*           - cmd      : ���
-*           - msgFlags : �û��Զ����־��
-*           - pPrm     : ��Ϣ������
-*           - ppMsg    : ���ص���Ϣָ�룬���û�ʹ�á�ע����ָ���ָ�롣
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_msgqSendMsg
+* 描  述  : 发送消息。通过单个形式参数传递消息信息。
+* 输  入  : - hMsgqTo  : 接收者的消息队列句柄。
+*           - hMsgqFrom: 发送者的消息队列句柄。
+*           - cmd      : 命令。
+*           - msgFlags : 用户自定义标志。
+*           - pPrm     : 消息参数。
+*           - ppMsg    : 返回的消息指针，供用户使用。注意是指针的指针。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_msgqSendMsg(OSA_MsgqHandle hMsgqTo,
                       OSA_MsgqHandle hMsgqFrom,
@@ -129,15 +123,15 @@ Int32 OSA_msgqSendMsg(OSA_MsgqHandle hMsgqTo,
 
 
 /*******************************************************************************
-* ������  : OSA_msgqRecvMsg
-* ��  ��  : ������Ϣ��
-* ��  ��  : - hMsgq  : ��Ϣ���о����
-*           - ppMsg  : ��Ϣָ�롣ע����ָ���ָ�롣
-*           - timeout: ��ʱʱ�䡣��λ�Ǻ��롣OSA_TIMEOUT_NONE��ʾ���ȴ���
-*                      OSA_TIMEOUT_FOREVER��ʾ���޵ȴ���
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_msgqRecvMsg
+* 描  述  : 接收消息。
+* 输  入  : - hMsgq  : 消息队列句柄。
+*           - ppMsg  : 消息指针。注意是指针的指针。
+*           - timeout: 超时时间。单位是毫秒。OSA_TIMEOUT_NONE表示不等待，
+*                      OSA_TIMEOUT_FOREVER表示无限等待。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_msgqRecvMsg(OSA_MsgqHandle hMsgq,
                       OSA_MsgqMsg  **ppMsg,
@@ -145,57 +139,57 @@ Int32 OSA_msgqRecvMsg(OSA_MsgqHandle hMsgq,
 
 
 /*******************************************************************************
-* ������  : OSA_msgqCheckMsg
-* ��  ��  : ����Ƿ�����Ϣ��
-* ��  ��  : - hMsgq: ��Ϣ���о����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_TRUE  : �ɹ���
-*           OSA_FALSE : ʧ�ܡ�
+* 函数名  : OSA_msgqCheckMsg
+* 描  述  : 检查是否有消息。
+* 输  入  : - hMsgq: 消息队列句柄。
+* 输  出  : 无。
+* 返回值  : OSA_TRUE  : 成功。
+*           OSA_FALSE : 失败。
 *******************************************************************************/
 Bool32 OSA_msgqCheckMsg(OSA_MsgqHandle hMsgq);
 
 
 /*******************************************************************************
-* ������  : OSA_msgqSendAck
-* ��  ��  : ���ͻظ�ֵ��
-* ��  ��  : - hMsgq    : ��Ϣ���о����
-*           - ackRetVal: �ظ�ֵ��
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_TRUE  : �ɹ���
-*           OSA_FALSE : ʧ�ܡ�
+* 函数名  : OSA_msgqSendAck
+* 描  述  : 发送回复值。
+* 输  入  : - hMsgq    : 消息队列句柄。
+*           - ackRetVal: 回复值。
+* 输  出  : 无。
+* 返回值  : OSA_TRUE  : 成功。
+*           OSA_FALSE : 失败。
 *******************************************************************************/
 Int32 OSA_msgqSendAck(OSA_MsgqMsg *pMsg, Int32 ackRetVal);
 
 
 /*******************************************************************************
-* ������  : OSA_msgqAllocMsg
-* ��  ��  : ������Ϣ�ڴ档
-* ��  ��  : - ppMsg: ��Ϣָ���ָ�롣
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_TRUE  : �ɹ���
-*           OSA_FALSE : ʧ�ܡ�
+* 函数名  : OSA_msgqAllocMsg
+* 描  述  : 分配消息内存。
+* 输  入  : - ppMsg: 消息指针的指针。
+* 输  出  : 无。
+* 返回值  : OSA_TRUE  : 成功。
+*           OSA_FALSE : 失败。
 *******************************************************************************/
 Int32 OSA_msgqAllocMsg(OSA_MsgqMsg **ppMsg);
 
 
 /*******************************************************************************
-* ������  : OSA_msgqFreeMsg
-* ��  ��  : �ͷ��Ѿ��������Ϣ�ڴ档
-* ��  ��  : - pMsg: ��Ϣָ�롣
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_TRUE  : �ɹ���
-*           OSA_FALSE : ʧ�ܡ�
+* 函数名  : OSA_msgqFreeMsg
+* 描  述  : 释放已经分配的消息内存。
+* 输  入  : - pMsg: 消息指针。
+* 输  出  : 无。
+* 返回值  : OSA_TRUE  : 成功。
+*           OSA_FALSE : 失败。
 *******************************************************************************/
 Int32 OSA_msgqFreeMsg(OSA_MsgqMsg *pMsg);
 
 
 /*******************************************************************************
-* ������  : OSA_msgqFreeList
-* ��  ��  : �ͷ���Ϣ�������С�
-* ��  ��  : - pMsg: ��Ϣָ�롣
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_TRUE  : �ɹ���
-*           OSA_FALSE : ʧ�ܡ�
+* 函数名  : OSA_msgqFreeList
+* 描  述  : 释放消息到队列中。
+* 输  入  : - pMsg: 消息指针。
+* 输  出  : 无。
+* 返回值  : OSA_TRUE  : 成功。
+*           OSA_FALSE : 失败。
 *******************************************************************************/
 Int32 OSA_msgqFreeList(OSA_MsgqMsg *pMsg);
 

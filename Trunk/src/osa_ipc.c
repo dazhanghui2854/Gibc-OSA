@@ -209,13 +209,13 @@ Int32 OSA_ipcSemClose(OSA_IpcSemHndl *pHndl)
 }
 
 /**---------------------------------------------------------------------------@n
-\brief ´´½¨ÎÄ¼þÃûÎªpathnameµÄFIFOÎÄ¼þ
+\brief åˆ›å»ºæ–‡ä»¶åä¸ºpathnameçš„FIFOæ–‡ä»¶
 
-\param [in] pathname: °üº¬ÎÄ¼þÂ·¾¶ÐÅÏ¢µÄÍêÕûÎÄ¼þÃû
-\param [in] mode: ¼þ²Ù×÷Ä£Ê½,²Î¼ûOSA_FileMode¶¨Òå
-    ÈôOSA_FILEMODE_RDWR£¬ÒÑ¶ÁÐ´·½Ê½´´½¨FIFOÎÄ¼þ£¬Èô²»´æÔÚÔò´´½¨ÎÄ¼þ£¬Ô­ÓÐÊý¾Ý½«±»Çåµô£¬´ÓÎÄ¼þÍ·¿ªÊ¼¶ÁÐ´
+\param [in] pathname: åŒ…å«æ–‡ä»¶è·¯å¾„ä¿¡æ¯çš„å®Œæ•´æ–‡ä»¶å
+\param [in] mode: ä»¶æ“ä½œæ¨¡å¼,å‚è§OSA_FileModeå®šä¹‰
+    è‹¥OSA_FILEMODE_RDWRï¼Œå·²è¯»å†™æ–¹å¼åˆ›å»ºFIFOæ–‡ä»¶ï¼Œè‹¥ä¸å­˜åœ¨åˆ™åˆ›å»ºæ–‡ä»¶ï¼ŒåŽŸæœ‰æ•°æ®å°†è¢«æ¸…æŽ‰ï¼Œä»Žæ–‡ä»¶å¤´å¼€å§‹è¯»å†™
 
-\return OSA_SOK ³É¹¦£¬OSA_EFAIL Ê§°Ü 
+\return OSA_SOK æˆåŠŸï¼ŒOSA_EFAIL å¤±è´¥ 
 ------------------------------------------------------------------------------*/
 Int32 OSA_ipcMkfifo(Char *pathname, OSA_FileMode mode)
 {

@@ -8,7 +8,7 @@ extern "C" {
 
 #include "osa_file.h"
 
-/*½ölinuxÓÃ»§Ì¬Ö§³ÖÒÔÏÂ½Ó¿Ú*/
+/*ä»…linuxç”¨æˆ·æ€æ”¯æŒä»¥ä¸‹æ¥å£*/
 #if !defined(__KERNEL__) && !defined(___DSPBIOS___)
 
 #define OSA_IPC_FLAG_OPEN      (0x0)
@@ -81,13 +81,13 @@ Int32 OSA_ipcSemClose(OSA_IpcSemHndl *pHndl);
 /*!< \brief FIFO  */
 
 /**---------------------------------------------------------------------------@n
-\brief ´´½¨ÎÄ¼şÃûÎªpathnameµÄFIFOÎÄ¼ş
+\brief åˆ›å»ºæ–‡ä»¶åä¸ºpathnameçš„FIFOæ–‡ä»¶
 
-\param [in] pathname: °üº¬ÎÄ¼şÂ·¾¶ĞÅÏ¢µÄÍêÕûÎÄ¼şÃû
-\param [in] mode: ¼ş²Ù×÷Ä£Ê½,²Î¼ûOSA_FileMode¶¨Òå
-    ÈôOSA_FILEMODE_RDWR£¬ÒÑ¶ÁĞ´·½Ê½´´½¨FIFOÎÄ¼ş£¬Èô²»´æÔÚÔò´´½¨ÎÄ¼ş£¬Ô­ÓĞÊı¾İ½«±»Çåµô£¬´ÓÎÄ¼şÍ·¿ªÊ¼¶ÁĞ´
+\param [in] pathname: åŒ…å«æ–‡ä»¶è·¯å¾„ä¿¡æ¯çš„å®Œæ•´æ–‡ä»¶å
+\param [in] mode: ä»¶æ“ä½œæ¨¡å¼,å‚è§OSA_FileModeå®šä¹‰
+    è‹¥OSA_FILEMODE_RDWRï¼Œå·²è¯»å†™æ–¹å¼åˆ›å»ºFIFOæ–‡ä»¶ï¼Œè‹¥ä¸å­˜åœ¨åˆ™åˆ›å»ºæ–‡ä»¶ï¼ŒåŸæœ‰æ•°æ®å°†è¢«æ¸…æ‰ï¼Œä»æ–‡ä»¶å¤´å¼€å§‹è¯»å†™
 
-\return OSA_SOK ³É¹¦£¬OSA_EFAIL Ê§°Ü
+\return OSA_SOK æˆåŠŸï¼ŒOSA_EFAIL å¤±è´¥
 ------------------------------------------------------------------------------*/
 Int32 OSA_ipcMkfifo(Char *pathname, OSA_FileMode mode);
 

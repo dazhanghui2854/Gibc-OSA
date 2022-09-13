@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2010-8-31 Create
 *
-* Description: OSAµÄÁ´±í¹ÜÀí½Ó¿Ú¡£
+* Description: OSAçš„é“¾è¡¨ç®¡ç†æŽ¥å£ã€‚
 *
-*       1. Ó²¼þËµÃ÷¡£
-*          ÎÞ¡£
+*       1. ç¡¬ä»¶è¯´æ˜Žã€‚
+*          æ— ã€‚
 
-*       2. ³ÌÐò½á¹¹ËµÃ÷¡£
-*          ÎÞ
+*       2. ç¨‹åºç»“æž„è¯´æ˜Žã€‚
+*          æ— 
 *
-*       3. Ê¹ÓÃËµÃ÷¡£
-*          ÎÞ¡£
+*       3. ä½¿ç”¨è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
-*       4. ¾ÖÏÞÐÔËµÃ÷¡£
-*          ÎÞ¡£
+*       4. å±€é™æ€§è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
-*       5. ÆäËûËµÃ÷¡£
-*          ÎÞ¡£
+*       5. å…¶ä»–è¯´æ˜Žã€‚
+*          æ— ã€‚
 *
 * Modification:
 *    Date    :
@@ -36,7 +36,7 @@
 
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼þÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 
 
@@ -46,10 +46,10 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
-/* ÓÃÓÚ³õÊ¼»¯Á´±í½Úµã */
+/* ç”¨äºŽåˆå§‹åŒ–é“¾è¡¨èŠ‚ç‚¹ */
 #ifndef _WIN32
 #define OSA_LIST_POISON1  ((void *) 0xAC11CD76)
 #define OSA_LIST_POISON2  ((void *) 0xAC12CD86)
@@ -60,10 +60,10 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                          Êý¾Ý½á¹¹¶¨ÒåÇø                                    */
+/*                          æ•°æ®ç»“æž„å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
-/* Á´±íÍ· */
+/* é“¾è¡¨å¤´ */
 typedef struct OSA_ListHead
 {
 	struct OSA_ListHead *next;
@@ -71,16 +71,16 @@ typedef struct OSA_ListHead
 } OSA_ListHead;
 
 
-/* Á´±í¾²Ì¬¶¨ÒåºÍ³õÊ¼»¯ */
+/* é“¾è¡¨é™æ€å®šä¹‰å’Œåˆå§‹åŒ– */
 #define OSA_LIST_HEAD(name) \
 	OSA_ListHead name = { &(name), &(name) }
 
 
 /* ========================================================================== */
-/*                          º¯Êý¶¨ÒåÇø                                        */
+/*                          å‡½æ•°å®šä¹‰åŒº                                        */
 /* ========================================================================== */
 
-/* Á´±í¶¯Ì¬³õÊ¼»¯ */
+/* é“¾è¡¨åŠ¨æ€åˆå§‹åŒ– */
 static inline void OSA_listHeadInit(OSA_ListHead *list)
 {
 	list->next = list;
@@ -88,7 +88,7 @@ static inline void OSA_listHeadInit(OSA_ListHead *list)
 }
 
 
-/* Í¨ÓÃÌí¼Ó³ÉÔ±µÄ½Ó¿Ú£¬ÐèÖ¸¶¨¶ÓÁÐµÄÇ°½ÚµãºÍºó½Úµã¡£*/
+/* é€šç”¨æ·»åŠ æˆå‘˜çš„æŽ¥å£ï¼Œéœ€æŒ‡å®šé˜Ÿåˆ—çš„å‰èŠ‚ç‚¹å’ŒåŽèŠ‚ç‚¹ã€‚*/
 static inline void __OSA_listAdd(OSA_ListHead *newList,
 			                     OSA_ListHead *prev,
 			                     OSA_ListHead *next)
@@ -100,21 +100,21 @@ static inline void __OSA_listAdd(OSA_ListHead *newList,
 }
 
 
-/* Ìí¼Ó³ÉÔ±µÄ½Ó¿Ú£¬headµÄnextÖ¸Ïò¶ÓÎ²£¬headµÄprevÖ¸ÏòÏÂÒ»¸öÔªËØ¡£*/
+/* æ·»åŠ æˆå‘˜çš„æŽ¥å£ï¼Œheadçš„nextæŒ‡å‘é˜Ÿå°¾ï¼Œheadçš„prevæŒ‡å‘ä¸‹ä¸€ä¸ªå…ƒç´ ã€‚*/
 static inline void OSA_listAdd(OSA_ListHead *newList, OSA_ListHead *head)
 {
 	__OSA_listAdd(newList, head, head->next);
 }
 
 
-/* Ìí¼Ó³ÉÔ±µÄ½Ó¿Ú£¬headµÄnextÖ¸ÏòÏÂÒ»¸öÔªËØ£¬headµÄprevÖ¸Ïò¶ÓÎ²¡£*/
+/* æ·»åŠ æˆå‘˜çš„æŽ¥å£ï¼Œheadçš„nextæŒ‡å‘ä¸‹ä¸€ä¸ªå…ƒç´ ï¼Œheadçš„prevæŒ‡å‘é˜Ÿå°¾ã€‚*/
 static inline void OSA_listAddTail(OSA_ListHead *newList, OSA_ListHead *head)
 {
 	__OSA_listAdd(newList, head->prev, head);
 }
 
 
-/* ´ÓÁ´±íÖÐÉ¾³ý³ÉÔ±µÄÍ¨ÓÃ½Ó¿Ú£¬Ö¸¶¨¸Ã³ÉÔ±µÄ¶ÓÍ·ºÍ¶ÓÎ²¡£*/
+/* ä»Žé“¾è¡¨ä¸­åˆ é™¤æˆå‘˜çš„é€šç”¨æŽ¥å£ï¼ŒæŒ‡å®šè¯¥æˆå‘˜çš„é˜Ÿå¤´å’Œé˜Ÿå°¾ã€‚*/
 static inline void __OSA_listDel(OSA_ListHead * prev, OSA_ListHead * next)
 {
 	next->prev = prev;
@@ -122,7 +122,7 @@ static inline void __OSA_listDel(OSA_ListHead * prev, OSA_ListHead * next)
 }
 
 
-/* ´ÓÁ´±íÖÐÉ¾³ý³ÉÔ±µÄÍ¨ÓÃ½Ó¿Ú£¬Ö¸¶¨¸Ã³ÉÔ±¡£*/
+/* ä»Žé“¾è¡¨ä¸­åˆ é™¤æˆå‘˜çš„é€šç”¨æŽ¥å£ï¼ŒæŒ‡å®šè¯¥æˆå‘˜ã€‚*/
 static inline void OSA_listDel(OSA_ListHead *entry)
 {
 	__OSA_listDel(entry->prev, entry->next);
@@ -131,46 +131,46 @@ static inline void OSA_listDel(OSA_ListHead *entry)
 }
 
 
-/* ÅÐ¶ÏÁ´±íÊÇ·ñÎª¿ÕµÄ½Ó¿Ú¡£*/
+/* åˆ¤æ–­é“¾è¡¨æ˜¯å¦ä¸ºç©ºçš„æŽ¥å£ã€‚*/
 static inline int OSA_listEmpty(const OSA_ListHead *head)
 {
 	return head->next == head;
 }
 
 
-/* Í¨¹ýÁ´±í³ÉÔ±»ñÈ¡°ü¹ü½á¹¹ÌåµÄÊ×µØÖ·¡£*/
+/* é€šè¿‡é“¾è¡¨æˆå‘˜èŽ·å–åŒ…è£¹ç»“æž„ä½“çš„é¦–åœ°å€ã€‚*/
 #define OSA_listEntry(ptr, type, member) \
 	OSA_containerOf(ptr, type, member)
 
-/* »ñÈ¡Á´±íÊ×¸öÔªËØ³ÉÔ±, µ÷ÓÃÕßÐè±£Ö¤Á´±í²»Îª¿Õ */
+/* èŽ·å–é“¾è¡¨é¦–ä¸ªå…ƒç´ æˆå‘˜, è°ƒç”¨è€…éœ€ä¿è¯é“¾è¡¨ä¸ä¸ºç©º */
 #define OSA_listFirstEntry(ptr, type, member) \
 	OSA_listEntry((ptr)->next, type, member)
 
-/* »ñÈ¡Á´±íÊ×¸öÔªËØ³ÉÔ±, Èç¹ûÁ´±íÎª¿Õ, Ôò·µ»ØNULL */
+/* èŽ·å–é“¾è¡¨é¦–ä¸ªå…ƒç´ æˆå‘˜, å¦‚æžœé“¾è¡¨ä¸ºç©º, åˆ™è¿”å›žNULL */
 #define OSA_listFirstEntryOrNull(ptr, type, member) \
 	(!OSA_listEmpty(ptr) ? OSA_listFirstEntry(ptr, type, member) : NULL)
 
-/* ±éÀúÁ´±í£¬´øÀàÐÍ×ª»»£¬¹ý³ÌÖÐ»ñµÃµÄ½Úµã²»¿É±»É¾³ý¡£*/
+/* éåŽ†é“¾è¡¨ï¼Œå¸¦ç±»åž‹è½¬æ¢ï¼Œè¿‡ç¨‹ä¸­èŽ·å¾—çš„èŠ‚ç‚¹ä¸å¯è¢«åˆ é™¤ã€‚*/
 #define OSA_listForEachT(pos, head, T) \
     for (pos = (T*)((head)->next); pos != (T*)(head); \
         pos = (T*)(((OSA_ListHead*)pos)->next))
 
-/* ±éÀúÁ´±í£¬¹ý³ÌÖÐ»ñµÃµÄ½Úµã²»¿É±»É¾³ý¡£*/
+/* éåŽ†é“¾è¡¨ï¼Œè¿‡ç¨‹ä¸­èŽ·å¾—çš„èŠ‚ç‚¹ä¸å¯è¢«åˆ é™¤ã€‚*/
 #define OSA_listForEach(pos, head) \
 	for (pos = (head)->next; pos != (head); \
         	pos = pos->next)
 
-/* ·´Ïò±éÀúÁ´±í£¬¹ý³ÌÖÐ»ñµÃµÄ½Úµã²»¿É±»É¾³ý¡£*/
+/* åå‘éåŽ†é“¾è¡¨ï¼Œè¿‡ç¨‹ä¸­èŽ·å¾—çš„èŠ‚ç‚¹ä¸å¯è¢«åˆ é™¤ã€‚*/
 #define OSA_listForEachPrev(pos, head) \
         for (pos = (head)->prev; pos != (head); \
                 pos = pos->prev)
 
-/* ±éÀúÁ´±í£¬¹ý³ÌÖÐ»ñµÃµÄ½Úµã¿É°²È«É¾³ý¡£tmpÎªÁÙÊ±½ÚµãÖ¸Õë¡£*/
+/* éåŽ†é“¾è¡¨ï¼Œè¿‡ç¨‹ä¸­èŽ·å¾—çš„èŠ‚ç‚¹å¯å®‰å…¨åˆ é™¤ã€‚tmpä¸ºä¸´æ—¶èŠ‚ç‚¹æŒ‡é’ˆã€‚*/
 #define OSA_listForEachSafe(pos, tmp, head) \
     for (pos = (head)->next, tmp = pos->next; pos != (head); \
          pos = tmp, tmp = pos->next)
 
-/* ·´Ïò±éÀúÁ´±í£¬¹ý³ÌÖÐ»ñµÃµÄ½Úµã¿É°²È«É¾³ý¡£tmpÎªÁÙÊ±½ÚµãÖ¸Õë¡£*/
+/* åå‘éåŽ†é“¾è¡¨ï¼Œè¿‡ç¨‹ä¸­èŽ·å¾—çš„èŠ‚ç‚¹å¯å®‰å…¨åˆ é™¤ã€‚tmpä¸ºä¸´æ—¶èŠ‚ç‚¹æŒ‡é’ˆã€‚*/
 #define OSA_listForEachPrevSafe(pos, tmp, head) \
     for (pos = (head)->prev, tmp = pos->prev; pos != (head); \
          pos = tmp, tmp = pos->prev)

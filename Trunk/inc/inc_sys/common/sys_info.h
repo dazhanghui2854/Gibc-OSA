@@ -6,10 +6,10 @@
  * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
  * Version: V1.0.0  2012-01-06 Create
  *
- * DESC: ����ϵͳ��ȫ����Ϣ���壬��Ҫ���ڲɼ��������2A��ģ�飬�����˲�Ʒ
- *       ��Ϣ�ȶ��壬Ϊlibcapture��libencode��libaew��libvideo��libsensor
- *       �ȿ⹲�á���ͷ�ļ�������IPCSysHeader�С����º�����ʱͬ������ؿ��
- *       ����
+ * DESC: 整个系统的全局信息定义，主要用于采集、编码和2A等模块，包含了产品
+ *       信息等定义，为libcapture、libencode、libaew、libvideo和libsensor
+ *       等库共用。该头文件保存在IPCSysHeader中。更新后续及时同步到相关库和
+ *       程序。
  ***************************************************************************/
 
 
@@ -18,7 +18,7 @@
 
 
 /* ========================================================================== */
-/*                             ͷ�ļ���                                       */
+/*                             头文件区                                       */
 /* ========================================================================== */
 
 #include <osa_sys.h>
@@ -30,28 +30,28 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ������Ͷ�����                                   */
+/*                           宏和类型定义区                                   */
 /* ========================================================================== */
 
-/* ��Ʒ�����Ͷ��塣*/
+/* 产品线类型定义。*/
 typedef enum
 {
     SYS_PDT_LINE_NONE = 0,
-    SYS_PDT_LINE_ITC,       /* ���ܽ�ͨ��Ʒ�� */
-    SYS_PDT_LINE_IPC,       /* �����������Ʒ�� */
-    SYS_PDT_LINE_SD,        /* �����Ʒ�� */
-    SYS_PDT_LINE_ZW,        /* ������Ʒ�� */
-    SYS_PDT_LINE_CA,        /* ģ���Ʒ�� */
-    SYS_PDT_LINE_TS,        /* �����Ʒ�� */
-    SYS_PDT_LINE_CE,        /* ��������Ʒ�� */
-    SYS_PDT_LINE_TPC,       /* �ȳ����Ʒ�� */
-    SYS_PDT_LINE_EC,        /* ��������Ʒ�� */
-    SYS_PDT_LINE_ADV,       /* �Ƚ������о�Ժ��Ʒ��*/
+    SYS_PDT_LINE_ITC,       /* 智能交通产品线 */
+    SYS_PDT_LINE_IPC,       /* 网络摄像机产品线 */
+    SYS_PDT_LINE_SD,        /* 球机产品线 */
+    SYS_PDT_LINE_ZW,        /* 智网产品线 */
+    SYS_PDT_LINE_CA,        /* 模拟产品线 */
+    SYS_PDT_LINE_TS,        /* 传输产品线 */
+    SYS_PDT_LINE_CE,        /* 互联网产品线 */
+    SYS_PDT_LINE_TPC,       /* 热成像产品线 */
+    SYS_PDT_LINE_EC,        /* 编码器产品线 */
+    SYS_PDT_LINE_ADV,       /* 先进技术研究院产品线*/
     SYS_PDT_LINE_NR
 } SYS_ProductLineType;
 
 
-/* ITC��Ʒ���Ͷ��塣*/
+/* ITC产品类型定义。*/
 typedef enum
 {
     SYS_PDT_ITC_NONE        = 0,
@@ -267,7 +267,7 @@ typedef enum
 } SYS_ProductTypeItc;
 
 
-/* IPC��Ʒ���Ͷ��塣*/
+/* IPC产品类型定义。*/
 typedef enum
 {
     SYS_PDT_IPC_NONE    = 0,
@@ -685,12 +685,12 @@ typedef enum
     SYS_PDT_IPC_HDW7243X,
     SYS_PDT_IPC_HFW4631K,
     SYS_PDT_IPC_HUM8431P_E1,
-    SYS_PDT_IPC_PFWE4_4K_SGP,     /* �¼Ӳ�������IPC�����е�4KӲƴ */
-    SYS_PDT_IPC_PFWE4_2K_SGP,     /* �¼Ӳ�������IPC�����е�4��1ƴ�� */
-    SYS_PDT_IPC_PFWE8_SGP,        /* �¼Ӳ�������IPC�����е�8��1ƴ�� */
+    SYS_PDT_IPC_PFWE4_4K_SGP,     /* 新加波守望者IPC部分中的4K硬拼 */
+    SYS_PDT_IPC_PFWE4_2K_SGP,     /* 新加波守望者IPC部分中的4合1拼接 */
+    SYS_PDT_IPC_PFWE8_SGP,        /* 新加波守望者IPC部分中的8合1拼接 */
     SYS_PDT_IPC_HDPW4238_WPT_SA,
     SYS_PDT_IPC_HDPW4436_WPT_SA,
-    SYS_PDT_IPC_HY_SA_K911_E2 = 510,    /*��ҵ��չ���������̸��豸 */
+    SYS_PDT_IPC_HY_SA_K911_E2 = 510,    /*新业务发展部独立型烟感设备 */
     SYS_PDT_IPC_HDBW8331E_Z_UWB,
     SYS_PDT_IPC_HF8242FP_FD,
     SYS_PDT_IPC_HF8242FP_FR,
@@ -735,16 +735,16 @@ typedef enum
     SYS_PDT_IPC_HFW8841E_ZFD_IRA_67134,
     SYS_PDT_IPC_HFW8841E_ZFR_IRA_67134,
     SYS_PDT_IPC_HFW4239T_IMX327,
-    SYS_PDT_IPC_MW4231AP_E2_V2, /* ��Լ��ͨ���ͺŸİ� */
-    SYS_PDT_IPC_RM26_4G_V2,     /* ��Լ�������ͺŸİ� */
+    SYS_PDT_IPC_MW4231AP_E2_V2, /* 网约车通用型号改版 */
+    SYS_PDT_IPC_RM26_4G_V2,     /* 网约车民用型号改版 */
     SYS_PDT_IPC_HDBW5231EP_ZE_HDMI,
     SYS_PDT_IPC_HD4140X_3D,
     SYS_PDT_IPC_PDBW8808_B360,
     SYS_PDT_IPC_PDBW8608_B270 = 560,
     SYS_PDT_IPC_PDBW8408_B180,
-    SYS_PDT_IPC_HFW7841X_E3,         /* ��Ŀ����ʹ�� */
-    SYS_PDT_IPC_HFW8841X_3D,         /* ��Ŀ����ʹ�� */
-    SYS_PDT_IPC_HFW7841X_E3_WJW,     /* ��Ŀ�����Ľ���ʹ�� */
+    SYS_PDT_IPC_HFW7841X_E3,         /* 三目国内使用 */
+    SYS_PDT_IPC_HFW8841X_3D,         /* 三目国外使用 */
+    SYS_PDT_IPC_HFW7841X_E3_WJW,     /* 三目国内文教卫使用 */
     SYS_PDT_IPC_HFS7249_XYZ_LED_0832,
     SYS_PDT_IPC_HFS7249_XYZ_LED_67134,
     SYS_PDT_IPC_HFS7841_WGS_LED_67134,
@@ -767,8 +767,8 @@ typedef enum
     SYS_PDT_IPC_HFW4833_SAG,
     SYS_PDT_IPC_HFW5833_SAG,
     SYS_PDT_IPC_HDBW4833_SAG,
-    SYS_PDT_IPC_HF8841F_FI_3559A,    /* �������Ŀ��ǹ�ͺ� */
-    SYS_PDT_IPC_HF8841F_FR_3559A,    /* �������Ŀ��ǹ�ͺ� */
+    SYS_PDT_IPC_HF8841F_FI_3559A,    /* 达芬奇项目标枪型号 */
+    SYS_PDT_IPC_HF8841F_FR_3559A,    /* 达芬奇项目标枪型号 */
     SYS_PDT_IPC_HDBW4833_ZAS_3512_SAG,
     SYS_PDT_IPC_HFW4833_ZAS_3512_SAG = 590,
     SYS_PDT_IPC_TG26I,
@@ -779,9 +779,9 @@ typedef enum
     SYS_PDT_IPC_HDBW7243F_FD_SAG, 
     SYS_PDT_IPC_HDBW3241F_FD_SAG, 
     SYS_PDT_IPC_HF8439E,
-    SYS_PDT_IPC_HF8249F_FDI_S2,      /* ŵ������Ŀ��ǹ�ͺ�*/
-    SYS_PDT_IPC_HF8449F_FDI_S2 = 600,      /* 8ϵ�� 400W E�����ƺ���ǹ����*/
-    SYS_PDT_IPC_HDBW8249E_ZFR_3512,      /* ������������ͺ� */
+    SYS_PDT_IPC_HF8249F_FDI_S2,      /* 诺贝尔项目标枪型号*/
+    SYS_PDT_IPC_HF8449F_FDI_S2 = 600,      /* 8系列 400W E型六灯红外枪人脸*/
+    SYS_PDT_IPC_HDBW8249E_ZFR_3512,      /* 人脸半球改制型号 */
     SYS_PDT_IPC_HFW8841E_ZFD_IRA_LED_3512,
     SYS_PDT_IPC_HFW5443_SAG,
     SYS_PDT_IPC_HFS7249_WGS_LED_67134_V2,
@@ -795,7 +795,7 @@ typedef enum
 } SYS_ProductTypeIpc;
 
 
-/* �����Ʒ���Ͷ��塣*/
+/* 球机产品类型定义。*/
 typedef enum
 {
     SYS_PDT_SD_NONE       = 0,
@@ -896,12 +896,12 @@ typedef enum
     SYS_PDT_SD12203T_GNW_S2,
     SYS_PDT_SDT_5A223_2F_400,
     SYS_PDT_SDT_5A223_8F_450,
-    SYS_PDT_SD_PSD81602P_H_A360_E9,   /* �¼Ӳ������� SingaPore */
+    SYS_PDT_SD_PSD81602P_H_A360_E9,   /* 新加波守望者 SingaPore */
     SYS_PDT_CA_HZ2037E,
     SYS_PDT_CA_HZ8037_WARPWAY_A,
     SYS_PDT_CA_HZ2055_NOVA2_A,
     SYS_PDT_CA_HZ2040_WARPWAY_A,
-    SYS_PDT_CA_HZ2048_WARPWAY_B,     /*IMX385 sensorԤ��*/
+    SYS_PDT_CA_HZ2048_WARPWAY_B,     /*IMX385 sensor预研*/
     SYS_PDT_SDT6A240_2M_3716_WARPWAY_A,
     SYS_PDT_CA_HZ2040_WARPWAY_B,
     SYS_PDT_CA_HZ2037_WARPWAY_A,
@@ -960,7 +960,7 @@ typedef enum
 } SYS_ProductTypeSd;
 
 
-/* CA��Ʒ���Ͷ��塣*/
+/* CA产品类型定义。*/
 typedef enum
 {
     SYS_PDT_CA_NONE    = 0,
@@ -1029,7 +1029,7 @@ typedef enum
     SYS_PDT_CA_NR
 } SYS_ProductTypeCa;
 
-/* ������Ʒ���Ͷ��塣 */
+/* 智网产品类型定义。 */
 typedef enum
 {
     SYS_PDT_ZW_NONE    = 0,
@@ -1074,7 +1074,7 @@ typedef enum
 } SYS_ProductTypeZw;
 
 
-/* ��������Ʒ���Ͷ��塣*/
+/* 互联网产品类型定义。*/
 typedef enum
 {
     SYS_PDT_CE_NONE       = 0,
@@ -1093,7 +1093,7 @@ typedef enum
     SYS_PDT_CE_NR
 } SYS_ProductTypeCe;
 
-/* �ȳ����Ʒ���Ͷ��塣*/
+/* 热成像产品类型定义。*/
 typedef enum
 {
     SYS_PDT_TPC_NONE       = 0,
@@ -1237,21 +1237,21 @@ typedef enum
     SYS_PDT_TPC_UMU5400_TB,
     SYS_PDT_TPC_UMU5600_TB,
     SYS_PDT_TPC_UMU8420_TB = 140,
-    SYS_PDT_TPC_BF2201_B,       /* ��Ŀǹ��256 */
-    SYS_PDT_TPC_BF2221_B,       /* ˫Ŀ������ǹ256 */
+    SYS_PDT_TPC_BF2201_B,       /* 单目枪机256 */
+    SYS_PDT_TPC_BF2221_B,       /* 双目渠道中枪256 */
     SYS_PDT_TPC_BF2221_TB,
-    SYS_PDT_TPC_BF8421A_B,      /* ˫Ŀ��ǹ */
+    SYS_PDT_TPC_BF8421A_B,      /* 双目大枪 */
     SYS_PDT_TPC_BF8621A_B,
-    SYS_PDT_TPC_SD2221_B,       /* ˫Ŀ������256 */
+    SYS_PDT_TPC_SD2221_B,       /* 双目渠道球256 */
     SYS_PDT_TPC_SD2221_TB,
-    SYS_PDT_TPC_PT8421C_RB,     /* ��Ŀ���� */
+    SYS_PDT_TPC_PT8421C_RB,     /* 三目重型 */
     SYS_PDT_TPC_PT8421C_LB,
     SYS_PDT_TPC_PT8621C_RB,
     SYS_PDT_TPC_PT8621C_LB,
     SYS_PDT_TPC_NR
 } SYS_ProductTypeTpc;
 
-/* ��������Ʒ���Ͷ��塣*/
+/* 编码器产品类型定义。*/
 typedef enum
 {
     SYS_PDT_EC_NONE       = 0,
@@ -1260,7 +1260,7 @@ typedef enum
     SYS_PDT_EC_NR
 } SYS_ProductTypeEc;
 
-/* �����Ʒ���Ͷ��塣*/
+/* 传输产品类型定义。*/
 typedef enum
 {
     SYS_PDT_TS_NONE       = 0,
@@ -1275,7 +1275,7 @@ typedef enum
     SYS_PDT_TS_NR
 } SYS_ProductTypeTs;
 
-/* ADV��Ʒ���Ͷ��塣*/
+/* ADV产品类型定义。*/
 typedef enum
 {
     SYS_PDT_ADV_NONE        = 0,
@@ -1283,7 +1283,7 @@ typedef enum
     SYS_PDT_ADV_NR
 }SYS_ProductTypeAdv;
 
-/* Ӳ���汾���Ͷ��塣*/
+/* 硬件版本类型定义。*/
 typedef enum
 {
     SYS_HW_VERSION_0,
@@ -1300,7 +1300,7 @@ typedef enum
 } SYS_HwVersionType;
 
 
-/* �����������Ͷ��塣*/
+/* 特殊需求类型定义。*/
 typedef enum
 {
     SYS_SPEC_NEEDS_NONE = 0,
@@ -1314,7 +1314,7 @@ typedef enum
 } SYS_SpecNeedsType;
 
 
-/* Sensorʵ�����Ͷ��塣*/
+/* Sensor实例类型定义。*/
 typedef enum
 {
     SYS_AD_INST_0,
@@ -1328,7 +1328,7 @@ typedef enum
 } SYS_SensorInstType;
 
 
-/* Sensor���Ͷ��塣*/
+/* Sensor类型定义。*/
 typedef enum
 {
     SYS_AD_NONE             = 0,
@@ -1388,7 +1388,7 @@ typedef enum
     SYS_AD_IMX225,
     SYS_AD_OV9750,
     SYS_AD_JXH22,
-    SYS_AD_FPE115           = 58,         /* FPGA E115 �ͺ�*/
+    SYS_AD_FPE115           = 58,         /* FPGA E115 型号*/
     SYS_AD_JXH42,
     SYS_AD_AR0230_PARALLEL  = 61,
     SYS_AD_OV5658           = 62,
@@ -1407,7 +1407,7 @@ typedef enum
     SYS_AD_FPE7503,
     SYS_AD_AR0237,
     SYS_AD_FPE115M,
-    SYS_AD_IMX185_FPGA,                 /* imx185+FPGA �ͺ�*/
+    SYS_AD_IMX185_FPGA,                 /* imx185+FPGA 型号*/
     SYS_AD_IMX323,
     SYS_AD_IMX274           = 80,
     SYS_AD_IMX290_PARALLEL,
@@ -1416,7 +1416,7 @@ typedef enum
     SYS_AD_FPA503,
     SYS_AD_OV2710          = 85,
     SYS_AD_OV2718,
-    SYS_AD_IMX290_FPGA,                 /* imx290+FPGA �ͺ� */
+    SYS_AD_IMX290_FPGA,                 /* imx290+FPGA 型号 */
     SYS_AD_AR0237_PARALLEL,
     SYS_AD_IMX299,
     SYS_AD_IMX294          = 90,
@@ -1475,7 +1475,7 @@ typedef enum
     SYS_AD_AD_NR
 } SYS_SensorType;
 
-/* Fpga���Ͷ��塣*/
+/* Fpga类型定义。*/
 typedef enum
 {
     SYS_FPGA_NONE             = 0,
@@ -1486,7 +1486,7 @@ typedef enum
 
 } SYS_FpgaType;
 
-/* MCUƵ�������������塣*/
+/* MCU频率数组索引定义。*/
 typedef enum
 {
     SYS_PROC_DSP      = 0,
@@ -1496,27 +1496,27 @@ typedef enum
     SYS_PROC_NR
 } SYS_McuType;
 
-/* �豸����Ҫҵ����̵ı�� */
+/* 设备上主要业务进程的编号 */
 typedef enum
 {
-    SYS_PROCESS_ID_UNKNOW       = -1, /* δ֪ */
+    SYS_PROCESS_ID_UNKNOW       = -1, /* 未知 */
 
     /*
-    Linux�ں��̵߳�ͳһ��ţ�TI SysBios����ϵͳ�е�ͳһ��ţ�
-    Hisi LiteOS����ϵͳ�е�ͳһ��š�
-    ��Linux����ϵͳ�У��û�����ϵͳ���ý����ں�̬����ȡ���ı��
-    Ϊʵ�ʽ��̱�ţ�������ͳһ��š�
+    Linux内核线程的统一编号；TI SysBios操作系统中的统一编号；
+    Hisi LiteOS操作系统中的统一编号。
+    在Linux操作系统中，用户进程系统调用进入内核态，获取到的编号
+    为实际进程编号，不属于统一编号。
     */
     SYS_PROCESS_ID_UNION        = 0,
-    SYS_PROCESS_ID_SONIA        = 1,  /* Sonia���̱�� */
-    SYS_PROCESS_ID_VIDEODEAMON  = 2,  /* VideoDeamon���̱�� */
-    SYS_PROCESS_ID_UPGRADED     = 3,  /* Upgraded���̱�� */
-    SYS_PROCESS_ID_SYSHELPER    = 4,  /* Syshelper���̱�� */
+    SYS_PROCESS_ID_SONIA        = 1,  /* Sonia进程编号 */
+    SYS_PROCESS_ID_VIDEODEAMON  = 2,  /* VideoDeamon进程编号 */
+    SYS_PROCESS_ID_UPGRADED     = 3,  /* Upgraded进程编号 */
+    SYS_PROCESS_ID_SYSHELPER    = 4,  /* Syshelper进程编号 */
 
-    SYS_PROCESS_ID_MAX,               /* ����� */
+    SYS_PROCESS_ID_MAX,               /* 最大编号 */
 } SYS_ProcessID;
 
-/*DSPѹ��оƬ���Ͷ���*/
+/*DSP压缩芯片类型定义*/
 typedef enum
 {
     DSP_HI3510 = 1,
@@ -1589,37 +1589,37 @@ typedef enum
     SYS_ENCRYPT_NR
 } SYS_Encrypt;
 
-/* ��Щ��Ϣͨ��HWID�����õ������䶨����HWID���������ڲ�Ʒά����*/
+/* 这些信息通过HWID解析得到，但其定义与HWID独立，利于产品维护。*/
 typedef struct
 {
-    /* ��Ʒ�ߺţ�������SYS_ProductLineType��*/
+    /* 产品线号，见定义SYS_ProductLineType。*/
     Uint16 nPrdtLineId;
 
-    /* ��Ʒ�ͺţ�������SYS_ProductTypeXXX�� */
+    /* 产品型号，见定义SYS_ProductTypeXXX。 */
     Uint16 nPrdModelId;
 
-    /* Ӳ���汾�ţ�������SYS_HwVersionType��*/
+    /* 硬件版本号，见定义SYS_HwVersionType。*/
     Uint16 nHwVersionId;
 
-    /* ��������ţ�������SYS_SpecNeedsType��*/
+    /* 特殊需求号，见定义SYS_SpecNeedsType。*/
     Uint16 nSpecNeedsId;
 
-    /* Sensor���ͣ���SYS_SensorType���塣*/
+    /* Sensor类型，见SYS_SensorType定义。*/
     Uint16 nSensorId;
 
-    /* Sensorʵ��������������ͬ��Sensorʵ�����е������*/
+    /* Sensor实例，用于两个相同的Sensor实例运行的情况。*/
     Uint16 nSensorInst;
 
-    /* SOC�и�MCU��Ƶ�ʣ���λ��MHz�����������SYS_McuType��*/
+    /* SOC中各MCU的频率，单位是MHz，索引定义见SYS_McuType。*/
     Uint16 nMcuRate[SYS_PROC_NR];
 
-    /* Fpga���ͣ���SYS_FpgaType���塣*/
+    /* Fpga类型，见SYS_FpgaType定义。*/
     Uint16 nFpgaId;
 
-    /* DSP���ͣ���SYS_DspChip���塣*/
+    /* DSP类型，见SYS_DspChip定义。*/
     Uint16 nDspChipId;
 
-    /*�������ͣ���SYS_Encrypt����*/
+    /*加密类型，见SYS_Encrypt定义*/
     Uint16 nEncryptFlag;
 
     Uint16 reserve;
@@ -1627,37 +1627,37 @@ typedef struct
 } SYS_ProductInfo;
 
 
-/* �����ڴ����� */
+/* 共享内存区域 */
 typedef enum
 {
-    /* �˼�ͨ�����ڴ棬δ����Cache��*/
+    /* 核间通信用内存，未开启Cache。*/
     SYS_SR_NON_CACHED      = 0,
 
-    /* �˼�ͨ�����ڴ棬������Cache��һ�����������洢��*/
+    /* 核间通信用内存，开启了Cache，一般用于码流存储。*/
     SYS_SR_CACHED_BITSTREM = 1,
 
-    /* Host���������̼�ͨ��ר�ã�δ����Cache��*/
+    /* Host处理器进程间通信专用，未开启Cache。*/
     SYS_SR_HOST_CACHED     = 2,
 
-    /* �˼�ͨ�����ڴ棬δ����Cache��һ��������Ƶ���ݴ洢��*/
+    /* 核间通信用内存，未开启Cache，一般用于视频数据存储。*/
     SYS_SR_VIDEO_FRAME     = 3,
 
     SYS_SR_NR              = 4
 } SYS_SharedRegionId;
 
 
-/* ʱ��ṹ�� */
+/* 时间结构体 */
 typedef struct
 {
-    Int32L tvSec;     /* �� */
-    Int32L tvUsec;    /* ΢�� */
+    Int32L tvSec;     /* 秒 */
+    Int32L tvUsec;    /* 微秒 */
 } SYS_Timeval;
 
 
-/* Buffer����������ģ���ʹ�á�*/
+/* Buffer描述符，多模块间使用。*/
 typedef struct
 {
-    Uint32  nIndex;        /* Buffer��ID, ��ȡ�߲����޸ġ�*/
+    Uint32  nIndex;        /* Buffer的ID, 获取者不可修改。*/
     Uint32  nBufSize;
     Uint32  nBytesUsed;
     Uint32  dataFormat;

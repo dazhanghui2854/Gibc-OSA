@@ -6,9 +6,9 @@
 * Author : Zheng wei <zheng_wei@dahuatech.com>
 * Version: V1.0.0  2012-8-2 Create
 *
-* Desc: ¶¨ÒåOSAÄ£¿é¶ÔÍâÌá¹©µÄ¶¨Ê±Æ÷½Ó¿Ú
+* Desc: å®šä¹‰OSAæ¨¡å—å¯¹å¤–æä¾›çš„å®šæ—¶å™¨æŽ¥å£
 *       
-*           ½Ó¿Úµ÷ÓÃÁ÷³ÌÈçÏÂ:
+*           æŽ¥å£è°ƒç”¨æµç¨‹å¦‚ä¸‹:
 *           ==========================
 *                   |                            
 *           OSA_timerCreate
@@ -28,11 +28,11 @@
 #ifndef _OSA_TIMER_H_
 #define _OSA_TIMER_H_
 
-#if defined(__KERNEL__) || defined (___DSPBIOS___)    /* Linux ÄÚºËÌ¬ºÍTI SYSBIOSÖ§³Ö*/
+#if defined(__KERNEL__) || defined (___DSPBIOS___)    /* Linux å†…æ ¸æ€å’ŒTI SYSBIOSæ”¯æŒ*/
 
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼þÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 
 #ifdef __cplusplus
@@ -41,112 +41,112 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
-/*¶¨Ê±Æ÷¾ä±úÀàÐÍ*/
+/*å®šæ—¶å™¨å¥æŸ„ç±»åž‹*/
 typedef Handle OSA_TimerHandle;
 
-/*¶¨Òå¶¨Ê±Æ÷µÄ»Øµ÷´¦Àíº¯ÊýÀàÐÍ, 
-Èë²ÎhTimerÎª¶¨Ê±Æ÷¾ä±ú
-Èë²ÎpUserArgsÎª¶¨Ê±Æ÷´´½¨Ê±´«ÈëµÄÓÃ»§²ÎÊý
-·µ»ØÖµInt32±íÊ¾º¯ÊýÖ´ÐÐ³É¹¦»òÊ§°Ü
+/*å®šä¹‰å®šæ—¶å™¨çš„å›žè°ƒå¤„ç†å‡½æ•°ç±»åž‹, 
+å…¥å‚hTimerä¸ºå®šæ—¶å™¨å¥æŸ„
+å…¥å‚pUserArgsä¸ºå®šæ—¶å™¨åˆ›å»ºæ—¶ä¼ å…¥çš„ç”¨æˆ·å‚æ•°
+è¿”å›žå€¼Int32è¡¨ç¤ºå‡½æ•°æ‰§è¡ŒæˆåŠŸæˆ–å¤±è´¥
 */
 typedef Int32 (*OSA_TimerCallBack)(OSA_TimerHandle hTimer, Ptr pUserArgs);
 
 
-/*¶¨Ê±Æ÷ÀàÐÍ¶¨Òå*/
+/*å®šæ—¶å™¨ç±»åž‹å®šä¹‰*/
 typedef enum
 {
-    OSA_TIMER_ONCE = 0,    /*StartºóÖ»Ö´ÐÐÒ»´ÎµÄ¶¨Ê±Æ÷*/
-    OSA_TIMER_LOOP         /*StartºóÑ­»·Ö´ÐÐµÄ¶¨Ê±Æ÷*/
+    OSA_TIMER_ONCE = 0,    /*StartåŽåªæ‰§è¡Œä¸€æ¬¡çš„å®šæ—¶å™¨*/
+    OSA_TIMER_LOOP         /*StartåŽå¾ªçŽ¯æ‰§è¡Œçš„å®šæ—¶å™¨*/
 }OSA_TimerType;
 
-/*×î¶ÌµÄ¶¨Ê±Æ÷¼ä¸ô, ÉèÎª20ms, ±ÜÃâ¹ýÓÚÆµ·±µØÖ´ÐÐ¶¨Ê±Æ÷, ÏûºÄCPU*/
+/*æœ€çŸ­çš„å®šæ—¶å™¨é—´éš”, è®¾ä¸º20ms, é¿å…è¿‡äºŽé¢‘ç¹åœ°æ‰§è¡Œå®šæ—¶å™¨, æ¶ˆè€—CPU*/
 #define OSA_TIMER_INTV_MIN     20
 
 /* ========================================================================== */
-/*                          Êý¾Ý½á¹¹¶¨ÒåÇø                                    */
+/*                          æ•°æ®ç»“æž„å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
-/*´´½¨¶¨Ê±Æ÷µÄ²ÎÊý½á¹¹Ìå*/
+/*åˆ›å»ºå®šæ—¶å™¨çš„å‚æ•°ç»“æž„ä½“*/
 typedef struct
 {
-    OSA_TimerCallBack userFunc;             /*¶¨Ê±Æ÷µÄ»Øµ÷´¦Àíº¯Êý*/
-    Ptr pUserArgs;                          /*´«¸ø»Øµ÷´¦Àíº¯ÊýµÄÓÃ»§²ÎÊý*/
+    OSA_TimerCallBack userFunc;             /*å®šæ—¶å™¨çš„å›žè°ƒå¤„ç†å‡½æ•°*/
+    Ptr pUserArgs;                          /*ä¼ ç»™å›žè°ƒå¤„ç†å‡½æ•°çš„ç”¨æˆ·å‚æ•°*/
 
-    Uint32 type;                            /*¶¨Ê±Æ÷ÀàÐÍ,²Î¼ûOSA_TimerType¶¨Òå*/
+    Uint32 type;                            /*å®šæ—¶å™¨ç±»åž‹,å‚è§OSA_TimerTypeå®šä¹‰*/
 
-    /*¶¨Ê±Æ÷³¬Ê±Ê±¼ä,µ¥Î»ÎªºÁÃë*/
-    /*ÀàÐÍÎªOSA_TIMER_LOOPµÄ¶¨Ê±Æ÷expireMs ±íÊ¾Æô¶¯ºóÃ¿¸ô¶àÉÙºÁÃëÖ´ÐÐÒ»´Î»Øµ÷º¯Êý*/
-    /*ÀàÐÍÎªOSA_TIMER_ONCEµÄ¶¨Ê±Æ÷expireMs ±íÊ¾Æô¶¯ºó¸ô¶àÉÙºÁÃëÖ´ÐÐ»Øµ÷º¯Êý*/
-    /*¶ÔÓÚÀàÐÍÎªOSA_TIMER_LOOPµÄ¶¨Ê±Æ÷,*/
-    /*expireMs±ØÐë´óÓÚµÈÓÚOSA_TIMER_INTV_MIN, ÒÔ±ÜÃâÓÃ»§ÉèµÃ¹ý¶Ì£¬µ¼ÖÂCPU¹ý¸ß*/
-    /*Èç¹ûexpireMsÐ¡ÓÚOSA_TIMER_INTV_MIN, ³ÌÐò½«×Ô¶¯ÉèÎªOSA_TIMER_INTV_MIN*/
+    /*å®šæ—¶å™¨è¶…æ—¶æ—¶é—´,å•ä½ä¸ºæ¯«ç§’*/
+    /*ç±»åž‹ä¸ºOSA_TIMER_LOOPçš„å®šæ—¶å™¨expireMs è¡¨ç¤ºå¯åŠ¨åŽæ¯éš”å¤šå°‘æ¯«ç§’æ‰§è¡Œä¸€æ¬¡å›žè°ƒå‡½æ•°*/
+    /*ç±»åž‹ä¸ºOSA_TIMER_ONCEçš„å®šæ—¶å™¨expireMs è¡¨ç¤ºå¯åŠ¨åŽéš”å¤šå°‘æ¯«ç§’æ‰§è¡Œå›žè°ƒå‡½æ•°*/
+    /*å¯¹äºŽç±»åž‹ä¸ºOSA_TIMER_LOOPçš„å®šæ—¶å™¨,*/
+    /*expireMså¿…é¡»å¤§äºŽç­‰äºŽOSA_TIMER_INTV_MIN, ä»¥é¿å…ç”¨æˆ·è®¾å¾—è¿‡çŸ­ï¼Œå¯¼è‡´CPUè¿‡é«˜*/
+    /*å¦‚æžœexpireMså°äºŽOSA_TIMER_INTV_MIN, ç¨‹åºå°†è‡ªåŠ¨è®¾ä¸ºOSA_TIMER_INTV_MIN*/
     Uint32 expireMs;                        
                                             
-    Uint32 reserved[4];                     /*±£Áô*/                                            
+    Uint32 reserved[4];                     /*ä¿ç•™*/                                            
 }OSA_TimerInitParams;
 
 /* ========================================================================== */
-/*                          º¯ÊýÉùÃ÷Çø                                        */
+/*                          å‡½æ•°å£°æ˜ŽåŒº                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_timerCreate
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔð´´½¨Ò»¸ö¶¨Ê±Æ÷
-*           ¸Ã½Ó¿Ú²»ÄÜÔÚÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_timerCreate
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£åˆ›å»ºä¸€ä¸ªå®šæ—¶å™¨
+*           è¯¥æŽ¥å£ä¸èƒ½åœ¨ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - pParams:  ´´½¨¶¨Ê±Æ÷µÄ²ÎÊý£¬²Î¼ûOSA_TimerInitParams¶¨Òå
+* è¾“  å…¥  : - pParams:  åˆ›å»ºå®šæ—¶å™¨çš„å‚æ•°ï¼Œå‚è§OSA_TimerInitParamså®šä¹‰
 *
-* Êä  ³ö  : - phTimer:  ¶¨Ê±Æ÷¾ä±úÖ¸Õë,µ±´´½¨³É¹¦Ê±Êä³ö¶¨Ê±Æ÷¾ä±ú
-* ·µ»ØÖµ  :  OSA_SOK:   ´´½¨³É¹¦
-*            OSA_EFAIL: ´´½¨Ê§°Ü
+* è¾“  å‡º  : - phTimer:  å®šæ—¶å™¨å¥æŸ„æŒ‡é’ˆ,å½“åˆ›å»ºæˆåŠŸæ—¶è¾“å‡ºå®šæ—¶å™¨å¥æŸ„
+* è¿”å›žå€¼  :  OSA_SOK:   åˆ›å»ºæˆåŠŸ
+*            OSA_EFAIL: åˆ›å»ºå¤±è´¥
 *******************************************************************************/
 Int32 OSA_timerCreate(OSA_TimerInitParams *pParams, 
                             OSA_TimerHandle *phTimer);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_timerStart
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÆô¶¯Ò»¸ö¶¨Ê±Æ÷,³É¹¦µ÷ÓÃºó¶¨Ê±Æ÷¿ªÊ¼ÔËÐÐ£¬µ÷ÓÃÊ±µÄ×¢ÒâÊÂÏî:
-*           1¡¢¸Ã½Ó¿Ú¿ÉÔÚÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
-*           2¡¢¶ÔÓÚÀàÐÍÎªOSA_TIMER_LOOPµÄ¶¨Ê±Æ÷£¬²»ÄÜÔÚ»Øµ÷º¯ÊýÖÐµ÷ÓÃ±¾½Ó¿Ú
-*           3¡¢¶ÔÓÚÀàÐÍÎªOSA_TIMER_ONCEµÄ¶¨Ê±Æ÷£¬¿ÉÒÔÔÚ»Øµ÷º¯ÊýÖÐµ÷ÓÃ±¾½Ó¿Ú
+* å‡½æ•°å  : OSA_timerStart
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£å¯åŠ¨ä¸€ä¸ªå®šæ—¶å™¨,æˆåŠŸè°ƒç”¨åŽå®šæ—¶å™¨å¼€å§‹è¿è¡Œï¼Œè°ƒç”¨æ—¶çš„æ³¨æ„äº‹é¡¹:
+*           1ã€è¯¥æŽ¥å£å¯åœ¨ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
+*           2ã€å¯¹äºŽç±»åž‹ä¸ºOSA_TIMER_LOOPçš„å®šæ—¶å™¨ï¼Œä¸èƒ½åœ¨å›žè°ƒå‡½æ•°ä¸­è°ƒç”¨æœ¬æŽ¥å£
+*           3ã€å¯¹äºŽç±»åž‹ä¸ºOSA_TIMER_ONCEçš„å®šæ—¶å™¨ï¼Œå¯ä»¥åœ¨å›žè°ƒå‡½æ•°ä¸­è°ƒç”¨æœ¬æŽ¥å£
 *
-* Êä  Èë  :  - hTimer:  ¶¨Ê±Æ÷¾ä±ú
+* è¾“  å…¥  :  - hTimer:  å®šæ—¶å™¨å¥æŸ„
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   Æô¶¯³É¹¦
-*           OSA_EFAIL: Æô¶¯Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK:   å¯åŠ¨æˆåŠŸ
+*           OSA_EFAIL: å¯åŠ¨å¤±è´¥
 *******************************************************************************/
 Int32 OSA_timerStart(OSA_TimerHandle hTimer);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_timerStop
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÍ£Ö¹Ò»¸ö¶¨Ê±Æ÷,³É¹¦µ÷ÓÃºó¶¨Ê±Æ÷½«²»ÔÙµ÷ÓÃ»Øµ÷º¯Êý£¬×¢ÒâÊÂÏî:
-*           1¡¢²»ÄÜÔÚÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
-*           2¡¢²»ÄÜÔÚ¶¨Ê±Æ÷»Øµ÷º¯ÊýÖÐµ÷ÓÃ
+* å‡½æ•°å  : OSA_timerStop
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£åœæ­¢ä¸€ä¸ªå®šæ—¶å™¨,æˆåŠŸè°ƒç”¨åŽå®šæ—¶å™¨å°†ä¸å†è°ƒç”¨å›žè°ƒå‡½æ•°ï¼Œæ³¨æ„äº‹é¡¹:
+*           1ã€ä¸èƒ½åœ¨ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
+*           2ã€ä¸èƒ½åœ¨å®šæ—¶å™¨å›žè°ƒå‡½æ•°ä¸­è°ƒç”¨
 *
-* Êä  Èë  :  - hTimer:  ¶¨Ê±Æ÷¾ä±ú
+* è¾“  å…¥  :  - hTimer:  å®šæ—¶å™¨å¥æŸ„
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   Í£Ö¹³É¹¦
-*           OSA_EFAIL: Í£Ö¹Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK:   åœæ­¢æˆåŠŸ
+*           OSA_EFAIL: åœæ­¢å¤±è´¥
 *******************************************************************************/
 Int32 OSA_timerStop(OSA_TimerHandle hTimer);
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_timerDelete
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÉ¾³ýÒ»¸ö¶¨Ê±Æ÷£¬×¢ÒâÊÂÏî:
-*           1¡¢²»ÄÜÔÚÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
-*           2¡¢²»ÄÜÔÚ¶¨Ê±Æ÷»Øµ÷º¯ÊýÖÐµ÷ÓÃ
-*           3¡¢³É¹¦µ÷ÓÃºó£¬²»ÄÜÔÙ¼ÌÐø·ÃÎÊ¶¨Ê±Æ÷¾ä±ú
+* å‡½æ•°å  : OSA_timerDelete
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£åˆ é™¤ä¸€ä¸ªå®šæ—¶å™¨ï¼Œæ³¨æ„äº‹é¡¹:
+*           1ã€ä¸èƒ½åœ¨ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
+*           2ã€ä¸èƒ½åœ¨å®šæ—¶å™¨å›žè°ƒå‡½æ•°ä¸­è°ƒç”¨
+*           3ã€æˆåŠŸè°ƒç”¨åŽï¼Œä¸èƒ½å†ç»§ç»­è®¿é—®å®šæ—¶å™¨å¥æŸ„
 *
-* Êä  Èë  :  - hTimer:  ¶¨Ê±Æ÷¾ä±ú
+* è¾“  å…¥  :  - hTimer:  å®šæ—¶å™¨å¥æŸ„
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   É¾³ý³É¹¦
-*           OSA_EFAIL: É¾³ýÊ§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK:   åˆ é™¤æˆåŠŸ
+*           OSA_EFAIL: åˆ é™¤å¤±è´¥
 *******************************************************************************/
 Int32 OSA_timerDelete(OSA_TimerHandle hTimer);
 

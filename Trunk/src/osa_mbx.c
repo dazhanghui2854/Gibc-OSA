@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2012-7-25 Create
 *
-* Description: OSAÏûÏ¢ÓÊÏä¡£
+* Description: OSAæ¶ˆæ¯é‚®ç®±ã€‚
 *
-*       1. Ó²¼şËµÃ÷¡£
-*          ÎŞ¡£
+*       1. ç¡¬ä»¶è¯´æ˜ã€‚
+*          æ— ã€‚
 *
-*       2. ³ÌĞò½á¹¹ËµÃ÷¡£
-*          ÎŞ
+*       2. ç¨‹åºç»“æ„è¯´æ˜ã€‚
+*          æ— 
 *
-*       3. Ê¹ÓÃËµÃ÷¡£
-*          ÎŞ¡£
+*       3. ä½¿ç”¨è¯´æ˜ã€‚
+*          æ— ã€‚
 *          
-*       4. ¾ÖÏŞĞÔËµÃ÷¡£
-*          ÎŞ¡£
+*       4. å±€é™æ€§è¯´æ˜ã€‚
+*          æ— ã€‚
 *
-*       5. ÆäËûËµÃ÷¡£
-*          ÎŞ¡£
+*       5. å…¶ä»–è¯´æ˜ã€‚
+*          æ— ã€‚
 *
 * Modification: 
 *    Date    :  
@@ -141,7 +141,7 @@ Int32 OSA_mbxSendMsg(OSA_MbxHandle hMbxTo,
     {
         if(flags & OSA_MBX_WAIT_ACK) 
         {
-            /* Ê¹ÓÃÄ¿µÄÓÊÏäµÄÏûÏ¢½ÓÊÕ¶ÓÁĞ¡£*/
+            /* ä½¿ç”¨ç›®çš„é‚®ç®±çš„æ¶ˆæ¯æ¥æ”¶é˜Ÿåˆ—ã€‚*/
               hAckMsgq = pMbxTo->hAckMsgq;
         }
         else
@@ -161,7 +161,7 @@ Int32 OSA_mbxSendMsg(OSA_MbxHandle hMbxTo,
 
         do {
 
-            /* µÈ´ı»Ø¸´ */
+            /* ç­‰å¾…å›å¤ */
             status = OSA_msgqRecvMsg(hAckMsgq, &pRcvMsg, 
                                      (Uint32)OSA_TIMEOUT_FOREVER);
             if (OSA_isFail(status))
@@ -172,7 +172,7 @@ Int32 OSA_mbxSendMsg(OSA_MbxHandle hMbxTo,
 
             if(pRcvMsg == pSentMsg) 
             {
-                /* µÃµ½»Ø¸´£¬·µ»Ø¡£*/
+                /* å¾—åˆ°å›å¤ï¼Œè¿”å›ã€‚*/
                 waitAck = OSA_FALSE;
                 status  = OSA_msgGetAckStatus(pRcvMsg);
             }
@@ -210,13 +210,13 @@ Int32 OSA_mbxBroadcastMsg(OSA_MbxHandle *phMbxToList,
     {
         if(flags & OSA_MBX_WAIT_ACK) 
         {
-              /* ÏûÏ¢½ÓÊÕÓÊÏä²»ÄÜÎª¿Õ£¬·ñÔò²»ÄÜ¹»½ÓÊÕ»Ø¸´¡£*/
+              /* æ¶ˆæ¯æ¥æ”¶é‚®ç®±ä¸èƒ½ä¸ºç©ºï¼Œå¦åˆ™ä¸èƒ½å¤Ÿæ¥æ”¶å›å¤ã€‚*/
             return OSA_EFAIL;
         }
         hAckMsgq = NULL;    
     }
 
-    /* Ä¿µÄÓÊÏä¼ÆÊı */
+    /* ç›®çš„é‚®ç®±è®¡æ•° */
     numMsg = 0;
     
     while(NULL != phMbxToList[numMsg]) 
@@ -230,11 +230,11 @@ Int32 OSA_mbxBroadcastMsg(OSA_MbxHandle *phMbxToList,
 
     if(numMsg == 0) 
     {
-        /* ÎŞÓÊÏä */
+        /* æ— é‚®ç®± */
         return OSA_EFAIL;
     }
 
-    /* MallocµÄÄÚ´æ£¬±ØĞëÊ¹ÓÃACK·½Ê½·¢ËÍ¡£*/
+    /* Mallocçš„å†…å­˜ï¼Œå¿…é¡»ä½¿ç”¨ACKæ–¹å¼å‘é€ã€‚*/
     if(flags & OSA_MBX_FREE_MSG) 
     {
         if(((flags & OSA_MBX_WAIT_ACK) == 0) 
@@ -250,7 +250,7 @@ Int32 OSA_mbxBroadcastMsg(OSA_MbxHandle *phMbxToList,
         pSentMsgList[i] = NULL;
     }
 
-    /* ¿ªÊ¼·¢ËÍÏûÏ¢ */
+    /* å¼€å§‹å‘é€æ¶ˆæ¯ */
     for(i = 0; i < numMsg; i++) 
     {
         pMbxObj = (OSA_MbxObj *)phMbxToList[i];
@@ -265,7 +265,7 @@ Int32 OSA_mbxBroadcastMsg(OSA_MbxHandle *phMbxToList,
 
     if((flags & OSA_MBX_WAIT_ACK) && hAckMsgq!=NULL ) 
     {
-        /* µÈ´ı»Ø¸´ */
+        /* ç­‰å¾…å›å¤ */
         do {
             
             status = OSA_msgqRecvMsg(hAckMsgq, &pRcvMsg, (Uint32)OSA_TIMEOUT_FOREVER);
@@ -366,7 +366,7 @@ Int32 OSA_mbxCheckMsg(OSA_MbxHandle hMbx, OSA_MsgqMsg **pMsg)
     OSA_assertNotNull(hMbx);
     OSA_assertNotNull(pMsg);
 
-    /* ÏÈ¼ì²éÊÇ·ñÓĞÏûÏ¢£¬ÓĞÔòÊÕÈ¡¡£*/
+    /* å…ˆæ£€æŸ¥æ˜¯å¦æœ‰æ¶ˆæ¯ï¼Œæœ‰åˆ™æ”¶å–ã€‚*/
     if (OSA_msgqCheckMsg(pMbxObj->hRcvMsgq))
     {
         status = OSA_msgqRecvMsg(pMbxObj->hRcvMsgq, 

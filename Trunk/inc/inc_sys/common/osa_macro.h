@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2012-5-31 Create
 *
-* Description: Í³Ò»µÄÍ¨ÓÃºê¡£
+* Description: ç»Ÿä¸€çš„é€šç”¨å®ã€‚
 *
-*       1. Ó²¼şËµÃ÷¡£
-*          ÎŞ¡£
+*       1. ç¡¬ä»¶è¯´æ˜ã€‚
+*          æ— ã€‚
 
-*       2. ³ÌĞò½á¹¹ËµÃ÷¡£
-*          ÎŞ
+*       2. ç¨‹åºç»“æ„è¯´æ˜ã€‚
+*          æ— 
 *
-*       3. Ê¹ÓÃËµÃ÷¡£
-*          ÎŞ¡£
+*       3. ä½¿ç”¨è¯´æ˜ã€‚
+*          æ— ã€‚
 *          
-*       4. ¾ÖÏŞĞÔËµÃ÷¡£
-*          ÎŞ¡£
+*       4. å±€é™æ€§è¯´æ˜ã€‚
+*          æ— ã€‚
 *
-*       5. ÆäËûËµÃ÷¡£
-*          ÎŞ¡£
+*       5. å…¶ä»–è¯´æ˜ã€‚
+*          æ— ã€‚
 *
 * Modification: 
 *    Date    :  
@@ -36,7 +36,7 @@
 
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼şÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 
 #ifdef __cplusplus
@@ -45,50 +45,50 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ºêºÍÀàĞÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»å‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
-/* º¯Êı·µ»ØÖµ */
-#define OSA_SOK        0        /* ³É¹¦ */
-#define OSA_EFAIL     -1        /* Í¨ÓÃ´íÎó */
-#define OSA_ETIMEOUT  -2        /* µÈ´ı³¬Ê± */
-#define OSA_EINTR     -3        /* ±»ĞÅºÅÖĞ¶Ï */
-#define OSA_EBUSY     -4        /* ¶ÔÏóÃ¦ */
+/* å‡½æ•°è¿”å›å€¼ */
+#define OSA_SOK        0        /* æˆåŠŸ */
+#define OSA_EFAIL     -1        /* é€šç”¨é”™è¯¯ */
+#define OSA_ETIMEOUT  -2        /* ç­‰å¾…è¶…æ—¶ */
+#define OSA_EINTR     -3        /* è¢«ä¿¡å·ä¸­æ–­ */
+#define OSA_EBUSY     -4        /* å¯¹è±¡å¿™ */
 
 
-/* BoolÀàĞÍÕæ¼Ù */
-#define OSA_TRUE	  (1)       /* Õæ */
-#define OSA_FALSE	  (0)       /* ¼Ù */
+/* Boolç±»å‹çœŸå‡ */
+#define OSA_TRUE	  (1)       /* çœŸ */
+#define OSA_FALSE	  (0)       /* å‡ */
 
-/* NULLÖµ¶¨Òå */
+/* NULLå€¼å®šä¹‰ */
 #define OSA_NULL      (NULL)
 
-/* ±äÁ¿ÊôĞÔregister¹Ø¼ü´Ê */
+/* å˜é‡å±æ€§registerå…³é”®è¯ */
 #define OSA_register  register
 
-/* ³¬Ê±²ÎÊı */
-#define OSA_TIMEOUT_NONE         (0)    /* ²»µÈ´ı£¬Á¢¼´·µ»Ø¡£*/ 
-#define OSA_TIMEOUT_FOREVER      (~0U)  /* Ò»Ö±µÈ´ıÖ±µ½·µ»Ø */
+/* è¶…æ—¶å‚æ•° */
+#define OSA_TIMEOUT_NONE         (0)    /* ä¸ç­‰å¾…ï¼Œç«‹å³è¿”å›ã€‚*/ 
+#define OSA_TIMEOUT_FOREVER      (~0U)  /* ä¸€ç›´ç­‰å¾…ç›´åˆ°è¿”å› */
 
 
-/* Êı¾İ´æ´¢¶ÈÁ¿µ¥Î» */
+/* æ•°æ®å­˜å‚¨åº¦é‡å•ä½ */
 #define OSA_KB (1024)
 #define OSA_MB (OSA_KB * OSA_KB)
 #define OSA_GB (OSA_KB * OSA_MB)
 /* 
- * ÉèÖÃ°æ±¾ºÅÓÃµÄºê¡£¸ß8Î»´ú±íMajor Version£¬ÖĞ8Î»´ú±íMinor Version£¬
- * µÍ16´ú±íRevision¡£
+ * è®¾ç½®ç‰ˆæœ¬å·ç”¨çš„å®ã€‚é«˜8ä½ä»£è¡¨Major Versionï¼Œä¸­8ä½ä»£è¡¨Minor Versionï¼Œ
+ * ä½16ä»£è¡¨Revisionã€‚
  */
 #define OSA_versionSet(major, minor, revision)  \
         ((((major) & 0x0ff) << 24U) | (((minor) & 0x0ff) << 16U) \
            | ((revision) & 0x0ffff))
 
 
-/* ÊıÖµ±È½Ï*/
+/* æ•°å€¼æ¯”è¾ƒ*/
 #define OSA_max(a, b)    ( (a) > (b) ? (a) : (b) )
 #define OSA_min(a, b)    ( (a) < (b) ? (a) : (b) )
 
-/* ·¶Î§Ô¼Êø, ²»×÷ÎªÓÒÖµ */
+/* èŒƒå›´çº¦æŸ, ä¸ä½œä¸ºå³å€¼ */
 #define OSA_upperLimit(x, limit)  if ((x) > (limit)) (x) = (limit)
 #define OSA_lowerLimit(x, limit)  if ((x) < (limit)) (x) = (limit)
 #define OSA_rangeLimit(x, lowerLimit, upperLimit) \
@@ -98,30 +98,30 @@ extern "C" {
 		    OSA_upperLimit((x), (upperLimit)); \
 		} while (0)
 
-/* ÄÚ´æ²Ù×÷*/
+/* å†…å­˜æ“ä½œ*/
 #define OSA_clear(ptr)		        memset((ptr), 0, sizeof(*(ptr)))	
 #define OSA_clearSize(ptr, size)        memset((ptr), 0, (size))
 #define OSA_memCmp(dst, src)            memcmp((dst), (src), sizeof(*(src)))
 #define OSA_memCmpSize(dst, src, size)  memcmp((dst), (src), (size))
 
 
-/* ¶ÔÆë²Ù×÷*/
+/* å¯¹é½æ“ä½œ*/
 #define OSA_align(value, align)   ((( (value) + ( (align) - 1 ) ) \
                                      / (align) ) * (align) )
 #define OSA_ceil(value, align)    OSA_align(value, align) 
 #define OSA_floor(value, align)   (( (value) / (align) ) * (align) )
 
 
-/* ÉèÖÃÕæ¼Ù */
+/* è®¾ç½®çœŸå‡ */
 #define OSA_setTrue(val)        ((val) = OSA_TRUE)
 #define OSA_setFalse(val)       ((val) = OSA_FALSE)      
 
 
-/* »ñÈ¡Êı×é³ÉÔ±ÊıÁ¿ */
+/* è·å–æ•°ç»„æˆå‘˜æ•°é‡ */
 #define OSA_arraySize(array)    (sizeof(array)/sizeof((array)[0]))
 
 
-/* »ñÈ¡½á¹¹Ìå³ÉÔ±µÄµØÖ·Æ«ÒÆÁ¿ */
+/* è·å–ç»“æ„ä½“æˆå‘˜çš„åœ°å€åç§»é‡ */
 #ifdef __compiler_offsetof
 #define OSA_offsetof(TYPE,MEMBER) __compiler_offsetof(TYPE,MEMBER)
 #else
@@ -129,13 +129,13 @@ extern "C" {
 #endif
 
 
-/* Í¨¹ı½á¹¹Ìå³ÉÔ±»ñÈ¡½á¹¹ÌåÊ×µØÖ· */
+/* é€šè¿‡ç»“æ„ä½“æˆå‘˜è·å–ç»“æ„ä½“é¦–åœ°å€ */
 #define OSA_containerOf(ptr, type, member) ({			\
         const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
         (type *)( (char *)__mptr - OSA_offsetof(type,member) );})
 
 
-/* ¼ì²âvalueÖµÊÇ·ñÊÇ2µÄN´Î·½ */
+/* æ£€æµ‹valueå€¼æ˜¯å¦æ˜¯2çš„Næ¬¡æ–¹ */
 #define OSA_checkIs2n(value)  ( ((value) == 0) ? OSA_FALSE  \
                                : ((value) & ((value) - 1))  \
                                   ? OSA_FALSE : OSA_TRUE )

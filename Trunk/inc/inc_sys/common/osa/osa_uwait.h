@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-/*½ölinuxÓÃ»§Ì¬Ö§³ÖÒÔÏÂ½Ó¿Ú*/
+/*ä»…linuxç”¨æˆ·æ€æ”¯æŒä»¥ä¸‹æ¥å£*/
 #if !defined(__KERNEL__) && !defined(___DSPBIOS___)
 Int32 OSA_select(Int32 fd, Int32 usec);
 #endif

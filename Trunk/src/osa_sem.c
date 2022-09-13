@@ -6,9 +6,9 @@
 * Author : Zheng wei <zheng_wei@dahuatech.com>
 * Version: V1.0.0  2012-8-1 Create
 *
-* Desc: ÊµÏÖlinuxÓÃ»§Ì¬OSAÄ£¿é¶ÔÍâÌá¹©µÄÐÅºÅÁ¿½Ó¿Ú
+* Desc: å®žçŽ°linuxç”¨æˆ·æ€OSAæ¨¡å—å¯¹å¤–æä¾›çš„ä¿¡å·é‡æŽ¥å£
 *
-*           ½Ó¿Úµ÷ÓÃÁ÷³ÌÈçÏÂ:
+*           æŽ¥å£è°ƒç”¨æµç¨‹å¦‚ä¸‹:
 *           ==========================
 *                   |
 *           OSA_semCreate
@@ -27,57 +27,57 @@
 
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼þÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 #include <osa.h>
 #include <osa_priv.h>
 
 
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          Êý¾Ý½á¹¹¶¨ÒåÇø                                    */
+/*                          æ•°æ®ç»“æž„å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
-/*¶¨Òåsemaphore¶ÔÏó½á¹¹Ìå*/
+/*å®šä¹‰semaphoreå¯¹è±¡ç»“æž„ä½“*/
 typedef struct
 {
-    Uint32              nMgicNum;    /*Ä§Êý,ÓÃÓÚÐ£Ñé¾ä±úÓÐÐ§ÐÔ¡£*/
+    Uint32              nMgicNum;    /*é­”æ•°,ç”¨äºŽæ ¡éªŒå¥æŸ„æœ‰æ•ˆæ€§ã€‚*/
 
-    pthread_mutex_t     lock;        /*»¥³âËø*/
-    pthread_cond_t      cond;        /*Ìõ¼þ±äÁ¿*/
-    Uint16              count;        /*ÐÅºÅÁ¿¼ÆÊý*/
-    Uint16              wait;         /*µÈ´ýÁ¿¼ÆÊý*/
+    pthread_mutex_t     lock;        /*äº’æ–¥é”*/
+    pthread_cond_t      cond;        /*æ¡ä»¶å˜é‡*/
+    Uint16              count;        /*ä¿¡å·é‡è®¡æ•°*/
+    Uint16              wait;         /*ç­‰å¾…é‡è®¡æ•°*/
     clockid_t           clk_id;
 }OSA_SemObject;
 
 
 /* ========================================================================== */
-/*                          º¯ÊýÉùÃ÷Çø                                        */
+/*                          å‡½æ•°å£°æ˜ŽåŒº                                        */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          È«¾Ö±äÁ¿¶¨ÒåÇø                                    */
+/*                          å…¨å±€å˜é‡å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          º¯Êý¶¨ÒåÇø                                        */
+/*                          å‡½æ•°å®šä¹‰åŒº                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_semCreate
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔð´´½¨Ò»¸öÐÅºÅÁ¿
+* å‡½æ•°å  : OSA_semCreate
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£åˆ›å»ºä¸€ä¸ªä¿¡å·é‡
 *
-* Êä  Èë  : - val:      ÐÅºÅÁ¿µÄ³õÊ¼Öµ
+* è¾“  å…¥  : - val:      ä¿¡å·é‡çš„åˆå§‹å€¼
 *
-* Êä  ³ö  : - phSem:    ÐÅºÅÁ¿ ¾ä±úÖ¸Õë,µ±´´½¨³É¹¦Ê±Êä³öÐÅºÅÁ¿¾ä±ú
-* ·µ»ØÖµ  :  OSA_SOK:   ´´½¨³É¹¦
-*            OSA_EFAIL: ´´½¨Ê§°Ü
+* è¾“  å‡º  : - phSem:    ä¿¡å·é‡ å¥æŸ„æŒ‡é’ˆ,å½“åˆ›å»ºæˆåŠŸæ—¶è¾“å‡ºä¿¡å·é‡å¥æŸ„
+* è¿”å›žå€¼  :  OSA_SOK:   åˆ›å»ºæˆåŠŸ
+*            OSA_EFAIL: åˆ›å»ºå¤±è´¥
 *******************************************************************************/
 Int32 OSA_semCreate(Uint32 val, OSA_SemHandle *phSem)
 {
@@ -91,7 +91,7 @@ Int32 OSA_semCreate(Uint32 val, OSA_SemHandle *phSem)
         return OSA_EFAIL;
     }
 
-    /*·ÖÅäÄÚ´æ*/
+    /*åˆ†é…å†…å­˜*/
     pSemObj = (OSA_SemObject *)OSA_memAlloc(sizeof(OSA_SemObject));
     if(NULL == pSemObj)
     {
@@ -99,22 +99,22 @@ Int32 OSA_semCreate(Uint32 val, OSA_SemHandle *phSem)
         return OSA_EFAIL;
     }
 
-    /*¸³ÖµÄ§Êý*/
+    /*èµ‹å€¼é­”æ•°*/
     pSemObj->nMgicNum = OSA_MAGIC_NUM;
 
-    /*³õÊ¼»¯ÐÅºÅÁ¿¼ÆÊý*/
+    /*åˆå§‹åŒ–ä¿¡å·é‡è®¡æ•°*/
     pSemObj->count = val;
     pSemObj->wait  = 0;
 
-    /*³õÊ¼»¯»¥³âËø*/
+    /*åˆå§‹åŒ–äº’æ–¥é”*/
     pthread_mutex_init(&pSemObj->lock, NULL);
 
-    /* ÉèÖÃÌõ¼þÊôÐÔ */
+    /* è®¾ç½®æ¡ä»¶å±žæ€§ */
     pthread_condattr_init(&cattr);
     ret = pthread_condattr_setclock(&cattr, CLOCK_MONOTONIC);
     if (ret != 0)
     {
-        /* Ò»°ãÇé¿öÏÂ£¬¶¼²»»á½øÈë¸Ã·ÖÖ§£¬³ý·ÇÊÇÀÏµôÑÀµÄ1993ÄêÇ°µÄ°æ±¾ */
+        /* ä¸€èˆ¬æƒ…å†µä¸‹ï¼Œéƒ½ä¸ä¼šè¿›å…¥è¯¥åˆ†æ”¯ï¼Œé™¤éžæ˜¯è€æŽ‰ç‰™çš„1993å¹´å‰çš„ç‰ˆæœ¬ */
         pSemObj->clk_id = CLOCK_REALTIME;
         pthread_cond_init(&pSemObj->cond, NULL);
     }
@@ -131,21 +131,21 @@ Int32 OSA_semCreate(Uint32 val, OSA_SemHandle *phSem)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_semPend
-* Ãè  Êö  : ÐÅºÅÁ¿»ñÈ¡²Ù×÷,
-*           ¸Ã½Ó¿Ú²»ÄÜÔÚÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_semPend
+* æ  è¿°  : ä¿¡å·é‡èŽ·å–æ“ä½œ,
+*           è¯¥æŽ¥å£ä¸èƒ½åœ¨ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - hSem:     ÐÅºÅÁ¿¾ä±ú,
-*           - timeOut:  ÐÅºÅÁ¿µÈ´ý³¬Ê±Ê±¼ä, µ¥Î»ºÁÃë£¬ÈôµÈ´ý³¬Ê±Ôò·µ»ØOSA_ETIMEOUT
-*                       OSA_TIMEOUT_NONE±íÊ¾²»µÈ´ýÐÅºÅÁ¿Á¢¼´·µ»Ø£¬
-*                               ´ËÊ±ÈôÄÜ»ñÈ¡µ½ÐÅºÅÁ¿Ôò·µ»ØOSA_SOK
-*                               Èô²»ÄÜ»ñÈ¡ÐÅºÅÁ¿Ôò·µ»ØOSA_EFAIL
-*                       OSA_TIMEOUT_FOREVER±íÊ¾ÓÀÔ¶µÈ´ýÐÅºÅÁ¿
+* è¾“  å…¥  : - hSem:     ä¿¡å·é‡å¥æŸ„,
+*           - timeOut:  ä¿¡å·é‡ç­‰å¾…è¶…æ—¶æ—¶é—´, å•ä½æ¯«ç§’ï¼Œè‹¥ç­‰å¾…è¶…æ—¶åˆ™è¿”å›žOSA_ETIMEOUT
+*                       OSA_TIMEOUT_NONEè¡¨ç¤ºä¸ç­‰å¾…ä¿¡å·é‡ç«‹å³è¿”å›žï¼Œ
+*                               æ­¤æ—¶è‹¥èƒ½èŽ·å–åˆ°ä¿¡å·é‡åˆ™è¿”å›žOSA_SOK
+*                               è‹¥ä¸èƒ½èŽ·å–ä¿¡å·é‡åˆ™è¿”å›žOSA_EFAIL
+*                       OSA_TIMEOUT_FOREVERè¡¨ç¤ºæ°¸è¿œç­‰å¾…ä¿¡å·é‡
 *
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  :  OSA_SOK:   »ñÈ¡ÐÅºÅÁ¿³É¹¦
-*            OSA_EFAIL: »ñÈ¡ÐÅºÅÁ¿Ê§°Ü
-*            OSA_ETIMEOUT: »ñÈ¡ÐÅºÅÁ¿³¬Ê±
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  :  OSA_SOK:   èŽ·å–ä¿¡å·é‡æˆåŠŸ
+*            OSA_EFAIL: èŽ·å–ä¿¡å·é‡å¤±è´¥
+*            OSA_ETIMEOUT: èŽ·å–ä¿¡å·é‡è¶…æ—¶
 *******************************************************************************/
 Int32 OSA_semPend(OSA_SemHandle hSem, Uint32 timeOut)
 {
@@ -154,7 +154,7 @@ Int32 OSA_semPend(OSA_SemHandle hSem, Uint32 timeOut)
     struct timespec waitTime;
     struct timespec timeVal;
 
-    /*¼ì²éhandleÓÐÐ§ÐÔ*/
+    /*æ£€æŸ¥handleæœ‰æ•ˆæ€§*/
     OSA_handleCheck(pSemObj);
 
     pthread_mutex_lock(&pSemObj->lock);
@@ -190,7 +190,7 @@ Int32 OSA_semPend(OSA_SemHandle hSem, Uint32 timeOut)
             {
                 waitTime.tv_sec  = (Int32L)timeOut/1000;
                 waitTime.tv_nsec = ((Int32L)timeOut%1000)*1000000;
-                /* ³¬Ê±Ê±¼ä²ÉÓÃµ¥µ÷µÝÔöÊ±¼äCLOCK_MONOTONIC */
+                /* è¶…æ—¶æ—¶é—´é‡‡ç”¨å•è°ƒé€’å¢žæ—¶é—´CLOCK_MONOTONIC */
                 status = clock_gettime(pSemObj->clk_id, &timeVal);
                 if(0 != status)
                 {
@@ -229,20 +229,20 @@ Int32 OSA_semPend(OSA_SemHandle hSem, Uint32 timeOut)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_semPost
-* Ãè  Êö  : ÐÅºÅÁ¿ÊÍ·Å²Ù×÷
+* å‡½æ•°å  : OSA_semPost
+* æ  è¿°  : ä¿¡å·é‡é‡Šæ”¾æ“ä½œ
 *
-* Êä  Èë  : - hSem:   ÐÅºÅÁ¿¾ä±ú,
+* è¾“  å…¥  : - hSem:   ä¿¡å·é‡å¥æŸ„,
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*           OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸ
+*           OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_semPost(OSA_SemHandle hSem)
 {
     OSA_SemObject *pSemObj = (OSA_SemObject *)hSem;
 
-    /*¼ì²éhandleÓÐÐ§ÐÔ*/
+    /*æ£€æŸ¥handleæœ‰æ•ˆæ€§*/
     OSA_handleCheck(pSemObj);
 
     pthread_mutex_lock(&pSemObj->lock);
@@ -265,7 +265,7 @@ Int32 OSA_semPostWhenEmpty(OSA_SemHandle hSem)
 {
     OSA_SemObject *pSemObj = (OSA_SemObject *)hSem;
 
-    /*¼ì²éhandleÓÐÐ§ÐÔ*/
+    /*æ£€æŸ¥handleæœ‰æ•ˆæ€§*/
     OSA_handleCheck(pSemObj);
 
     pthread_mutex_lock(&pSemObj->lock);
@@ -290,7 +290,7 @@ Int32 OSA_semGetCnt(OSA_SemHandle hSem,Uint32 *pCnt)
 {
     OSA_SemObject *pSemObj = (OSA_SemObject *)hSem;
 
-    /*¼ì²éhandleÓÐÐ§ÐÔ*/
+    /*æ£€æŸ¥handleæœ‰æ•ˆæ€§*/
     OSA_handleCheck(pSemObj);
 
     pthread_mutex_lock(&pSemObj->lock);
@@ -304,32 +304,32 @@ Int32 OSA_semGetCnt(OSA_SemHandle hSem,Uint32 *pCnt)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_semDelete
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÏú»ÙÒ»¸öÐÅºÅÁ¿
+* å‡½æ•°å  : OSA_semDelete
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£é”€æ¯ä¸€ä¸ªä¿¡å·é‡
 *
-* Êä  Èë  : - hSem: ÐÅºÅÁ¿¾ä±ú,
+* è¾“  å…¥  : - hSem: ä¿¡å·é‡å¥æŸ„,
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*           OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸ
+*           OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_semDelete(OSA_SemHandle hSem)
 {
     OSA_SemObject *pSemObj = (OSA_SemObject *)hSem;
 
-    /*¼ì²éhandleÓÐÐ§ÐÔ*/
+    /*æ£€æŸ¥handleæœ‰æ•ˆæ€§*/
     OSA_handleCheck(pSemObj);
 
-    /*Ä§ÊýÉèÎª-1£¬±ÜÃâÆäËûÈËÔÚÊÍ·Åºó¼ÌÐøÓÃ*/
+    /*é­”æ•°è®¾ä¸º-1ï¼Œé¿å…å…¶ä»–äººåœ¨é‡Šæ”¾åŽç»§ç»­ç”¨*/
     pSemObj->nMgicNum = (Uint32)-1;
 
-    /*Ïú»ÙÌõ¼þ±äÁ¿*/
+    /*é”€æ¯æ¡ä»¶å˜é‡*/
     pthread_cond_destroy(&pSemObj->cond);
 
-    /*Ïú»Ù»¥³âËø*/
+    /*é”€æ¯äº’æ–¥é”*/
     pthread_mutex_destroy(&pSemObj->lock);
 
-    /*ÊÍ·ÅÐÅºÅÁ¿¶ÔÏóÄÚ´æ*/
+    /*é‡Šæ”¾ä¿¡å·é‡å¯¹è±¡å†…å­˜*/
     if(OSA_SOK != OSA_memFree(pSemObj))
 		OSA_ERROR("memory free failed\n");
 

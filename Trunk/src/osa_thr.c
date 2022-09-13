@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2010-8-31 Create
 *
-* Description: linuxÓÃ»§Ì¬Ìá¹©µÄOSAÏß³Ì½Ó¿Ú¡£
+* Description: linuxç”¨æˆ·æ€æä¾›çš„OSAçº¿ç¨‹æ¥å£ã€‚
 *
-*       1. Ó²¼şËµÃ÷¡£
-*          ÎŞ¡£
+*       1. ç¡¬ä»¶è¯´æ˜ã€‚
+*          æ— ã€‚
 
-*       2. ³ÌĞò½á¹¹ËµÃ÷¡£
-*          ÎŞ
+*       2. ç¨‹åºç»“æ„è¯´æ˜ã€‚
+*          æ— 
 *
-*       3. Ê¹ÓÃËµÃ÷¡£
-*          ÎŞ¡£
+*       3. ä½¿ç”¨è¯´æ˜ã€‚
+*          æ— ã€‚
 *
-*       4. ¾ÖÏŞĞÔËµÃ÷¡£
-*          ÎŞ¡£
+*       4. å±€é™æ€§è¯´æ˜ã€‚
+*          æ— ã€‚
 *
-*       5. ÆäËûËµÃ÷¡£
-*          ÎŞ¡£
+*       5. å…¶ä»–è¯´æ˜ã€‚
+*          æ— ã€‚
 *
 * Modification:
 *    Date    :
@@ -36,12 +36,12 @@
 
 typedef struct
 {
-    Uint16    thrPol;    /* µ÷¶È²ßÂÔ£¬Æä¶¨Òå¼ûOSA_thrSchedPolicy */
+    Uint16    thrPol;    /* è°ƒåº¦ç­–ç•¥ï¼Œå…¶å®šä¹‰è§OSA_thrSchedPolicy */
     Uint16    thrPri;
     pthread_t thread;
     Char      name[OSA_THREAD_NAME_MAX_LEN];
-    Int32     (*OpThrRun)(Ptr pUsrArgs); /* Ïß³ÌÔËĞĞº¯Êı */
-    Ptr       pUsrArgs;                  /* ÓÃ»§×Ô¶¨Òå²ÎÊı */
+    Int32     (*OpThrRun)(Ptr pUsrArgs); /* çº¿ç¨‹è¿è¡Œå‡½æ•° */
+    Ptr       pUsrArgs;                  /* ç”¨æˆ·è‡ªå®šä¹‰å‚æ•° */
 } OSA_ThrObj;
 
 
@@ -185,8 +185,8 @@ Int32 OSA_thrCreateEx(OSA_ThrCreate *pCreate, OSA_ThrHandle *phThr)
         status |= pthread_attr_setstacksize(&thread_attr,
                                             pCreate->stackSize);
 
-#ifndef CONFIG_CKCORE  /* dh5000 gcc-libºÍuc-lib¿âÃ»ÓĞpthread_attr_setstackº¯Êı½Ó¿Ú */
-        /* Ö¸¶¨ÁËÕ»¿Õ¼ä£¬±ØĞëÖ¸¶¨Õ»¿Õ¼ä´óĞ¡ */
+#ifndef CONFIG_CKCORE  /* dh5000 gcc-libå’Œuc-libåº“æ²¡æœ‰pthread_attr_setstackå‡½æ•°æ¥å£ */
+        /* æŒ‡å®šäº†æ ˆç©ºé—´ï¼Œå¿…é¡»æŒ‡å®šæ ˆç©ºé—´å¤§å° */
         if(pCreate->pStackAddr != OSA_NULL)
         {
             status |= pthread_attr_setstack(&thread_attr,
@@ -196,7 +196,7 @@ Int32 OSA_thrCreateEx(OSA_ThrCreate *pCreate, OSA_ThrHandle *phThr)
 #endif
     }
 
-#ifndef __ANDROID__   /* android²»Ö§³Öpthread_attr_setinheritsched */
+#ifndef __ANDROID__   /* androidä¸æ”¯æŒpthread_attr_setinheritsched */
 
     if (pCreate->thrPol != OSA_SCHED_INHERIT)
     {
@@ -298,7 +298,7 @@ Int32 OSA_thrJoin(OSA_ThrHandle hThr)
     return status;
 }
 
-#ifndef __ANDROID__  /* android²»Ö§³Öpthread_cancelº¯Êı£¬androidÏÂOSA_thrDelete×ÜÊÇ·µ»Ø-1 */
+#ifndef __ANDROID__  /* androidä¸æ”¯æŒpthread_cancelå‡½æ•°ï¼Œandroidä¸‹OSA_thrDeleteæ€»æ˜¯è¿”å›-1 */
 Int32 OSA_thrDelete(OSA_ThrHandle hThr)
 {
     Int32 status=OSA_SOK;
@@ -363,7 +363,7 @@ Int32 OSA_thrExit(Ptr pRetVal)
 }
 
 
-/*ÅĞ¶ÏÏß³ÌÊÇ·ñĞèÒªÍË³ö, ÔÚÏß³ÌÖ´ĞĞº¯ÊıÖĞµ÷ÓÃ, ÓÃ»§Ì¬Ïß³Ì¸Ã½Ó¿ÚÊ¼ÖÕ·µ»Ø0*/
+/*åˆ¤æ–­çº¿ç¨‹æ˜¯å¦éœ€è¦é€€å‡º, åœ¨çº¿ç¨‹æ‰§è¡Œå‡½æ•°ä¸­è°ƒç”¨, ç”¨æˆ·æ€çº¿ç¨‹è¯¥æ¥å£å§‹ç»ˆè¿”å›0*/
 Int32 OSA_thrShouldStop(void)
 {
     return OSA_FALSE;

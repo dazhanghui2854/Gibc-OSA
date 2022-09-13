@@ -6,7 +6,7 @@
 * Author : Zheng wei <zheng_wei@dahuatech.com>
 * Version: V1.0.0  2012-5-23 Create
 *
-* Desc: ¶¨ÒåOSAÄ£¿é²âÊÔ´úÂëÍ·ÎÄ¼ş
+* Desc: å®šä¹‰OSAæ¨¡å—æµ‹è¯•ä»£ç å¤´æ–‡ä»¶
 *
 * Modification: 
 *    Date    :  
@@ -21,7 +21,7 @@
 
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼şÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 
 #ifdef __cplusplus
@@ -30,67 +30,67 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ºêºÍÀàĞÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»å‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
-/*¶¨Òå×Ö·ûÉè±¸µÄÃüÁîºê*/
+/*å®šä¹‰å­—ç¬¦è®¾å¤‡çš„å‘½ä»¤å®*/
 #define OSA_KCDEV_BASE_CMD         'O'
 
 /*
- * ×Ö·ûÉè±¸µÄÃüÁîID
+ * å­—ç¬¦è®¾å¤‡çš„å‘½ä»¤ID
  */
 #define CMD_OSA_KCDEV_TESTPRINT         _IOWR(OSA_KCDEV_BASE_CMD,\
                                         0u,\
                                         Uint32)
 
 
-/*¶¨Òå²âÊÔÀàĞÍ*/
+/*å®šä¹‰æµ‹è¯•ç±»å‹*/
 typedef enum
 {
-    OSA_TEST_THR = 0,   /*²âÊÔosa_thr.h½Ó¿Ú*/
-    OSA_TEST_SEM,       /*²âÊÔosa_sem.h½Ó¿Ú*/
-    OSA_TEST_TIMER,     /*²âÊÔosa_timer.h½Ó¿Ú*/
-    OSA_TEST_MUTEX,     /*²âÊÔosa_mutex.h½Ó¿Ú*/    
-    OSA_TEST_KPROC,     /*²âÊÔosa_kproc.h½Ó¿Ú*/
-    OSA_TEST_KCDEV,     /*²âÊÔosa_kcdev.h½Ó¿Ú*/
-    OSA_TEST_MEM,       /*²âÊÔosa_mem.h½Ó¿Ú*/
+    OSA_TEST_THR = 0,   /*æµ‹è¯•osa_thr.hæ¥å£*/
+    OSA_TEST_SEM,       /*æµ‹è¯•osa_sem.hæ¥å£*/
+    OSA_TEST_TIMER,     /*æµ‹è¯•osa_timer.hæ¥å£*/
+    OSA_TEST_MUTEX,     /*æµ‹è¯•osa_mutex.hæ¥å£*/    
+    OSA_TEST_KPROC,     /*æµ‹è¯•osa_kproc.hæ¥å£*/
+    OSA_TEST_KCDEV,     /*æµ‹è¯•osa_kcdev.hæ¥å£*/
+    OSA_TEST_MEM,       /*æµ‹è¯•osa_mem.hæ¥å£*/
     OSA_TEST_MAX
 }OSA_TestType;
 
 
 /* ========================================================================== */
-/*                          Êı¾İ½á¹¹¶¨ÒåÇø                                    */
+/*                          æ•°æ®ç»“æ„å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          º¯ÊıÉùÃ÷Çø                                        */
+/*                          å‡½æ•°å£°æ˜åŒº                                        */
 /* ========================================================================== */
 
 Int32 OSA_testBegin(Int32 type);
 Int32 OSA_testEnd(Int32 type);
 
-/*²âÊÔÏß³ÌµÄ½Ó¿Ú*/
+/*æµ‹è¯•çº¿ç¨‹çš„æ¥å£*/
 Int32 OSA_testThrBegin(void);
 Int32 OSA_testThrEnd(void);
 
-/*²âÊÔĞÅºÅÁ¿µÄ½Ó¿Ú*/
+/*æµ‹è¯•ä¿¡å·é‡çš„æ¥å£*/
 Int32 OSA_testSemBegin(void);
 Int32 OSA_testSemEnd(void);
 
-/*²âÊÔ¶¨Ê±Æ÷µÄ½Ó¿Ú*/
+/*æµ‹è¯•å®šæ—¶å™¨çš„æ¥å£*/
 Int32 OSA_testTimerBegin(void);
 Int32 OSA_testTimerEnd(void);
 
-/*²âÊÔ»¥³âËøµÄ½Ó¿Ú*/
+/*æµ‹è¯•äº’æ–¥é”çš„æ¥å£*/
 Int32 OSA_testMutexBegin(void);
 Int32 OSA_testMutexEnd(void);
 
-/*²âÊÔlinuxÄÚºËprocµÄ½Ó¿Ú*/
+/*æµ‹è¯•linuxå†…æ ¸procçš„æ¥å£*/
 Int32 OSA_testKProcBegin(void);
 Int32 OSA_testKProcEnd(void);
 
-/*²âÊÔlinuxÄÚºË×Ö·ûÉè±¸µÄ½Ó¿Ú*/
+/*æµ‹è¯•linuxå†…æ ¸å­—ç¬¦è®¾å¤‡çš„æ¥å£*/
 Int32 OSA_testKCdevBegin(void);
 Int32 OSA_testKCdevEnd(void);
 

@@ -6,19 +6,19 @@
 * Author : Yang Zhiqiang  <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2011-10-26 Create
 *
-* Desc: ��Ƶ��Ϣ����Ƶ���ݼ�Buffer�Ķ�������������ڶദ��������ģ��乲����
-*       ����������Buffer�ĸ��һ��������Buffer���������й��ڸ�֡��Ƶ����Ϣ��
-*       �������֮Ϊ��Ƶ֡Buffer����һ���Ǳ���һ֡��Ƶ���ݵ�Buffer���������
-*       ֮Ϊ��Ƶ����Buffer��ǰ�߰������ߣ���һ���ַ�������ڴ档��Ƶ֡Buffer
-*       ��������Ϣ����ǰ������Ƶ����Buffer����󲿡���ϸ������鿴�����ݽṹ
-*       �Ķ����ע�͡�
+* Desc: 视频信息、视频数据及Buffer的定义和描述，用于多处理器、多模块间共享。
+*       这里有两个Buffer的概念，一个是整个Buffer，包含所有关于该帧视频的信息，
+*       在这里称之为视频帧Buffer；另一个是保存一帧视频数据的Buffer，在这里称
+*       之为视频数据Buffer。前者包含后者，是一块地址连续的内存。视频帧Buffer
+*       的描述信息在其前部，视频数据Buffer在其后部。详细描述请查看各数据结构
+*       的定义和注释。
 *
 * Modification: 
 * 1. Date    : 2012-07-17
 *    Revision: V1.01
 *    Author  : Yang Zhiqiang
-*    Contents: �����˶��壬�����˶Ա������ݵ�֧�֣�����������������Ϣ��������
-               ��Ƶ��������Ľڵ�ͳ�ƺ�ʱ��ͳ����Ϣ�������˸��ڵ��ڴ�ӳ�������
+*    Contents: 完善了定义，添加了对编码数据的支持，增加了链表管理信息，增加了
+               视频数据流向的节点统计和时间统计信息，增加了各节点内存映射管理。
 *
 * 2. Date    : 
 *    Revision: 
@@ -32,7 +32,7 @@
 
 
 /* ========================================================================== */
-/*                             ͷ�ļ���                                       */
+/*                             头文件区                                       */
 /* ========================================================================== */
 
 #include <osa.h>
@@ -44,24 +44,24 @@ extern "C" {
 #endif 
 
 
-// TODO: Buffer���ܱ������Ԫ���ã�������һ����ʱ���й�����ͨrefCnt�жϣ�ֻ��refCntΪ0��Buffer�ſɼ��뵽�ն����С�
+// TODO: Buffer可能被多个单元引用，必须有一个临时队列管理，通refCnt判断，只有refCnt为0的Buffer才可加入到空队列中。
 
 /* ========================================================================== */
-/*                             �ӿ�Լ��˵����                                 */
+/*                             接口约定说明区                                 */
 /* ========================================================================== */
 
 /* 
-* ���½��ܼ��ֵ��͵�ͼ�����ݸ�ʽ���ڴ��еĴ洢��ʽ��������ʽ�������ơ���������
-* ���У�"Frame Top Pad"��ʾ��������Ƶ������ʼ����Ԥ���Ŀռ䣬"Frame Bottom Pad"
-* ��ʾ��������Ƶ����ĩβ����Ԥ���Ŀռ䡣ԭ����ĳЩ�㷨��Ҫ��Щ�ռ䣬��С�����㷨
-* �Ĳ�ͬ����ͬ����ͨ��VIDEO_BufferInfo�е�nTopPadNum��nBotPadNum��linePitch��Ա
-* ����õ����ڶ���Ƶ֡Buffer�������У�"Frame Top Pad"��"Frame Bottom Pad"������
-* ����Ƶ����Bufferһ��ġ�
+* 以下介绍几种典型的图像数据格式在内存中的存储方式，其他格式依次类推。在下列描
+* 述中，"Frame Top Pad"表示的是在视频数据起始部分预留的空间，"Frame Bottom Pad"
+* 表示的是在视频数据末尾部分预留的空间。原因是某些算法需要这些空间，大小根据算法
+* 的不同而不同，可通过VIDEO_BufferInfo中的nTopPadNum、nBotPadNum和linePitch成员
+* 计算得到。在对视频帧Buffer的描述中，"Frame Top Pad"和"Frame Bottom Pad"看作是
+* 与视频数据Buffer一体的。
 */
 
 /* 
-* 1. ����ɨ���YUV422/RAW���ݸ�ʽ�������ɨ��ģ�����ż�泡��������)
-*    ��Ƶ����Buffer�����ݵ�����˳�����¡�ֻ��һ��ƽ�棬һ��ָ��ָ������
+* 1. 逐行扫描的YUV422/RAW数据格式（或隔行扫描的，但是偶奇场交错保存)
+*    视频数据Buffer中数据的排列顺序如下。只有一个平面，一个指针指向它。
 */
 /*********************************
 --------------------------
@@ -74,9 +74,9 @@ extern "C" {
 *********************************/
 
 /* 
-* 2. ����ɨ����ż�泡�ֿ��洢��YUV422���ݸ�ʽ����Ƶ����Buffer�����ݵ�����
-*    ˳������ͼ������(ż��)����ƽ��֮���ڴ��ַ�ռ䲻�ܱ�֤�������ģ�����
-*    ������ڴ�ն���ĳЩ�㷨��Ҫ����ÿ��ƽ�涼��ָ��ָ�������Ա����������
+* 2. 隔行扫描且偶奇场分开存储的YUV422数据格式，视频数据Buffer中数据的排列
+*    顺序如下图。上下(偶奇)两个平面之间内存地址空间不能保证是连续的，可能
+*    会存在内存空洞（某些算法需要）。每个平面都有指针指向它，以便快速索引。
 */
 /*********************************
 --------------------------
@@ -91,9 +91,9 @@ extern "C" {
 *********************************/
 
 /* 
-* 3. ����ɨ���YUV420SP_VU/YUV422SP_VU���ݸ�ʽ����Ƶ����Buffer�����ݵ�����
-*    ˳������ͼ��Y��UV����ƽ��֮���ڴ��ַ�ռ䲻�ܱ�֤�������ģ����ܻ����
-*    �ڴ�ն���ĳЩ�㷨��Ҫ����ÿ��ƽ�涼��ָ��ָ�������Ա����������
+* 3. 逐行扫描的YUV420SP_VU/YUV422SP_VU数据格式，视频数据Buffer中数据的排列
+*    顺序如下图。Y和UV两个平面之间内存地址空间不能保证是连续的，可能会存在
+*    内存空洞（某些算法需要）。每个平面都有指针指向它，以便快速索引。
 */
 /*********************************
 --------------------------
@@ -108,9 +108,9 @@ extern "C" {
 *********************************/
 
 /* 
-* 4. ����ɨ���YUV420SP_VU/YUV422SP_VU���ݸ�ʽ����Ƶ����Buffer�����ݵ�����
-*    ˳������ͼ��Y��UV����ƽ��֮���ڴ��ַ�ռ䲻�ܱ�֤�������ģ����ܻ����
-*    �ڴ�ն���ĳЩ�㷨��Ҫ����ÿ��ƽ�涼��ָ��ָ�������Ա����������
+* 4. 隔行扫描的YUV420SP_VU/YUV422SP_VU数据格式，视频数据Buffer中数据的排列
+*    顺序如下图。Y和UV两个平面之间内存地址空间不能保证是连续的，可能会存在
+*    内存空洞（某些算法需要）。每个平面都有指针指向它，以便快速索引。
 */
 /*********************************
 --------------------------
@@ -129,9 +129,9 @@ extern "C" {
 *********************************/
 
 /* 
-* 5. ����ɨ���YUV420P/YUV422P���ݸ�ʽ����Ƶ����Buffer����������˳������
-*    ͼ��Y��U��V����ƽ���ڴ��ַ�ռ䲻�ܱ�֤�������ģ����ܻ�����ڴ�ն�
-*    ��ĳЩ�㷨��Ҫ����ÿ��ƽ�涼��ָ��ָ�������Ա����������
+* 5. 逐行扫描的YUV420P/YUV422P数据格式，视频数据Buffer中数据排列顺序如下
+*    图。Y、U和V三个平面内存地址空间不能保证是连续的，可能会存在内存空洞
+*    （某些算法需要）。每个平面都有指针指向它，以便快速索引。
 */
 /*********************************
 --------------------------
@@ -148,9 +148,9 @@ extern "C" {
 *********************************/
 
 /* 
-* 6. ����ɨ���YUV420P/YUV422P���ݸ�ʽ����Ƶ����Buffer����������˳������
-*    ͼ��Y��U��V����ƽ���ڴ��ַ�ռ䲻�ܱ�֤�������ģ����ܻ�����ڴ�ն�
-*    ��ĳЩ�㷨��Ҫ����ÿ��ƽ�涼��ָ��ָ�������Ա����������
+* 6. 隔行扫描的YUV420P/YUV422P数据格式，视频数据Buffer中数据排列顺序如下
+*    图。Y、U和V三个平面内存地址空间不能保证是连续的，可能会存在内存空洞
+*    （某些算法需要）。每个平面都有指针指向它，以便快速索引。
 */
 /*********************************
 --------------------------
@@ -174,136 +174,136 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ������Ͷ�����                                   */
+/*                           宏和类型定义区                                   */
 /* ========================================================================== */
 
-/* ��Ƶ֡Buffer��ħ�� */
+/* 视频帧Buffer的魔数 */
 #define VIDEO_BUFFER_MAGIC_NUM    (0x12AC34FD)
 
-/* ��Ƶ֡Buffer�İ汾�ţ������ڼ������ԡ�*/
+/* 视频帧Buffer的版本号，可用于检测兼容性。*/
 #define VIDEO_BUFFER_VERSION      (OSA_versionSet(1, 0, 0))
 
 
-/* ��Ƶ����Buffer�ĳ���ַƽ�����������֧�����£�ż�棩������ƽ�档*/
+/* 视频数据Buffer的场地址平面的数量，可支持上下（偶奇）场两个平面。*/
 #define VIDEO_MAX_FIELDS          (2U)
 
-/* ��Ƶ����Buffer֡/������ɫ��ַƽ�����������֧��Y/CB/CR����ƽ�档*/
+/* 视频数据Buffer帧/场的颜色地址平面的数量，可支持Y/CB/CR三个平面。*/
 #define VIDEO_MAX_PLANES          (3U)
 
 
-/* ������Buffer��Ƶ���ݵı����ʽ */
+/* 表明此Buffer视频数据的保存格式 */
 typedef enum
 {
-    /* YUV 422���������ʽ - UYVY��*/
+    /* YUV 422交错保存格式 - UYVY。*/
     VIDEO_DATFMT_UYVY     =  0x0000,
-    /* YUV 422���������ʽ - YUYV��*/
+    /* YUV 422交错保存格式 - YUYV。*/
     VIDEO_DATFMT_YUYV,
-    /* YUV 422���������ʽ - YVYU��*/
+    /* YUV 422交错保存格式 - YVYU。*/
     VIDEO_DATFMT_YVYU,
-    /* YUV 422���������ʽ - VYUY��*/
+    /* YUV 422交错保存格式 - VYUY。*/
     VIDEO_DATFMT_VYUY,
-    /* YUV 422��ƽ�汣���ʽ - Y��һ��ƽ�棬UV����һƽ�棨�������棩��*/
+    /* YUV 422半平面保存格式 - Y在一个平面，UV在另一平面（交错保存）。*/
     VIDEO_DATFMT_YUV422SP_UV,
-    /* YUV 422��ƽ�汣���ʽ - Y��һ��ƽ�棬VU����һƽ�棨�������棩��*/
+    /* YUV 422半平面保存格式 - Y是一个平面，VU是另一平面（交错保存）。*/
     VIDEO_DATFMT_YUV422SP_VU,
-    /* YUV 422ƽ�汣���ʽ - Y��һ��ƽ��, V��һ��ƽ�棬UҲ��һ��ƽ�档*/
+    /* YUV 422平面保存格式 - Y是一个平面, V是一个平面，U也是一个平面。*/
     VIDEO_DATFMT_YUV422P,
-    /* YUV 420��ƽ�汣���ʽ - Y��һ��ƽ�棬UV����һƽ�棨�������棩��*/
+    /* YUV 420半平面保存格式 - Y在一个平面，UV在另一平面（交错保存）。*/
     VIDEO_DATFMT_YUV420SP_UV,
-    /* YUV 420��ƽ�汣���ʽ - Y��һ��ƽ�棬VU����һƽ�棨�������棩��*/
+    /* YUV 420半平面保存格式 - Y是一个平面，VU是另一平面（交错保存）。*/
     VIDEO_DATFMT_YUV420SP_VU,
-    /* YUV 420ƽ�汣���ʽ - Y��һ��ƽ��, U��һ��ƽ�棬VҲ��һ��ƽ�档*/
+    /* YUV 420平面保存格式 - Y是一个平面, U是一个平面，V也是一个平面。*/
     VIDEO_DATFMT_YUV420P,
-    /* RGB565 16-bit�����ʽ����ƽ�棬����5bits R, 6bits G, 5bits B��*/
+    /* RGB565 16-bit保存格式，单平面，其中5bits R, 6bits G, 5bits B。*/
     VIDEO_DATFMT_RGB16_565  = 0x1000,
-    /* BITMAP 8bpp�����ʽ����ƽ�档*/ 
+    /* BITMAP 8bpp保存格式，单平面。*/ 
     VIDEO_DATFMT_BITMAP8    = 0x2000,
-    /* RAW Bayer�����ʽ����ƽ�棬ͨ��VIDEO_BitsPerPixel���ֱ��淽ʽ��*/
+    /* RAW Bayer保存格式，单平面，通过VIDEO_BitsPerPixel区分保存方式。*/
     VIDEO_DATFMT_BAYER_RAW  = 0x3000, 
-    /* Bit Strema�����ʽ�������Ǳ��������ݡ�*/
+    /* Bit Strema保存格式，表明是编码后的数据。*/
     VIDEO_DATFMT_BIT_STREAM = 0x4000,    
-    /* ��Ч�����ݸ�ʽ�������ڳ�ʼ�����ݸ�ʽ����. */
+    /* 无效的数据格式，可用于初始化数据格式变量. */
     VIDEO_DATFMT_INVALID    = 0xF000,
-    /* ������������ڼ�����У��*/
+    /* 最大数，可用于计数和校验*/
     VIDEO_DATFMT_MAX
 } VIDEO_DataFormat;
 
 
-/* ÿ������ռ�õ�λ�� */ 
+/* 每个像素占用的位数 */ 
 typedef enum
 {
-    /* 1Bitsÿ������*/
+    /* 1Bits每个像素*/
     VIDEO_BPP_BITS1 = 0U,
-    /* 2Bitsÿ������*/
+    /* 2Bits每个像素*/
     VIDEO_BPP_BITS2,
-    /* 4Bitsÿ������*/
+    /* 4Bits每个像素*/
     VIDEO_BPP_BITS4,
-    /* 8Bitsÿ������*/
+    /* 8Bits每个像素*/
     VIDEO_BPP_BITS8,
-    /* 12Bitsÿ�����أ�����YUV420���ݸ�ʽ��*/
+    /* 12Bits每个像素，用于YUV420数据格式。*/
     VIDEO_BPP_BITS12,
-    /* 16Bitsÿ������ */
+    /* 16Bits每个像素 */
     VIDEO_BPP_BITS16,
-    /* 24Bitsÿ������ */
+    /* 24Bits每个像素 */
     VIDEO_BPP_BITS24,
-    /* 32Bitsÿ������ */
+    /* 32Bits每个像素 */
     VIDEO_BPP_BITS32,
-    /* ������������ڼ�����У��*/
+    /* 最大数，可用于计数和校验*/
     VIDEO_BPP_MAX
 } VIDEO_BitsPerPixel;
 
 
-/* ��Ƶ����ɨ���ʽ */ 
+/* 视频数据扫描格式 */ 
 typedef enum 
 {
-    /* ����ɨ���ʽ */
+    /* 逐行扫描格式 */
 	VIDEO_SCANFMT_PROGRESSIVE = 0U,
-	/* ����ɨ���ʽ */
+	/* 隔行扫描格式 */
 	VIDEO_SCANFMT_INTERLACED,
-	/* ������������ڼ�����У��*/
+	/* 最大数，可用于计数和校验*/
 	VIDEO_SCANFMT_MAX
 } VIDEO_ScanFormat;
 
 
-/* ����ɨ��ͼ�����ڴ��еı��淽ʽ */
+/* 隔行扫描图像在内存中的保存方式 */
 typedef enum 
 {
-    /* �������� */
+    /* 交错保存 */
 	VIDEO_FLD_BUF_INTERLEAVED = 0U,
-	/* �����ֿ����� */
+	/* 两场分开保存 */
 	VIDEO_FLD_BUF_SEPARATED,
-    /* ������������ڼ�����У��*/
+    /* 最大数，可用于计数和校验*/
     VIDEO_FLD_BUF_MAX
 } VIDEO_FidBufType;
 
 
-/* ��Ƶ֡/����ʾ */
+/* 视频帧/场标示 */
 typedef enum
 {
-    /* ��һ����ż�� */
+    /* 第一场（偶） */
     VIDEO_FID_TOP = 0U,
-    /* �ڶ������棩 */
+    /* 第二场（奇） */
     VIDEO_FID_BOTTOM,
-    /* ����ɨ��ʱΪһ֡������ɨ��ʱ���������� */
+    /* 逐行扫描时为一帧，隔行扫描时包含两场。 */
     VIDEO_FID_FRAME,
-    /* ������������ڼ�����У�� */
+    /* 最大数，可用于计数和校验 */
     VIDEO_FID_MAX
 } VIDEO_FidType;
 
 
-/* ָʾ��Buffer��Ƶ���ݽ�Ҫ���еı����ʽ�����ı����ʽ��ǰ�߿����ʹ�á�*/
+/* 指示该Buffer视频数据将要进行的编码格式或本身的保存格式，前者可组合使用。*/
 typedef enum
 {
-    /* MJPEG���� */
+    /* MJPEG编码 */
     VIDEO_ENCFMT_MJPEG = 0x0001,
-    /* MPEG4���� */
+    /* MPEG4编码 */
     VIDEO_ENCFMT_MPEG4 = 0x0002,    
-    /* H264���� */
+    /* H264编码 */
     VIDEO_ENCFMT_H264  = 0x0004,
 } VIDEO_EncFormat;
 
 
-/* ��������ݵ�֡���� */
+/* 编码后数据的帧类型 */
 typedef enum
 {
 	VIDEO_ENC_FRAME_I     = 0U,
@@ -314,7 +314,7 @@ typedef enum
 } VIDEO_EncFrameType;
 
 
-/* ��Ƶ��ת������90����ת��270����ת��־�������ʹ�á�*/
+/* 视频翻转、镜像、90度旋转、270度旋转标志，可组合使用。*/
 typedef enum
 {
     VIDEO_ROTATE_NONE   = 0x0000,
@@ -325,205 +325,205 @@ typedef enum
 } VIDEO_RotateType;
 
 
-/* ���ܽ�ͨӦ����ʶ����Ƶ֡��ͼƬ֡ */
+/* 智能交通应用中识别视频帧和图片帧 */
 typedef enum
 {
-    /* ITC��Ƶ֡ */
+    /* ITC视频帧 */
     VIDEO_ITC_FRAME_VIDEO      = 0U,
-    /* ITCͼƬ֡ */
+    /* ITC图片帧 */
     VIDEO_ITC_FRAME_PICTURE,
-    /* ITCͼƬ��֡ */
+    /* ITC图片流帧 */
     VIDEO_ITC_FRAME_PIC_STREAM,
-    /* ������������ڼ�����У��*/
+    /* 最大数，可用于计数和校验*/
     VIDEO_ITC_FRAME_MAX
 } VIDEO_ItcFrameType;
 
  
 /* 
-* ��Ƶ����Buffer�ĵ�ַ�������塣VIDEO_BufferInfo.bufAddr��һ����άָ�����顣
-* ����֡/�������ݸ�ʽ����ĺ�ɷ�����ٵ����õ�ַָ�롣
+* 视频数据Buffer的地址索引定义。VIDEO_BufferInfo.bufAddr是一个二维指针数组。
+* 根据帧/场和数据格式定义的宏可方便快速地引用地址指针。
 */
 
-/* ����ɨ����Ƶ֡��TOP Field��ַ���� */
+/* 隔行扫描视频帧的TOP Field地址索引 */
 #define VIDEO_FIELD_TOP_ADDR_IDX        (0u)
 
-/* ����ɨ����Ƶ֡��Bottom Field��ַ���� */
+/* 隔行扫描视频帧的Bottom Field地址索引 */
 #define VIDEO_FIELD_BOTTOM_ADDR_IDX     (1u)
 
-/* ����ɨ����Ƶ֡��֡��ַ���� */
+/* 逐行扫描视频帧的帧地址索引 */
 #define VIDEO_FRAME_ADDR_IDX            (0u)
 
-/* ����ɨ����Ƶ֡��ż����ַ���� */
+/* 隔行扫描视频帧的偶场地址索引 */
 #define VIDEO_FIELD_EVEN_ADDR_IDX       (VIDEO_FIELD_TOP_ADDR_IDX)
 
-/* ����ɨ����Ƶ֡���泡��ַ���� */
+/* 隔行扫描视频帧的奇场地址索引 */
 #define VIDEO_FIELD_ODD_ADDR_IDX        (VIDEO_FIELD_BOTTOM_ADDR_IDX)
 
-/* ����ɨ�����֡�ݣ��Խ�����ʽ���棬ż�泡�ĵ�ַ������ͬ */
+/* 隔行扫描的视帧据，以交错方式保存，偶奇场的地址索引相同 */
 #define VIDEO_FIELD_MODE_ADDR_IDX       (0u)
 
-/* ����ɨ����Ƶ֡��֡��ַ���� */
+/* 逐行扫描视频帧的帧地址索引 */
 #define VIDEO_FIELD_NONE_ADDR_IDX       (VIDEO_FRAME_ADDR_IDX)
 
-/* ������YUV444/YUV422���ݸ�ʽ��ַƽ������ */
+/* 交错的YUV444/YUV422数据格式地址平面索引 */
 #define VIDEO_YUV_INT_ADDR_IDX          (0u)
 
-/* ƽ���YUV444/YUV422/YUV420���ݸ�ʽY��ַƽ������ */
+/* 平面的YUV444/YUV422/YUV420数据格式Y地址平面索引 */
 #define VIDEO_YUV_PL_Y_ADDR_IDX         (0u)
 
-/* ƽ���YUV444/YUV422/YUV420���ݸ�ʽCB(U)��ַƽ������ */
+/* 平面的YUV444/YUV422/YUV420数据格式CB(U)地址平面索引 */
 #define VIDEO_YUV_PL_CB_ADDR_IDX        (1u)
 
-/* ƽ���YUV444/YUV422/YUV420���ݸ�ʽCR(V)��ַƽ������ */
+/* 平面的YUV444/YUV422/YUV420数据格式CR(V)地址平面索引 */
 #define VIDEO_YUV_PL_CR_ADDR_IDX        (2u)
 
-/* ��ƽ���YUV422/YUV420���ݸ�ʽY��ַƽ������ */
+/* 半平面的YUV422/YUV420数据格式Y地址平面索引 */
 #define VIDEO_YUV_SP_Y_ADDR_IDX         (0u)
 
-/* ��ƽ���YUV422/YUV420���ݸ�ʽCBCR()UV��ַƽ������ */
+/* 半平面的YUV422/YUV420数据格式CBCR()UV地址平面索引 */
 #define VIDEO_YUV_SP_CBCR_ADDR_IDX      (1u)
 
-/* RGB888/RGB565/ARGB32���ݸ�ʽ��ַƽ������ */
+/* RGB888/RGB565/ARGB32数据格式地址平面索引 */
 #define VIDEO_RGB_ADDR_IDX              (0u)
 
-/* RAW���ݸ�ʽ��ַƽ������ */
+/* RAW数据格式地址平面索引 */
 #define VIDEO_RAW_ADDR_IDX              (0u)
 
-/* ż�� */
+/* 偶场 */
 #define VIDEO_FID_EVEN                  (VIDEO_FID_TOP)
 
-/* �泡 */
+/* 奇场 */
 #define VIDEO_FID_ODD                   (VIDEO_FID_BOTTOM)
 
-/* ��ż�泡 */
+/* 无偶奇场 */
 #define VIDEO_FID_NONE                  (VIDEO_FID_FRAME)
 
 
 
-/* ��Ƶ֡��С�ľ��α�ʾ */
+/* 视频帧大小的矩形表示 */
 typedef struct
 {
-    /* ��Ƶ���ݵ���ƫ�� */
+    /* 视频数据的左偏移 */
     Uint32  nLeft;		
     	 
-    /* ��Ƶ���ݵ���ƫ�� */
+    /* 视频数据的上偏移 */
     Uint32  nTop;			
     	
-    /* ��Ƶ���ݵĿ��� */
+    /* 视频数据的宽度 */
     Uint32  nWidth;	
     
-    /* ��Ƶ���ݵĸ߶� */			
+    /* 视频数据的高度 */			
     Uint32  nHeight;
 } VIDEO_Rect;
 
 
-/* ��Ƶ֡���ô�С���� */
+/* 视频帧剪裁大小描述 */
 typedef VIDEO_Rect VIDEO_Crop;
 
 
-/* ����������*/
+/* 链表管理。*/
 typedef struct                 
 { 
-    OSA_ListHead listHead;  /* ����ͷ��*/
+    OSA_ListHead listHead;  /* 链表头。*/
     
-    Uint32 reserved[4];     /* ��չ�á�*/
+    Uint32 reserved[4];     /* 扩展用。*/
 } VIDEO_ListType;
 
 
 
-/* �ڵ��ַӳ�������*/
+/* 节点地址映射管理。*/
 typedef struct                 
 {    
-    /* ӳ�����ں˵�ַ������ڵ���Linux�������ں˵�ַ�ռ䣬RTOSҲӳ�䵽�ˡ�*/
+    /* 映射后的内核地址，如果节点是Linux，则是内核地址空间，RTOS也映射到此。*/
     Ptr bufAddrKernel[VIDEO_MAX_FIELDS][VIDEO_MAX_PLANES]; 
 
-    /* ӳ������Ƶ����������̵�ַ��RTOS����Ч��*/
+    /* 映射后的视频处理程序进程地址，RTOS则无效。*/
     Ptr bufAddrVideo[VIDEO_MAX_FIELDS][VIDEO_MAX_PLANES]; 
 
-    /* ӳ����Ӧ�ó�����̵�ַ��RTOS����Ч��*/
+    /* 映射后的应用程序进程地址，RTOS则无效。*/
     Ptr bufAddrApp[VIDEO_MAX_FIELDS][VIDEO_MAX_PLANES]; 
         
-    Uint32 reserved[6];     /* ��չ�á�*/
+    Uint32 reserved[6];     /* 扩展用。*/
 } VIDEO_NodeMemMap;
 
 /* 
-* �ض�Buffer�Ľڵ������¼��һ������ڵ㣬N������ڵ㡣
-* ���ƶ���׷��Buffer������
+* 特定Buffer的节点流向记录，一个输入节点，N个输出节点。
+* 可制定和追踪Buffer的流向。
 */
 typedef struct                 
 { 
-   Uint32 nOutNodeNum;          /* ����ڵ����Ч���� */
-   Uint32 inNode;               /* һ������ڵ� */
-   Uint32 outNode[SYS_PROC_NR];  /* SYS_MCU_NR������ڵ� */
+   Uint32 nOutNodeNum;          /* 输出节点的有效个数 */
+   Uint32 inNode;               /* 一个输入节点 */
+   Uint32 outNode[SYS_PROC_NR];  /* SYS_MCU_NR个输出节点 */
    
-   Uint32 reserved[4];          /* ��չ�á�*/
+   Uint32 reserved[4];          /* 扩展用。*/
 } VIDEO_NodeDircRecord;
 
 
 /* 
-* �ض�Buffer��ʱ����Ϣ��¼��һ������ڵ㣬N������ڵ㡣
-* ���ƶ���׷��Buffer������
+* 特定Buffer的时间信息记录，一个输入节点，N个输出节点。
+* 可制定和追踪Buffer的流向。
 */
 typedef struct
 {
-    Uint32 curRunTime;          /* �ýڵ㵱ǰ����ʱ�� */
-    Uint32 minRunTime;          /* �ýڵ���С����ʱ�� */
-    Uint32 maxRunTime;          /* �ýڵ��������ʱ�� */
-    Uint32 totalRunTime;        /* �ýڵ��ܹ�����ʱ�� */
-    Uint32 totalRunCnt;         /* �ýڵ����еĴ��� */
+    Uint32 curRunTime;          /* 该节点当前运行时间 */
+    Uint32 minRunTime;          /* 该节点最小运行时间 */
+    Uint32 maxRunTime;          /* 该节点最大运行时间 */
+    Uint32 totalRunTime;        /* 该节点总共运行时间 */
+    Uint32 totalRunCnt;         /* 该节点运行的次数 */
     
-    Uint32 reserved[4];          /* ��չ�á�*/
+    Uint32 reserved[4];          /* 扩展用。*/
 } VIDEO_NodeTimeRecord;
 
 
 /*
-* ���ڵ��ͳ����Ϣ��
+* 各节点的统计信息。
 */
 typedef struct                 
 { 
-   VIDEO_NodeDircRecord direc;  /* ��Ƶ��������Ľڵ���Ϣ��*/
+   VIDEO_NodeDircRecord direc;  /* 视频数据流向的节点信息。*/
     
-   VIDEO_NodeTimeRecord time;   /* ��ǰBuffer�ڸýڵ������ʱ����Ϣ��¼ */
+   VIDEO_NodeTimeRecord time;   /* 当前Buffer在该节点的运行时间信息记录 */
    
-   Uint32 reserved[8];          /* ��չ�á�*/
+   Uint32 reserved[8];          /* 扩展用。*/
 } VIDEO_NodeStat;
 
 
 /* 
-* ���ڵ���Ϣ�ı�׼ͷ�����ڵ��ƶ��Ľṹ����������������������λ��
-* ��capInfo��EncInfo�Ƚڵ㡣
+* 各节点信息的标准头，各节点制定的结构必须包含它并将其放置在首位，
+* 如capInfo，EncInfo等节点。
 */
 typedef struct                 
 {   
-    /* �����ڵ����д洢��Ϣ�Ĵ�С */
+    /* 整个节点所有存储信息的大小 */
     Uint32 nNodeInfoSize;
  
-    /* ���潫Ҫ���͵�Ŀ�Ľڵ� */
+    /* 保存将要发送的目的节点 */
     VIDEO_NodeDircRecord nextNode;
     
-    /* ����������Ϣ����������ڵ�ʹ������������ЩBuffer����ôʹ�ø�list��*/
+    /* 链表管理信息。如果各个节点使用链表管理这些Buffer，那么使用该list。*/
     VIDEO_ListType   list;
  
-    /* �˽ڵ��Buffer���ڴ�ӳ�� */
+    /* 此节点此Buffer的内存映射 */
     VIDEO_NodeMemMap memMap;
     
-    /* �˽ڵ��ͳ����Ϣ��*/
+    /* 此节点的统计信息。*/
     VIDEO_NodeStat   stat;
          
-    /* ������չ�� */                
+    /* 将来扩展用 */                
     Uint32 reserved[16];
 } VIDEO_NodeInfoHead;
 
 
 /* 
-* ��Ƶ֡Buffer�������ṹ�嶨�塣
-* ���и�ͳһ�ɲɼ�ģ����䣬����ʱ�ǹ̶��ģ�ͨ���޸Ĳɼ�ģ��ĳ�
-* �����޸����С������Ա��Offset���Ǵ�����Buffer����ʼ��ַ��ʼ���㣬��������
-* VIDEO_FrameHeadd�ṹ��Ĵ�С��
-* 1. CapInfo��EncInfo��AlgInfo��AppInfo��IspInfo��Щ��Ϣ�Ľṹ�嶨�壬����
-*    ��ģ���Э�̺Ͷ��塣
-* 2. ��Ƶ֡Buffer�е���������˳�����£���Ƶ����Buffer����1���������ж����
-*    ����������VIDEO_FrameInfo.nBufInfoNumPlus������
+* 视频帧Buffer的描述结构体定义。
+* 下列各统一由采集模块填充，运行时是固定的，通过修改采集模块的程
+* 序来修改其大小。各成员的Offset都是从整个Buffer的起始地址开始计算，即包含了
+* VIDEO_FrameHeadd结构体的大小。
+* 1. CapInfo、EncInfo、AlgInfo、AppInfo和IspInfo这些信息的结构体定义，由相
+*    关模块间协商和定义。
+* 2. 视频帧Buffer中的内容排列顺序如下，视频数据Buffer至少1个，可能有多个，
+*    具体数据由VIDEO_FrameInfo.nBufInfoNumPlus决定。
 -------------------------- 
       VIDEO_FrameHead
 --------------------------
@@ -547,101 +547,101 @@ typedef struct
 typedef struct 
 {
     /* 
-    *  ħ����������Buffer�Ƿ��ƻ�(��DMA��)����ֵ������鿴
-    *  VIDEO_BUFFER_MAGIC_NUM��
+    *  魔数，检查这块Buffer是否被破坏(如DMA等)，其值定义请查看
+    *  VIDEO_BUFFER_MAGIC_NUM。
     */
     Uint32 nMagicNum;
     
     /* 
-    * �汾�š���8λ����Major Version����8λ����Minor Version��
-    * ��16����Revision����ֵ�ɲɼ�ģ�����VIDEO_BUFFER_VERSION
-    * д�룬��ģ���ʹ�����뱾�ļ��е�VIDEO_BUFFER_VERSION�Ƚϣ�
-    * �Լ��汾�ļ����Լ��������
+    * 版本号。高8位代表Major Version，中8位代表Minor Version，
+    * 低16代表Revision。其值由采集模块根据VIDEO_BUFFER_VERSION
+    * 写入，各模块可使用它与本文件中的VIDEO_BUFFER_VERSION比较，
+    * 以检测版本的兼容性及其他事项。
     */				
     Uint32 nVersion;	
     
-    /* ������Ƶ֡Buffer�Ĵ�С */
+    /* 整块视频帧Buffer的大小 */
     Uint32 nTotalBufSize;
   
-    /* ��Buffer��Դ�ڵ㡣*/ 
+    /* 此Buffer的源节点。*/ 
     Uint32 srcNode;       
      
     /* 
-    * ��Ƶ����Buffer��ƫ�ƣ��ɿ��ٵõ���Ƶ����Buffer�Ŀ�ʼ��ַ����ƫ��δ��
-    * ��"Frame Top Pad"�Ĵ�С����ƫ�ƺ�õ��ĵ�ַ�Ǵ�"Frame Top Pad"��
-    * ʼ�ġ�������Ƶ����Buffer�ڲ����ڿ��У������������Ӧ��ͨ��
-    * VIDEO_BufferInfo.bufAddr���õ���������ַ��
+    * 视频数据Buffer的偏移，可快速得到视频数据Buffer的开始地址。该偏移未包
+    * 含"Frame Top Pad"的大小，即偏移后得到的地址是从"Frame Top Pad"开
+    * 始的。由于视频数据Buffer内部存在空闲，所以正常情况应该通过
+    * VIDEO_BufferInfo.bufAddr来得到其物理地址。
     */		
     Uint32 nFrameBufOffset;	
     
-    /* �ɼ�ģ���ŵ���Ϣƫ�ơ�ͳһ�ɲɼ�ģ����䡣*/	
+    /* 采集模块存放的信息偏移。统一由采集模块填充。*/	
     Uint32 nCapInfoOffset;	
     
-    /* �ɼ�ģ��ɴ����Ϣ��������*/
+    /* 采集模块可存放信息的数量。*/
     Uint32 nCapInfoSize;		
      
-    /* ����ģ���ŵ���Ϣƫ�ƣ�ͳһ�ɲɼ�ģ����䡣*/		
+    /* 编码模块存放的信息偏移，统一由采集模块填充。*/		
     Uint32 nEncInfoOffset;	
     
-    /* ����ģ��ɴ����Ϣ��������*/
+    /* 编码模块可存放信息的数量。*/
     Uint32 nEncInfoSize;	
        
-    /* �����㷨ģ���ŵ���Ϣƫ�ƣ�ͳһ�ɲɼ�ģ����䡣*/
+    /* 智能算法模块存放的信息偏移，统一由采集模块填充。*/
     Uint32 nAlgInfoOffset;
     
-    /* �����㷨ģ��ɴ����Ϣ��������*/		
+    /* 智能算法模块可存放信息的数量。*/		
     Uint32 nAlgInfoSize;
 
-    /* Ӧ��ģ�����Ϣƫ�ƣ�ͳһ�ɲɼ�ģ����䡣*/
+    /* 应用模块的信息偏移，统一由采集模块填充。*/
     Uint32 nAppInfoOffset;
     
-    /* Ӧ��ģ��ɴ����Ϣ��������*/		
+    /* 应用模块可存放信息的数量。*/		
     Uint32 nAppInfoSize;
     
-    /* ͼ����ģ���ŵ���Ϣƫ�ƣ�ͳһ�ɲɼ�ģ����䡣*/
+    /* 图像处理模块存放的信息偏移，统一由采集模块填充。*/
     Uint32 nIspInfoOffset;
     
-    /* ͼ����ģ��ɴ����Ϣ��������*/		
+    /* 图像处理模块可存放信息的数量。*/		
     Uint32 nIspInfoSize;	
     
-    /* ������չ�� */		
+    /* 将来扩展用 */		
     Uint32 reserved[8];			
 } VIDEO_BufferDesc;		
 
 
-/* ��Ƶ֡��������ص���Ϣ */
+/* 视频帧和码流相关的信息 */
 typedef struct 
 {
-    /* ����ID��������web�������Ŷ���һ�¡�*/
+    /* 码流ID，与编码和web的码流号定义一致。*/
     Uint32 nStreamId;
     
-    /* ͨ���ţ�����ͬSenosr�����������*/
+    /* 通道号，区别不同Senosr输出的码流。*/
     Uint32 nChId;
     
-    /* �ɼ������ڲ�ʹ�� */
+    /* 采集程序内部使用 */
     Uint32 nInterId; 
     
-    /* ���ü������ɼ������ڲ�ʹ�á�*/
+    /* 引用计数，采集程序内部使用。*/
     Uint32 nRefCnt;
    
-    /* ֡��š�ÿ·���������Լ���֡��š�*/
+    /* 帧序号。每路码流都有自己的帧序号。*/
     Uint32 nFrameNum;
     
     /* 
-    * VIDEO_BufferInfo����������nBufInfoNumPlus + 1������Ƶ����Buffer��������
-    * ͨ����һBuffer�����Եõ�����Buffer��
+    * VIDEO_BufferInfo的数量等于nBufInfoNumPlus + 1，即视频数据Buffer的数量。
+    * 通过任一Buffer都可以得到其他Buffer。
     */
     Uint32 nBufInfoNumPlus;
     
-    /* ����ͬһ����������Buffer��*/
+    /* 链接同一码流的所有Buffer。*/
     OSA_ListHead nextBuffer;
     
-    /* ������չ�� */
+    /* 将来扩展用 */
     Uint32 reserved[8];
 } VIDEO_FrameInfo;
 
 
-/* ��Ƶ����Buffer����Ϣ���塣Bufferͼʾ���£�ʵ����Ƶ��С�ڼ�ͷ��ʾ�������ڡ�
+/* 视频数据Buffer的信息定义。Buffer图示如下，实际视频大小在箭头标示的区域内。
     
    <----------------- nWidth -----------------> ---------
  /|\          |                               /|\        |
@@ -665,108 +665,108 @@ typedef struct
 */
 typedef struct  
 {
-    /* ��Ƶ����Buffer���ڲ������� */
+    /* 视频数据Buffer的内部索引号 */
     Uint32 nIndex;
     
-    /* ��Ƶ����Buffer�Ĵ�С */
+    /* 视频数据Buffer的大小 */
     Uint32 nBufSize;
   
-    /* ��Ƶ����Bufferʵ��ʹ�ô�С��һ�㱣����Ǳ������ݻ���ͳ������ʱʹ�á�*/
+    /* 视频数据Buffer实际使用大小，一般保存的是编码数据或其统计数据时使用。*/
     Uint32 nBytesUsed;
     
-    /* ��Ƶ����Bufferͷ������������������ĳЩ�㷨����JPEG����ȡ�*/
+    /* 视频数据Buffer头部多分配的行数，用于某些算法，如JPEG编码等。*/
     Uint32 nTopPadNum;
     
-    /* ��Ƶ����Buffer�ײ�����������������ĳЩ�㷨��*/
+    /* 视频数据Buffer底部多分配的行数，用于某些算法。*/
     Uint32 nBotPadNum;  
     
-    /* ��Ƶ���ݵ�ʵ�ʿ��� */
+    /* 视频数据的实际宽度 */
     Uint32 nWidth;	
     
-    /* ��Ƶ���ݵ�ʵ�ʸ߶� */			
+    /* 视频数据的实际高度 */			
     Uint32 nHeight;
     
-    /* ��Ƶ���ݼ��õĴ�С��������ʹ�ô˴�С���б��롣*/
+    /* 视频数据剪裁的大小。编码器使用此大小进行编码。*/
     VIDEO_Crop encCrop;
     
     /* 
-    * ��Ƶ���ݵĸ�ʽ�����ж���BitStream����Frame�����жϾ���ĸ�ʽ��
-    * �䶨���VIDEO_DataFormat��
+    * 视频数据的格式，先判断是BitStream还是Frame，再判断具体的格式。
+    * 其定义见VIDEO_DataFormat。
     */	       
     Uint32 dataFormat;
     
-    /* ÿ������ռ�õ�λ�����䶨���VIDEO_BitsPerPixel��*/
+    /* 每个像素占用的位数，其定义见VIDEO_BitsPerPixel。*/
     Uint32 nBpp;
  
     /* 
-     * ��Ƶ֡/���š��䶨���VIDEO_FidType��ɨ���ʽ�ʹ洢��ʽ������
-     * scanFormat��fidBufType��Ա�С�
+     * 视频帧/场号。其定义见VIDEO_FidType。扫描格式和存储格式定义在
+     * scanFormat和fidBufType成员中。
      */
     Uint32 nFieldId;
     
-    /* ��Ƶ���ݲɼ���ɨ�跽ʽ���䶨���VIDEO_ScanFormat��*/
+    /* 视频数据采集的扫描方式，其定义见VIDEO_ScanFormat。*/
     Uint32 scanFormat;
     
     /* 
-    * ����ɨ�����Ƶ���ݱ��淽ʽ��������ɨ�����Ƶ������Ч��
-    * �䶨���VIDEO_FidBufType��
+    * 隔行扫描的视频数据保存方式，对逐行扫描的视频数据无效，
+    * 其定义见VIDEO_FidBufType。
     */
     Uint32 fidBufType; 
     
     /* 
-    * ������Ƶ�������˷�ת��������ת�Ȳ����������Ƕ������ϣ�����ģ��������㷨
-    * ��ȡ��Ƶ����ʱ����Ҫ֪������Ϣ���䶨���VIDEO_RotateType��
+    * 表明视频数据做了翻转、镜像、旋转等操作，可以是多项的组合，编码模块和智能算法
+    * 读取视频数据时，需要知道此信息。其定义见VIDEO_RotateType。
     */
     Uint32 rotateFlags;
     
-    /* ��Ƶ���ݵ�Ŀ������ʽ��Buffer���ݵı����ʽ���䶨���VIDEO_EncFormat��*/
+    /* 视频数据的目标编码格式或Buffer数据的编码格式，其定义见VIDEO_EncFormat。*/
     Uint32 encFlags;
     
-    /* �������ݵ�֡���ͣ�YUV���ݲ��ù�ע���䶨���VIDEO_EncFrameType��*/
+    /* 编码数据的帧类型，YUV数据不用关注。其定义见VIDEO_EncFrameType。*/
     Uint32 encFrmType;
 
-    /* ��Ƶ����Buffer��Ⱦɫ�����ڻ��պʹ������ɼ������ڲ�ʹ�á�*/
+    /* 视频数据Buffer的染色，用于回收和处理，采集程序内部使用。*/
     Uint32 colorMark;
     
-    /* ʱ������ǵ���������ʱ�䣬��msΪ��λ��*/			
+    /* 时间戳，是单调递增的时间，以ms为单位。*/			
     Uint32 timeStamp;
     
-    /* ����ϵͳ�δ��� */
+    /* 操作系统滴答数 */
     Uint32 osTicks;   
      
     /* 
-     * ÿ��ƽ���ڵ��е�ַƫ�ơ�������������Ƶʱ������Ƶ����ÿ�еĵ�ַƫ�ƶ���
-     * ����Ҫ����Ҫ��32Byte���룬���ͼ����п��Ȳ���32Byte�Ķ��룬�򱣴��
-     * ͼ���ڵ�ַ�ϲ�����������������32Byte����ĵ�ַ�п��ȱ��档���Զ�ȡ��Ƶ
-     * ����ʱ�����ֵ��Ϊ�е�ַƫ�ơ�
+     * 每块平面内的行地址偏移。处理器保存视频时，对视频数据每行的地址偏移都有
+     * 对齐要求。如要求32Byte对齐，如果图像的行宽度不是32Byte的对齐，则保存的
+     * 图像在地址上并不是连续，而是以32Byte对齐的地址行宽度保存。所以读取视频
+     * 数据时以这个值作为行地址偏移。
     */	
     Uint32 linePitch[VIDEO_MAX_PLANES];
     
     /*
-    * ��Ƶ����Bufferʹ��һ����ά��ָ������bufAddr��������һά��������֡/����
-    * �ڶ�ά����������ɫƽ�档��Щָ����Щ����ΪNULL��Ҫ�������ݸ�ʽ����
-    * �Դ�(dataFormat)������������ܼ��ֵ������ݸ�ʽ�������
-    * 1. ����ɨ���YUV422/RAW���ݸ�ʽ��
+    * 视频数据Buffer使用一个二维的指针数组bufAddr管理，第一维代表的是帧/场，
+    * 第二维代表的是颜色平面。这些指针有些可能为NULL，要根据数据格式区分
+    * 对待(dataFormat)。下面举例介绍几种典型数据格式的情况。
+    * 1. 逐行扫描的YUV422/RAW数据格式。
     *    bufAddr[0][0] --> YUV422/RAW
-    *    bufAddr[1][x] --> û��ʹ��
-    * 2. ����ɨ����ż�泡�ֿ��洢��YUV422���ݸ�ʽ
+    *    bufAddr[1][x] --> 没有使用
+    * 2. 隔行扫描且偶奇场分开存储的YUV422数据格式
     *    bufAddr[0][0] --> YUV422 Top Field
     *    bufAddr[1][0] --> YUV422 Bot Field  
-    * 3. ����ɨ���YUV420SP_VU/YUV422SP_VU�����ݸ�ʽ
+    * 3. 逐行扫描的YUV420SP_VU/YUV422SP_VU的数据格式
     *    bufAddr[0][0] --> Y
     *    bufAddr[0][1] --> VU
-    *    bufAddr[1][x] --> û��ʹ��  
-    * 4. ����ɨ���YUV420SP_VU/YUV422SP_VU�����ݸ�ʽ
+    *    bufAddr[1][x] --> 没有使用  
+    * 4. 隔行扫描的YUV420SP_VU/YUV422SP_VU的数据格式
     *    bufAddr[0][0] --> Y
     *    bufAddr[0][1] --> VU
     *    bufAddr[1][0] --> Y
     *    bufAddr[1][1] --> VU  
-    * 5. ����ɨ���YUV420P/YUV422P�����ݸ�ʽ
+    * 5. 逐行扫描的YUV420P/YUV422P的数据格式
     *    bufAddr[0][0] --> Y
     *    bufAddr[0][1] --> U
     *    bufAddr[0][2] --> V
-    *    bufAddr[1][x] --> û��ʹ��    
-    * 6. ����ɨ���YUV420P/YUV422P�����ݸ�ʽ
+    *    bufAddr[1][x] --> 没有使用    
+    * 6. 隔行扫描的YUV420P/YUV422P的数据格式
     *    bufAddr[0][0] --> Y
     *    bufAddr[0][1] --> U
     *    bufAddr[0][2] --> V    
@@ -774,43 +774,43 @@ typedef struct
     *    bufAddr[1][1] --> U
     *    bufAddr[1][2] --> V  
     *
-    * ��ʹ��VIDEO_YUV_INT_ADDR_IDX, VIDEO_RGB_ADDR_IDX, VIDEO_FID_TOP
-    * �Ⱥ�����ȡ��Щָ��.
-    * ����bufAddr�е�ָ��ָ��ĵ�ַ����Ƶ֡Buffer��һ���֣�����ֻ���
-    * ��Ƶ֡Buffer��ַ���д�������ĵ�ַӳ�䣬Ȼ�����֮ǰ�ĵ�ַƫ��
-    * ��ɵõ���ָ��ֵ������VIDEO_Frameδӳ��ǰ�ĵ�ַ��pOld��ӳ���
-    * �ĵ�ַ��pNew����bufAddr[0][0] = pNew + (bufAddr[0][0] - pOld)��
-    * ��Щ��ַ�ڼ����ʱ����Ҫǿ������ΪUint32��Uint8 *��
+    * 可使用VIDEO_YUV_INT_ADDR_IDX, VIDEO_RGB_ADDR_IDX, VIDEO_FID_TOP
+    * 等宏来获取这些指针.
+    * 由于bufAddr中的指针指向的地址是视频帧Buffer的一部分，所以只需对
+    * 视频帧Buffer地址进行处理器间的地址映射，然后根据之前的地址偏移
+    * 便可得到各指针值。假设VIDEO_Frame未映射前的地址是pOld，映射后
+    * 的地址是pNew，则bufAddr[0][0] = pNew + (bufAddr[0][0] - pOld)。
+    * 这些地址在计算的时候，需要强制类型为Uint32或Uint8 *。
     */
     Ptr    bufAddr[VIDEO_MAX_FIELDS][VIDEO_MAX_PLANES]; 
     
-    /* ������չ�� */
+    /* 将来扩展用 */
     Uint32 reserved[8];
 
     /* 
-    * ռλ������ռ���ڴ档�������õ���һ�����ڵ�VIDEO_BufferInfo��ַ��
-    * ��ʣ������������VIDEO_FrameInfo.nBufInfoNumPlus�С�������ͬһ����
-    * ��Buffer�������������������ĸ������ݣ���ֱ��ͼ�ȡ�
+    * 占位符，不占用内存。方便程序得到下一个相邻的VIDEO_BufferInfo地址。
+    * 其剩余数量保存在VIDEO_FrameInfo.nBufInfoNumPlus中。必须是同一码流
+    * 的Buffer，或者是其他非码流的辅助数据，如直方图等。
     */
     Uint32 nextBufInfo[0];
 } VIDEO_BufferInfo; 
 
 
-/* ��Ʒ��ҵ��Ӧ�ñ�־��Ϣ��*/
+/* 产品的业务应用标志信息。*/
 typedef struct                 
 {    
-    /* ���ܽ�ͨ������ʶ��֡�����͡��䶨���VIDEO_ItcFrameType��*/
+    /* 智能交通中用于识别帧的类型。其定义见VIDEO_ItcFrameType。*/
     Uint8 itcFrameId;
          
-    /* ������չ�� */                
+    /* 将来扩展用 */                
     Uint8 reserved[127];
 } VIDEO_AppInfo;
 
 
 /*
-* ��Ƶ֡Buffer��֡ͷ��������������Ƶ֡Buffer����Ϣ��
-* �˽ṹ�������е���Ϣ������listInfo��nodeInfo�⣬ֻ�вɼ������д��
-* ������������ģ��ĳ���ֻ�ɶ����ṹ�����������ͼ��
+* 视频帧Buffer的帧头，描述了所有视频帧Buffer的信息。
+* 此结构体里所有的信息，除了listInfo和nodeInfo外，只有采集程序可写，
+* 其他处理器或模块的程序只可读。结构体的描述如下图。
 --------------------------
      VIDEO_BufferDesc
 --------------------------
@@ -827,29 +827,29 @@ typedef struct
 */
 typedef struct
 {
-    /* ������Ƶ֡Buffer���� */
+    /* 整个视频帧Buffer描述 */
     VIDEO_BufferDesc  bufDesc; 
     
-    /* ��Ʒҵ��Ӧ�ñ�־��Ϣ */
+    /* 产品业务应用标志信息 */
     VIDEO_AppInfo     appInfo;    
     
-    /* ��Ƶ���ݺ�������Ϣ */
+    /* 视频数据和码流信息 */
     VIDEO_FrameInfo   frmInfo;
     
-    /* ������չ�� */
+    /* 将来扩展用 */
     Uint32            reserved[64];
     
-    /* ��Ƶ����Buffer��Ϣ */
+    /* 视频数据Buffer信息 */
     VIDEO_BufferInfo  bufInfo;
 
 } VIDEO_FrameHead;
 
 
 /*  
-* �ദ������ģ�����Ƶ֡�������������ͣ���һ�������͵�ָ�롣�����м��Դ�ָ����Ϊ
-* ���崫����Ϣ�����������յ�����Ϣ��������Ҫ�Ը�ָ����д��������ڴ��ַ�ռ�
-* ӳ�䣬Ȼ������л�ȡ����Ƶ������ص���Ϣ�������յ��ĸ�����ָ�������pVideoFrame��
-* ��VIDEO_FrameHead *pFrameHead = (VIDEO_FrameHead *)pVideoFrame��
+* 多处理器或模块间视频帧交互的数据类型，是一个空类型的指针。各队列间以此指针作为
+* 载体传递信息。处理器接收到该信息后，首先需要对该指针进行处理器间内存地址空间
+* 映射，然后从其中获取到视频数据相关的信息。假如收到的该类型指针变量是pVideoFrame，
+* 则VIDEO_FrameHead *pFrameHead = (VIDEO_FrameHead *)pVideoFrame。
 */
 typedef void * VIDEO_Frame;
 

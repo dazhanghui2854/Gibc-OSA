@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2010-8-31 Create
 *
-* Description: OSA�޷�����Ľӿڡ�
+* Description: OSA无法归类的接口。
 *
-*       1. Ӳ��˵����
-*          �ޡ�
+*       1. 硬件说明。
+*          无。
 
-*       2. ����ṹ˵����
-*          ��
+*       2. 程序结构说明。
+*          无
 *
-*       3. ʹ��˵����
-*          �ޡ�
+*       3. 使用说明。
+*          无。
 *
-*       4. ������˵����
-*          �ޡ�
+*       4. 局限性说明。
+*          无。
 *
-*       5. ����˵����
-*          �ޡ�
+*       5. 其他说明。
+*          无。
 *
 * Modification:
 *    Date    :
@@ -38,7 +38,7 @@
 extern "C" {
 #endif
 
-/*��linux�û�̬֧�����½ӿ�*/
+/*仅linux用户态支持以下接口*/
 #if !defined(__KERNEL__) && !defined(___DSPBIOS___)
 
 Int32  OSA_appExit(Int32 exitValue);

@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2010-8-31 Create
 *
-* Description: OSA�߳̽ӿڡ�
+* Description: OSA线程接口。
 *
-*       1. Ӳ��˵����
-*          �ޡ�
+*       1. 硬件说明。
+*          无。
 
-*       2. ����ṹ˵����
-*          ��
+*       2. 程序结构说明。
+*          无
 *
-*       3. ʹ��˵����
-*          �ޡ�
+*       3. 使用说明。
+*          无。
 *
-*       4. ������˵����
-*          �ޡ�
+*       4. 局限性说明。
+*          无。
 *
-*       5. ����˵����
-*          �ޡ�
+*       5. 其他说明。
+*          无。
 *
 * Modification:
 *    Date    :
@@ -40,68 +40,68 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ������Ͷ�����                                   */
+/*                           宏和类型定义区                                   */
 /* ========================================================================== */
 
-/* ʹ��Ĭ�ϴ�С�Ķ�ջ */
+/* 使用默认大小的堆栈 */
 #define OSA_THR_STACK_SIZE_DEFAULT 0
 
 /*
-* ���Ȳ���ö�ٶ��壬���Ȳ���ֻ��linux�û�̬���ں�̬�߳���Ч��
-* ��ö����SYSBIOS����Ч��
+* 调度策略枚举定义，调度策略只对linux用户态和内核态线程有效，
+* 该枚举在SYSBIOS中无效。
 */
 typedef enum
 {
-    OSA_SCHED_OTHER  = 0,  /* ��ʱ���Ȳ��� */
-    OSA_SCHED_FIFO,        /* ʵʱ���Ȳ��ԣ��ȵ��ȷ���*/
-    OSA_SCHED_RR,          /* ʵʱ���Ȳ��ԣ�ʱ��Ƭ��ת��*/
+    OSA_SCHED_OTHER  = 0,  /* 分时调度策略 */
+    OSA_SCHED_FIFO,        /* 实时调度策略，先到先服务。*/
+    OSA_SCHED_RR,          /* 实时调度策略，时间片轮转。*/
 
     /* -------------- Only for Linux User mode --------------- */
-    OSA_SCHED_DEFAULT,     /* ϵͳĬ������(���Ȳ����Լ����ȼ�) */
-    OSA_SCHED_INHERIT,     /* �̳д����ߵ�ǰ�����̵߳�����(���Ȳ����Լ����ȼ�) */
+    OSA_SCHED_DEFAULT,     /* 系统默认属性(调度策略以及优先级) */
+    OSA_SCHED_INHERIT,     /* 继承创建者当前所在线程的属性(调度策略以及优先级) */
 
     OSA_SCHED_NUM,
 } OSA_thrSchedPolicy;
 
 
-/* �߳̾�������в��������ڴ˾����*/
+/* 线程句柄，所有操作均基于此句柄。*/
 typedef Handle OSA_ThrHandle;
 
 
 /* ========================================================================== */
-/*                          ���ݽṹ������                                    */
+/*                          数据结构定义区                                    */
 /* ========================================================================== */
 
-/* �����߳�����Ҫ����Ϣ��*/
+/* 创建线程所需要的信息。*/
 typedef struct
 {
-    /* �̰߳󶨵�ָ����CPU */
-    Uint32          cpuBindMask;  /* ���ֵΪ0,��ʾ����CPU */
-    Uint32          reservedWord; /* �����ֶ� */
-    Uint64          reserved[15]; /* �����ֶ� */
+    /* 线程绑定到指定的CPU */
+    Uint32          cpuBindMask;  /* 如果值为0,表示不绑定CPU */
+    Uint32          reservedWord; /* 保留字段 */
+    Uint64          reserved[15]; /* 保留字段 */
 } OSA_ThrAttr;
 
 
-/* �����߳�����Ҫ����Ϣ��*/
+/* 创建线程所需要的信息。*/
 typedef struct
 {
-    Int32 (*OpThrRun)(Ptr pUsrArgs); /* �߳����к��� */
+    Int32 (*OpThrRun)(Ptr pUsrArgs); /* 线程运行函数 */
 
-    Uint16 thrPol;      /* ���Ȳ��ԣ��䶨���OSA_thrSchedPolicy */
-    Uint16 thrPri;      /* �������ȼ� */
+    Uint16 thrPol;      /* 调度策略，其定义见OSA_thrSchedPolicy */
+    Uint16 thrPri;      /* 调度优先级 */
 
     /*
-    ջ��С��OSA_THR_STACK_SIZE_DEFAULT��ʾĬ��ջ��С�����ΪĬ�ϴ�С��
-    ��pStackAddr��������
+    栈大小，OSA_THR_STACK_SIZE_DEFAULT表示默认栈大小，如果为默认大小，
+    则pStackAddr不起作用
     */
     Uint32 stackSize;
-    Ptr    pStackAddr;  /* ջ��ʼ��ַ��Linux�ں�̬����Ч����ʹ��ʱ����ΪNULL��*/
+    Ptr    pStackAddr;  /* 栈起始地址，Linux内核态中无效，不使用时请设为NULL。*/
 
-    Ptr    pUsrArgs;    /* �û��Զ������ */
+    Ptr    pUsrArgs;    /* 用户自定义参数 */
 
-    Char   *pName;      /* �߳�������OSA_thrCreateEx��������Ч */
+    Char   *pName;      /* 线程名仅在OSA_thrCreateEx函数中有效 */
 
-    /* �߳���չ���ԣ�����OSA_thrCreateEx��������Ч */
+    /* 线程扩展属性，仅在OSA_thrCreateEx函数中有效 */
     Ptr_t(OSA_ThrAttr, pAttr);
 
     Uint32 reserved[1];
@@ -109,149 +109,149 @@ typedef struct
 
 
 /* ========================================================================== */
-/*                          ����������                                        */
+/*                          函数声明区                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* ������  : OSA_thrCreateOSA_thrCreateEx
-* ��  ��  : �����̣߳��ú�����OSA_thrCreate����֧����pName�ֶ����ڼ�¼����������
-*           �Ҷ�reserved�����0ֵ�жϣ��û����øú�����ʱ�����ʹreserved���㡣
-* ��  ��  : - pCreate: ����������
-*           - phThr  : ���صľ����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_thrCreateOSA_thrCreateEx
+* 描  述  : 创建线程，该函数与OSA_thrCreate增加支持了pName字段用于记录函数名，并
+*           且对reserved会进行0值判断，用户调用该函数的时候，务必使reserved清零。
+* 输  入  : - pCreate: 创建参数。
+*           - phThr  : 返回的句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_thrCreateEx(OSA_ThrCreate *pCreate,
                       OSA_ThrHandle *phThr);
 
 
 /*******************************************************************************
-* ������  : OSA_thrCreate
-* ��  ��  : �����̡߳�
-* ��  ��  : - pCreate: ����������
-*           - phThr  : ���صľ����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_thrCreate
+* 描  述  : 创建线程。
+* 输  入  : - pCreate: 创建参数。
+*           - phThr  : 返回的句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_thrCreate(OSA_ThrCreate *pCreate,
                     OSA_ThrHandle *phThr);
 
 
 /*******************************************************************************
-* ������  : OSA_thrDelete
-* ��  ��  : ɾ���̡߳�
-* ��  ��  : - hThr: �߳̾����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_thrDelete
+* 描  述  : 删除线程。
+* 输  入  : - hThr: 线程句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_thrDelete(OSA_ThrHandle hThr);
 
 
 /*******************************************************************************
-* ������  : OSA_thrShouldStop
-* ��  ��  : �ж��߳��Ƿ���Ҫ�˳�, ���߳�ִ�к����е��á�
-* ��  ��  : �ޡ�
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : У��ɹ���
-*           OSA_EFAIL: У��ʧ�ܡ�
+* 函数名  : OSA_thrShouldStop
+* 描  述  : 判断线程是否需要退出, 在线程执行函数中调用。
+* 输  入  : 无。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 校验成功。
+*           OSA_EFAIL: 校验失败。
 *******************************************************************************/
 Int32 OSA_thrShouldStop(void);
 
 
 /*******************************************************************************
-* ������  : OSA_thrDelete
-* ��  ��  : ɾ���̡߳�
-* ��  ��  : - hThr: �߳̾����
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_thrDelete
+* 描  述  : 删除线程。
+* 输  入  : - hThr: 线程句柄。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_thrJoin(OSA_ThrHandle hThr);
 
 
 /*******************************************************************************
-* ������  : OSA_thrChangePri
-* ��  ��  : �޸��߳����ȼ���
-* ��  ��  : - hThr  : �߳̾����
-            - thrPri: �߳����ȼ���
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_thrChangePri
+* 描  述  : 修改线程优先级。
+* 输  入  : - hThr  : 线程句柄。
+            - thrPri: 线程优先级。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_thrChangePri(OSA_ThrHandle hThr, Uint32 thrPri);
 
 
 /*******************************************************************************
-* ������  : OSA_thrGetMaxPri
-* ��  ��  : ��ȡ������ȼ�ֵ��
-* ��  ��  : - thrPol: �̵߳��Ȳ��ԣ��䶨���OSA_thrSchedPolicy��
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_thrGetMaxPri
+* 描  述  : 获取最大优先级值。
+* 输  入  : - thrPol: 线程调度策略，其定义见OSA_thrSchedPolicy。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_thrGetMaxPri(Uint32 thrPol);
 
 /*******************************************************************************
-* ������  : OSA_thrGetMinPri
-* ��  ��  : ��ȡ��С���ȼ�ֵ��
-* ��  ��  : - thrPol: �̵߳��Ȳ��ԣ��䶨���OSA_thrSchedPolicy��
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_thrGetMinPri
+* 描  述  : 获取最小优先级值。
+* 输  入  : - thrPol: 线程调度策略，其定义见OSA_thrSchedPolicy。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_thrGetMinPri(Uint32 thrPol);
 
 
 /*******************************************************************************
-* ������  : OSA_thrExit
-* ��  ��  : �����˳��̡߳�
-* ��  ��  : - pRetVal: �˳��󷵻ص�ֵ��
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK  : �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_thrExit
+* 描  述  : 主动退出线程。
+* 输  入  : - pRetVal: 退出后返回的值。
+* 输  出  : 无。
+* 返回值  : OSA_SOK  : 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_thrExit(Ptr pRetVal);
 
 
 /*******************************************************************************
-* ������  : OSA_thrGetTid
-* ��  ��  : ��ȡ�̺߳š�
-* ��  ��  : �ޡ�
-* ��  ��  : �ޡ�
-* ����ֵ  : �̺߳š�
+* 函数名  : OSA_thrGetTid
+* 描  述  : 获取线程号。
+* 输  入  : 无。
+* 输  出  : 无。
+* 返回值  : 线程号。
 *******************************************************************************/
 Int32 OSA_thrGetTid(void);
 
 
 /*******************************************************************************
-* ������  : OSA_thrGetPid
-* ��  ��  : ��ȡ���̺š�
-* ��  ��  : �ޡ�
-* ��  ��  : �ޡ�
-* ����ֵ  : ���̺š�
+* 函数名  : OSA_thrGetPid
+* 描  述  : 获取进程号。
+* 输  入  : 无。
+* 输  出  : 无。
+* 返回值  : 进程号。
 *******************************************************************************/
 Int32 OSA_thrGetPid(void);
 
 /*******************************************************************************
-* ������  : OSA_thrGetName
-* ��  ��  : ��ȡ��������, ���ں�̬����Ч���û�̬��sys bios�·���NULL��
-* ��  ��  : �ޡ�
-* ��  ��  : �ޡ�
-* ����ֵ  : �������֡�
+* 函数名  : OSA_thrGetName
+* 描  述  : 获取进程名称, 仅内核态下有效，用户态和sys bios下返回NULL。
+* 输  入  : 无。
+* 输  出  : 无。
+* 返回值  : 进程名字。
 *******************************************************************************/
 Char *OSA_thrGetName(void);
 
 
-/* ������ȼ�ֵ */
+/* 最大优先级值 */
 #define OSA_THR_PRI_MAX(thrPol)    OSA_thrGetMaxPri(thrPol)
 
-/* ��С���ȼ�ֵ */
+/* 最小优先级值 */
 #define OSA_THR_PRI_MIN(thrPol)    OSA_thrGetMinPri(thrPol)
 
-/* Ĭ���ȼ�ֵ��Ϊ�м�ֵ��*/
+/* 默认先级值，为中间值。*/
 #define OSA_THR_PRI_DEFAULT(thrPol)         \
                 (OSA_THR_PRI_MIN(thrPol) + \
                 (OSA_THR_PRI_MAX(thrPol)   \

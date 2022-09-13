@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2012-7-25 Create
 *
-* Description: OSA��Ϣ���С�
+* Description: OSA消息队列。
 *
-*       1. Ӳ��˵����
-*          �ޡ�
+*       1. 硬件说明。
+*          无。
 *
-*       2. ����ṹ˵����
-*          ��
+*       2. 程序结构说明。
+*          无
 *
-*       3. ʹ��˵����
-*          �ޡ�
+*       3. 使用说明。
+*          无。
 *          
-*       4. ������˵����
-*          �ޡ�
+*       4. 局限性说明。
+*          无。
 *
-*       5. ����˵����
-*          �ޡ�
+*       5. 其他说明。
+*          无。
 *
 * Modification: 
 *    Date    :  
@@ -37,8 +37,8 @@
 typedef struct 
 {
     /* 
-      ��Ϣ��msg����������λ�ã���Ϊ�������ʹ��ǿ������ת����
-      ����OSA_MsgqMsg��OSA_MsgqMsgObj�������͵�ָ�롣
+      消息。msg必须存放在首位置，因为程序里会使用强制类型转换，
+      互用OSA_MsgqMsg和OSA_MsgqMsgObj两种类型的指针。
      */
     OSA_MsgqMsg         msg;
     struct OSA_MsgqObj *pMsgqObjTo;
@@ -49,8 +49,8 @@ typedef struct
 
 typedef struct OSA_MsgqObj
 {
-    OSA_QueHandle hQueEmpty;   /* ������Ϣ���� */
-    OSA_QueHandle hQueRdWr;    /* ��Ϣ��д���� */
+    OSA_QueHandle hQueEmpty;   /* 空闲消息队列 */
+    OSA_QueHandle hQueRdWr;    /* 消息读写队列 */
    
     Uint32 nMsgNum;
 
@@ -74,7 +74,7 @@ Int32 OSA_msgqCreate(Uint32 nMsgNum, OSA_MsgqHandle *phMsgq)
         return OSA_EFAIL;
     }
 
-    /* ��Ϣ���ж�������Ϣ������ڴ�һ����䣬��Ӧ�ı���ͳһ�ͷš�*/
+    /* 消息队列对象与消息对象的内存一起分配，对应的必须统一释放。*/
     pMsgqObj = OSA_memAlloc(sizeof(*pMsgqObj)
                     + nMsgNum * sizeof(OSA_MsgqMsgObj));
     if (OSA_isNull(pMsgqObj))
@@ -96,7 +96,7 @@ Int32 OSA_msgqCreate(Uint32 nMsgNum, OSA_MsgqHandle *phMsgq)
 
     status |= OSA_queListCreate(&queCreate, 
                                 &pMsgqObj->hQueEmpty);
-    /* ��д���г�Ա�����ǿն��е����� */
+    /* 读写队列成员数量是空队列的两倍 */
     queCreate.maxElems += (Uint16)nMsgNum;                          
     status |= OSA_queListCreate(&queCreate, 
                                 &pMsgqObj->hQueRdWr);
@@ -109,7 +109,7 @@ Int32 OSA_msgqCreate(Uint32 nMsgNum, OSA_MsgqHandle *phMsgq)
         return OSA_EFAIL;
     }  
 
-    /* ��ʼ������msg�ڵ㲢��ʼ����*/
+    /* 初始化所有msg节点并初始化。*/
     for (i = 0; i < pMsgqObj->nMsgNum; i++)
     {
         pMsgList = &pMsgqObj->pMsgObj[i].msgList;
@@ -280,7 +280,7 @@ Int32 OSA_msgqAllocMsg(OSA_MsgqMsg **ppMsg)
 {
     OSA_assertNotNull(ppMsg);
 
-    /* ʵ��������ڴ��С��OSA_MsgqMsgObj��*/
+    /* 实际申请的内存大小是OSA_MsgqMsgObj。*/
     *ppMsg = OSA_memAlloc(sizeof(OSA_MsgqMsgObj));    
     if (OSA_isNull(*ppMsg))
     {

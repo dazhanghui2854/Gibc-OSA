@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2012-7-25 Create
 *
-* Description: OSAʱ��ͳ��ģ�顣������ͳ��ʱ�䡣
+* Description: OSA时间统计模块。可用于统计时间。
 *
-*       1. Ӳ��˵����
-*          �ޡ�
+*       1. 硬件说明。
+*          无。
 *
-*       2. ����ṹ˵����
-*          ��
+*       2. 程序结构说明。
+*          无
 *
-*       3. ʹ��˵����
-*          �ޡ�
+*       3. 使用说明。
+*          无。
 *          
-*       4. ������˵����
-*          �ޡ�
+*       4. 局限性说明。
+*          无。
 *
-*       5. ����˵����
-*          �ޡ�
+*       5. 其他说明。
+*          无。
 *
 * Modification: 
 *    Date    :  
@@ -92,7 +92,7 @@ Int32 OSA_prfEnd(OSA_PrfHandle *phPrf, Uint32 value)
 
 /*lint -save -e715 */
 
-/*����linux�ں�̬��֧�ָ������㣬��˸ú�����ʹ����������*/
+/*由于linux内核态不支持浮点运算，因此该函数中使用整型运算*/
 #ifdef __KERNEL__
 Int32 OSA_prfPrint(OSA_PrfHandle *phPrf, 
                    String         sName, 

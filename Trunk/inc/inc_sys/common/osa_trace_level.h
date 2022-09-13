@@ -5,29 +5,29 @@
 *
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2011-07-25 Create
-*          V1.0.1  2011-11-14 1. ���Ӷ�TI SYSBIOSϵͳ��֧�֡�                            
-*                             2. ��DEBUG���޸�Ϊ_OSA_TRACE_��
-*                             3. �ļ�����osa_debug.h�޸�Ϊosa_trace.h��
-*          V1.0.2  2011-11-30 1. ���ӳ������ʱ�ö���OSA_COMPILETIME_ASSERT��
-*          V1.0.3  2012-08-10 1. ���ӵȼ����ơ�
-*          V1.0.4  2012-12-05 1. ֧����־����ģ�顣
+*          V1.0.1  2011-11-14 1. 增加对TI SYSBIOS系统的支持。                            
+*                             2. 将DEBUG宏修改为_OSA_TRACE_。
+*                             3. 文件名由osa_debug.h修改为osa_trace.h。
+*          V1.0.2  2011-11-30 1. 增加程序编译时用断言OSA_COMPILETIME_ASSERT。
+*          V1.0.3  2012-08-10 1. 增加等级控制。
+*          V1.0.4  2012-12-05 1. 支持日志管理模块。
 *
-* Description: ͳһ�ĵ��Դ�ӡ�ӿڣ�����LinuxӦ�ó������������SYSBIOSϵͳ����
+* Description: 统一的调试打印接口，兼容Linux应用程序和驱动程序，SYSBIOS系统程序。
 *
-*       1. Ӳ��˵����
-*          �ޡ�
+*       1. 硬件说明。
+*          无。
 
-*       2. ����ṹ˵����
-*          ��
+*       2. 程序结构说明。
+*          无
 *
-*       3. ʹ��˵����
-*          �ޡ�
+*       3. 使用说明。
+*          无。
 *          
-*       4. ������˵����
-*          �ޡ�
+*       4. 局限性说明。
+*          无。
 *
-*       5. ����˵����
-*          �ޡ�
+*       5. 其他说明。
+*          无。
 *
 * Modification: 
 *    Date    :  
@@ -42,12 +42,12 @@
 
 
 /* 
- ģ������ֱ�����Makefile������ͷ�ļ��ж��壬���ֲ���Ҫ����[]��
- ��Makefile�����ӵķ����ǣ�
+ 模块的名字必须在Makefile或其他头文件中定义，名字不需要加上[]。
+ 在Makefile中添加的方法是：
  OSA_MODULE_NAME = XXX
  CFLAGS       += -DOSA_MODULE_NAME='"$(OSA_MODULE_NAME)"'
  EXTRA_CFLAGS += -D'OSA_MODULE_NAME=\"$(OSA_MODULE_NAME)\"'
- Ӧ�ó�����ʹ��CFLAGS������������ʹ��EXTRA_CFLAGS��
+ 应用程序中使用CFLAGS，驱动程序中使用EXTRA_CFLAGS。
 */
 #ifndef OSA_MODULE_NAME
 #warning Not define OSA_MODULE_NAME !!!
@@ -57,9 +57,9 @@
 #define OSA_print OSA_logWrite
 
 
-/* _OSA_TRACE_���ǵ��Կ��أ���ͨ��Makeife���룬���뷽����-D_OSA_TRACE_��*/
+/* _OSA_TRACE_宏是调试开关，可通过Makeife传入，传入方法是-D_OSA_TRACE_。*/
 #ifdef _OSA_TRACE_
-    /* ���ԣ��������Ϊ��ɫ����ӡ���ļ��������������кš������������ѭ����*/ 
+    /* 断言，输出字体为红色，打印出文件名、函数名和行号。程序进入无限循环。*/ 
 	#define OSA_assert(x)  \
 	    if((x) == 0) 	   \
 	    	{ 			   \
@@ -79,7 +79,7 @@
     #define OSA_assertNull(ptr)  \
         OSA_assert(NULL == (ptr)) 
 
-    /* ���Դ�ӡ��������岻����ɫ, ����ʱ��*/
+    /* 调试打印，输出字体不带颜色, 不带时间*/
 	#define OSA_DEBUG(fmt, args ...) \
 		OSA_print(OSA_LOG_LV_DBG, OSA_LOG_CLR_NONE,"[" OSA_MODULE_NAME "] " fmt, ## args)
 
@@ -98,7 +98,7 @@
 #endif
 
 
-/* �жϷ���ֵ */
+/* 判断返回值 */
 #define OSA_isSuccess(status)  (OSA_SOK == (status))
 #define OSA_isFail(status)     (OSA_SOK != (status))
     
@@ -109,8 +109,8 @@
 #define OSA_isNotNull(ptr)     (NULL != (ptr))
 
 
-/* ����Release�汾�õĶ��� */
-/* ���ԣ��������Ϊ��ɫ����ӡ���ļ��������������кš������������ѭ����*/ 
+/* 程序Release版本用的断言 */
+/* 断言，输出字体为红色，打印出文件名、函数名和行号。程序进入无限循环。*/ 
 #define OSA_assertRl(x)  \
     if((x) == 0)         \
     { \
@@ -130,7 +130,7 @@
     OSA_assertRl(NULL == (ptr)) 
 
 
-/* �������ʱ�õĶ��ԣ��ö��Է����ڳ������ʱ�̡�*/
+/* 程序编译时用的断言，该断言发生在程序编译时刻。*/
 #define OSA_COMPTIME_ASSERT(condition)  \
     do                                  \
     {                                   \
@@ -140,9 +140,9 @@
 
 #ifndef _WIN32
 
-/* ���´�ӡ�����Ƿ�������ģʽ������ӡ�����*/
+/* 以下打印不管是否开启调试模式，都打印输出。*/
 
-/* ͨ�ô�ӡ��������岻����ɫ, ����ʱ�䣬����ģ������ */
+/* 通用打印，输出字体不带颜色, 不带时间，不带模块名称 */
 #define OSA_printf(fmt, args ...) \
 	do \
 	{ \
@@ -150,7 +150,7 @@
 	} \
 	while(0)
 
-/* ������ӡ���������Ϊ��ɫ����ӡ���ļ��������������к�,���������ܼ������С�*/
+/* 出错打印，输出字体为红色，打印出文件名、函数名和行号,表明程序不能继续运行。*/
 #define OSA_ERROR(fmt, args ...) \
 	do \
 	{ \
@@ -160,7 +160,7 @@
 	} \
 	while(0)
  
-/* ������ӡ���������Ϊ��ɫ��*/
+/* 出错打印，输出字体为红色。*/
 #define OSA_ERRORR(fmt, args ...) \
 	do \
 	{ \
@@ -171,8 +171,8 @@
 	while(0)	
 
 /* 
-* �����ӡ���������Ϊ��ɫ����ӡ���ļ��������������кš����������Կɼ������У�
-* ���뾯ʾ��
+* 警告打印，输出字体为黄色，打印出文件名、函数名和行号。表明程序仍可继续运行，
+* 但须警示。
 */
 #define OSA_WARN(fmt, args ...) \
 	do \
@@ -183,7 +183,7 @@
 	} \
 	while(0)
 
-/* �����ӡ���������Ϊ��ɫ�����������Կ�������ȥ�����뾯ʾ��*/
+/* 警告打印，输出字体为黄色。表明程序仍可运行下去，但须警示。*/
 #define OSA_WARNR(fmt, args ...) \
 	do \
 	{ \
@@ -193,7 +193,7 @@
 	} \
 	while(0)
 
-/* ��Ϣͨ���ӡ���������Ϊ��ɫ��*/
+/* 信息通告打印，输出字体为绿色。*/
 #define OSA_INFO(fmt, args ...) \
 	do \
 	{ \
@@ -204,8 +204,8 @@
 
 
 /*  
-* ���ϴ�ӡΪ��ģ��ǿ��ʹ�ã����´�ӡ��ģ���ѡ��ʹ�ã�Ҳ���������Ӵ�ӡ��ʽ��
-* ����ӡ�����ӡ��ģ�����֣�������Ӧ���������׺������ĸR�ı�ʾ����ӡģ������
+* 以上打印为各模块强制使用，以下打印给模块可选择使用，也可自行添加打印方式，
+* 但打印必须打印出模块名字，除特殊应用情况。后缀加上字母R的表示不打印模块名。
 */
 #define OSA_INFOR(fmt, args ...) \
 	do \
@@ -346,9 +346,9 @@
 
 #else
 
-/* ���´�ӡ�����Ƿ�������ģʽ������ӡ�����*/
+/* 以下打印不管是否开启调试模式，都打印输出。*/
 
-/* ͨ�ô�ӡ��������岻����ɫ, ����ʱ�䣬����ģ������ */
+/* 通用打印，输出字体不带颜色, 不带时间，不带模块名称 */
 #define OSA_printf(fmt, ...) \
 	do \
 	{ \
@@ -356,7 +356,7 @@
 	} \
 	while(0)
 
-/* ������ӡ���������Ϊ��ɫ����ӡ���ļ��������������к�,���������ܼ������С�*/
+/* 出错打印，输出字体为红色，打印出文件名、函数名和行号,表明程序不能继续运行。*/
 #define OSA_ERROR(fmt, ...) \
 	do \
 	{ \
@@ -366,7 +366,7 @@
 	} \
 	while(0)
 
-/* ������ӡ���������Ϊ��ɫ��*/
+/* 出错打印，输出字体为红色。*/
 #define OSA_ERRORR(fmt, ...) \
 	do \
 	{ \
@@ -377,8 +377,8 @@
 	while(0)	
 
 /* 
-* �����ӡ���������Ϊ��ɫ����ӡ���ļ��������������кš����������Կɼ������У�
-* ���뾯ʾ��
+* 警告打印，输出字体为黄色，打印出文件名、函数名和行号。表明程序仍可继续运行，
+* 但须警示。
 */
 #define OSA_WARN(fmt,...) \
 	do \
@@ -389,7 +389,7 @@
 	} \
 	while(0)
 
-/* �����ӡ���������Ϊ��ɫ�����������Կ�������ȥ�����뾯ʾ��*/
+/* 警告打印，输出字体为黄色。表明程序仍可运行下去，但须警示。*/
 #define OSA_WARNR(fmt, ...) \
 	do \
 	{ \
@@ -399,7 +399,7 @@
 	} \
 	while(0)
 
-/* ��Ϣͨ���ӡ���������Ϊ��ɫ��*/
+/* 信息通告打印，输出字体为绿色。*/
 #define OSA_INFO(fmt, ...) \
 	do \
 	{ \
@@ -410,8 +410,8 @@
 
 
 /*  
-* ���ϴ�ӡΪ��ģ��ǿ��ʹ�ã����´�ӡ��ģ���ѡ��ʹ�ã�Ҳ���������Ӵ�ӡ��ʽ��
-* ����ӡ�����ӡ��ģ�����֣�������Ӧ���������׺������ĸR�ı�ʾ����ӡģ������
+* 以上打印为各模块强制使用，以下打印给模块可选择使用，也可自行添加打印方式，
+* 但打印必须打印出模块名字，除特殊应用情况。后缀加上字母R的表示不打印模块名。
 */
 #define OSA_INFOR(fmt, ...) \
 	do \

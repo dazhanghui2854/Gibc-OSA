@@ -6,7 +6,7 @@
 * Author : Zheng wei <zheng_wei@dahuatech.com>
 * Version: V1.0.0  2012-5-23 Create
 *
-* Desc: ÊµÏÖlinuxÓÃ»§Ì¬OSAÄ£¿é¶ÔÍâÌá¹©µÄÎÄ¼þ²Ù×÷½Ó¿Ú
+* Desc: å®žçŽ°linuxç”¨æˆ·æ€OSAæ¨¡å—å¯¹å¤–æä¾›çš„æ–‡ä»¶æ“ä½œæŽ¥å£
 *
 * Modification:
 *    Date    :
@@ -16,59 +16,59 @@
 *******************************************************************************/
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼þÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 #include <osa.h>
 #include <osa_priv.h>
 
 
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          Êý¾Ý½á¹¹¶¨ÒåÇø                                    */
+/*                          æ•°æ®ç»“æž„å®šä¹‰åŒº                                    */
 /* ========================================================================== */
-/*¶¨ÒåÎÄ¼þ¶ÔÏó½á¹¹Ìå*/
+/*å®šä¹‰æ–‡ä»¶å¯¹è±¡ç»“æž„ä½“*/
 typedef struct
 {
-    Uint32              nMgicNum; /*Ä§Êý,ÓÃÓÚÐ£Ñé¾ä±úÓÐÐ§ÐÔ¡£*/
-    FILE *              pFile;    /*ÓÃ»§Ì¬file¶ÔÏóÖ¸Õë*/
-    Uint32              mode;     /*ÓÃ»§Ì¬ÎÄ¼þ²Ù×÷Ä£Ê½*/
+    Uint32              nMgicNum; /*é­”æ•°,ç”¨äºŽæ ¡éªŒå¥æŸ„æœ‰æ•ˆæ€§ã€‚*/
+    FILE *              pFile;    /*ç”¨æˆ·æ€fileå¯¹è±¡æŒ‡é’ˆ*/
+    Uint32              mode;     /*ç”¨æˆ·æ€æ–‡ä»¶æ“ä½œæ¨¡å¼*/
 }OSA_FileObject;
 
 
 
 /* ========================================================================== */
-/*                          º¯ÊýÉùÃ÷Çø                                        */
+/*                          å‡½æ•°å£°æ˜ŽåŒº                                        */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          È«¾Ö±äÁ¿¶¨ÒåÇø                                    */
+/*                          å…¨å±€å˜é‡å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          º¯Êý¶¨ÒåÇø                                        */
+/*                          å‡½æ•°å®šä¹‰åŒº                                        */
 /* ========================================================================== */
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_fileAccess
-* Ãè  Êö  : ¸Ã½Ó¿Ú¿ÉÓÃÓÚÅÐ¶ÏÎÄ¼þÊÇ·ñ´æÔÚÇÒÊÇ·ñÓÐÈ¨ÏÞ·ÃÎÊ,Í¨¹ýmode²ÎÊýÖ¸¶¨·ÃÎÊµÄÈ¨ÏÞ¡£
-*           ÈômodeÎªOSA_FILEMODE_RDONLY,¼ì²éÎÄ¼þÊÇ·ñÓÐ¶ÁµÄÈ¨ÏÞ
-*           ÈômodeÎªOSA_FILEMODE_WRONLY,¼ì²éÎÄ¼þÊÇ·ñÓÐÐ´µÄÈ¨ÏÞ
-*           ÈômodeÎªOSA_FILEMODE_WRAPPEND,¼ì²éÎÄ¼þÊÇ·ñÓÐÐ´µÄÈ¨ÏÞ
-*           ÈômodeÎªOSA_FILEMODE_RDWR,¼ì²éÎÄ¼þÊÇ·ñÓÐ¶ÁºÍÐ´µÄÈ¨ÏÞ
-*           ÈômodeÎªOSA_FILEMODE_FEXIST£¬½ö²âÊÔÎÄ¼þÊÇ·ñ´æÔÚ
+* å‡½æ•°å  : OSA_fileAccess
+* æ  è¿°  : è¯¥æŽ¥å£å¯ç”¨äºŽåˆ¤æ–­æ–‡ä»¶æ˜¯å¦å­˜åœ¨ä¸”æ˜¯å¦æœ‰æƒé™è®¿é—®,é€šè¿‡modeå‚æ•°æŒ‡å®šè®¿é—®çš„æƒé™ã€‚
+*           è‹¥modeä¸ºOSA_FILEMODE_RDONLY,æ£€æŸ¥æ–‡ä»¶æ˜¯å¦æœ‰è¯»çš„æƒé™
+*           è‹¥modeä¸ºOSA_FILEMODE_WRONLY,æ£€æŸ¥æ–‡ä»¶æ˜¯å¦æœ‰å†™çš„æƒé™
+*           è‹¥modeä¸ºOSA_FILEMODE_WRAPPEND,æ£€æŸ¥æ–‡ä»¶æ˜¯å¦æœ‰å†™çš„æƒé™
+*           è‹¥modeä¸ºOSA_FILEMODE_RDWR,æ£€æŸ¥æ–‡ä»¶æ˜¯å¦æœ‰è¯»å’Œå†™çš„æƒé™
+*           è‹¥modeä¸ºOSA_FILEMODE_FEXISTï¼Œä»…æµ‹è¯•æ–‡ä»¶æ˜¯å¦å­˜åœ¨
 *
-* Êä  Èë  : - fileName: °üº¬ÎÄ¼þÂ·¾¶ÐÅÏ¢µÄÍêÕûÎÄ¼þÃû
-*           - mode:     ÎÄ¼þ²Ù×÷Ä£Ê½,²Î¼ûOSA_FileMode¶¨Òå
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_SOK:    ÎÄ¼þ´æÔÚÇÒÓÐÈ¨ÏÞ·ÃÎÊ
-*           OSA_EFAIL:  ÎÄ¼þ²»´æÔÚ»òÕßÃ»ÓÐÈ¨ÏÞ·ÃÎÊ
+* è¾“  å…¥  : - fileName: åŒ…å«æ–‡ä»¶è·¯å¾„ä¿¡æ¯çš„å®Œæ•´æ–‡ä»¶å
+*           - mode:     æ–‡ä»¶æ“ä½œæ¨¡å¼,å‚è§OSA_FileModeå®šä¹‰
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_SOK:    æ–‡ä»¶å­˜åœ¨ä¸”æœ‰æƒé™è®¿é—®
+*           OSA_EFAIL:  æ–‡ä»¶ä¸å­˜åœ¨æˆ–è€…æ²¡æœ‰æƒé™è®¿é—®
 *******************************************************************************/
 Int32 OSA_fileAccess(const Char *fileName, OSA_FileMode mode)
 {
@@ -110,14 +110,14 @@ Int32 OSA_fileAccess(const Char *fileName, OSA_FileMode mode)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_fileRemove
-* Ãè  Êö  : ¸Ã½Ó¿Ú¿ÉÓÃÓÚÉ¾³ýfileNameÖÆ¶¨Â·¾¶ÏÂµÄÎÄ¼þ»òÎÄ¼þ¼Ð
-*           ¸Ãº¯ÊýÔÝÊ±½öÖ§³ÖLinuxÓÃ»§Ì¬
+* å‡½æ•°å  : OSA_fileRemove
+* æ  è¿°  : è¯¥æŽ¥å£å¯ç”¨äºŽåˆ é™¤fileNameåˆ¶å®šè·¯å¾„ä¸‹çš„æ–‡ä»¶æˆ–æ–‡ä»¶å¤¹
+*           è¯¥å‡½æ•°æš‚æ—¶ä»…æ”¯æŒLinuxç”¨æˆ·æ€
 *
-* Êä  Èë  : - fileName: °üº¬ÎÄ¼þÂ·¾¶ÐÅÏ¢µÄÍêÕûÎÄ¼þÃû
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_SOK:    ÎÄ¼þÉ¾³ý³É¹¦
-*           OSA_EFAIL:  ÎÄ¼þÉ¾³ýÊ§°Ü
+* è¾“  å…¥  : - fileName: åŒ…å«æ–‡ä»¶è·¯å¾„ä¿¡æ¯çš„å®Œæ•´æ–‡ä»¶å
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_SOK:    æ–‡ä»¶åˆ é™¤æˆåŠŸ
+*           OSA_EFAIL:  æ–‡ä»¶åˆ é™¤å¤±è´¥
 *******************************************************************************/
 Int32 OSA_fileRemove(const Char *fileName)
 {
@@ -137,16 +137,16 @@ Int32 OSA_fileRemove(const Char *fileName)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_fileOpen
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔð´ò¿ªÒ»¸öÎÄ¼þ,Ö§³ÖËÄÖÖ²Ù×÷Ä£Ê½: Ö»¶Á¡¢Ö»Ð´¡¢¶ÁÐ´´´½¨¡¢×·¼ÓÐ´
-*           ÈôÎÄ¼þ´ò¿ª³É¹¦,½«·µ»ØÒ»¸öÎÄ¼þ¾ä±ú,¹©µ÷ÓÃÆäËûÎÄ¼þ²Ù×÷½Ó¿ÚÊ±´«Èë
+* å‡½æ•°å  : OSA_fileOpen
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£æ‰“å¼€ä¸€ä¸ªæ–‡ä»¶,æ”¯æŒå››ç§æ“ä½œæ¨¡å¼: åªè¯»ã€åªå†™ã€è¯»å†™åˆ›å»ºã€è¿½åŠ å†™
+*           è‹¥æ–‡ä»¶æ‰“å¼€æˆåŠŸ,å°†è¿”å›žä¸€ä¸ªæ–‡ä»¶å¥æŸ„,ä¾›è°ƒç”¨å…¶ä»–æ–‡ä»¶æ“ä½œæŽ¥å£æ—¶ä¼ å…¥
 *
-* Êä  Èë  : - fileName: °üº¬ÎÄ¼þÂ·¾¶ÐÅÏ¢µÄÍêÕûÎÄ¼þÃû
-*           - mode:     ÎÄ¼þ²Ù×÷Ä£Ê½,²Î¼ûOSA_FileMode¶¨Òå
+* è¾“  å…¥  : - fileName: åŒ…å«æ–‡ä»¶è·¯å¾„ä¿¡æ¯çš„å®Œæ•´æ–‡ä»¶å
+*           - mode:     æ–‡ä»¶æ“ä½œæ¨¡å¼,å‚è§OSA_FileModeå®šä¹‰
 *
-* Êä  ³ö  : - phFile:   ÎÄ¼þ¾ä±úÖ¸Õë,µ±´ò¿ª³É¹¦Ê±Êä³öÎÄ¼þ¾ä±ú
-* ·µ»ØÖµ  :  OSA_SOK:   ´ò¿ª³É¹¦
-*            OSA_EFAIL: ´ò¿ªÊ§°Ü
+* è¾“  å‡º  : - phFile:   æ–‡ä»¶å¥æŸ„æŒ‡é’ˆ,å½“æ‰“å¼€æˆåŠŸæ—¶è¾“å‡ºæ–‡ä»¶å¥æŸ„
+* è¿”å›žå€¼  :  OSA_SOK:   æ‰“å¼€æˆåŠŸ
+*            OSA_EFAIL: æ‰“å¼€å¤±è´¥
 *******************************************************************************/
 Int32 OSA_fileOpen(const Char *fileName, OSA_FileMode mode,
                     OSA_FileHandle *phFile)
@@ -217,7 +217,7 @@ Int32 OSA_fileOpen(const Char *fileName, OSA_FileMode mode,
         goto closeFd;
     }
 
-    /*·ÖÅäÄÚ´æ*/
+    /*åˆ†é…å†…å­˜*/
     pFileObj = (OSA_FileObject *)OSA_memAlloc(sizeof(OSA_FileObject));
     if(NULL == pFileObj)
     {
@@ -246,14 +246,14 @@ closeFd:
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_fileClose
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔð¹Ø±ÕÒ»¸öÎÄ¼þ,½«Ïú»ÙÎÄ¼þ¾ä±úÖ¸ÏòµÄ¶ÔÏó,
-*           Òò´Ëµ÷ÓÃ¸Ã½Ó¿ÚºóÔ­ÓÐµÄÎÄ¼þ¾ä±ú²»ÄÜÔÙÊ¹ÓÃ¡£
+* å‡½æ•°å  : OSA_fileClose
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£å…³é—­ä¸€ä¸ªæ–‡ä»¶,å°†é”€æ¯æ–‡ä»¶å¥æŸ„æŒ‡å‘çš„å¯¹è±¡,
+*           å› æ­¤è°ƒç”¨è¯¥æŽ¥å£åŽåŽŸæœ‰çš„æ–‡ä»¶å¥æŸ„ä¸èƒ½å†ä½¿ç”¨ã€‚
 *
-* Êä  Èë  : - hFile: ÎÄ¼þ¾ä±ú
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_SOK:   ¹Ø±Õ³É¹¦
-*           OSA_EFAIL: ¹Ø±ÕÊ§°Ü
+* è¾“  å…¥  : - hFile: æ–‡ä»¶å¥æŸ„
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_SOK:   å…³é—­æˆåŠŸ
+*           OSA_EFAIL: å…³é—­å¤±è´¥
 *******************************************************************************/
 Int32 OSA_fileClose(OSA_FileHandle hFile)
 {
@@ -266,7 +266,7 @@ Int32 OSA_fileClose(OSA_FileHandle hFile)
         fclose(pFileObj->pFile);
     }
 
-    /*Ä§ÊýÉèÎª-1£¬±ÜÃâÆäËûÈËÔÚÊÍ·Åºó¼ÌÐøÓÃ*/
+    /*é­”æ•°è®¾ä¸º-1ï¼Œé¿å…å…¶ä»–äººåœ¨é‡Šæ”¾åŽç»§ç»­ç”¨*/
     pFileObj->nMgicNum = (Uint32)-1;
     if(OSA_SOK != OSA_memFree(pFileObj))
 		OSA_ERROR("memory free failed\n");
@@ -274,16 +274,16 @@ Int32 OSA_fileClose(OSA_FileHandle hFile)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_fileRead
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÊµÏÖÎÄ¼þµÄ¶Á²Ù×÷,¶Á»º³å±ØÐëÓÉµ÷ÓÃÕßÉêÇë,ÇÒµ÷ÓÃÕß±ØÐë±£Ö¤
-*           bufferµÄ³¤¶ÈÒª´óÓÚµÈÓÚsize
+* å‡½æ•°å  : OSA_fileRead
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£å®žçŽ°æ–‡ä»¶çš„è¯»æ“ä½œ,è¯»ç¼“å†²å¿…é¡»ç”±è°ƒç”¨è€…ç”³è¯·,ä¸”è°ƒç”¨è€…å¿…é¡»ä¿è¯
+*           bufferçš„é•¿åº¦è¦å¤§äºŽç­‰äºŽsize
 *
-* Êä  Èë  : - hFile:   ÎÄ¼þ¾ä±ú
-*           - buffer:  ¶Á»º³åÇø
-*           - size:    Òª¶ÁÈ¡µÄ³¤¶È
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_EFAIL: ¶ÁÈ¡Ê§°Ü
-*           >= 0:      ÕæÕý¶ÁÈ¡µÄ×Ö½ÚÊý
+* è¾“  å…¥  : - hFile:   æ–‡ä»¶å¥æŸ„
+*           - buffer:  è¯»ç¼“å†²åŒº
+*           - size:    è¦è¯»å–çš„é•¿åº¦
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_EFAIL: è¯»å–å¤±è´¥
+*           >= 0:      çœŸæ­£è¯»å–çš„å­—èŠ‚æ•°
 *******************************************************************************/
 Int32 OSA_fileRead (OSA_FileHandle hFile, Int8 *buffer, Uint32 size)
 {
@@ -304,16 +304,16 @@ Int32 OSA_fileRead (OSA_FileHandle hFile, Int8 *buffer, Uint32 size)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_fileWrite
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÊµÏÖÎÄ¼þµÄÐ´²Ù×÷,»º³åÇøbuffer±ØÐëÓÉµ÷ÓÃÕßÉêÇë,ÇÒµ÷ÓÃÕß±ØÐë±£Ö¤
-*           bufferµÄ³¤¶ÈÒª´óÓÚµÈÓÚsize
+* å‡½æ•°å  : OSA_fileWrite
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£å®žçŽ°æ–‡ä»¶çš„å†™æ“ä½œ,ç¼“å†²åŒºbufferå¿…é¡»ç”±è°ƒç”¨è€…ç”³è¯·,ä¸”è°ƒç”¨è€…å¿…é¡»ä¿è¯
+*           bufferçš„é•¿åº¦è¦å¤§äºŽç­‰äºŽsize
 *
-* Êä  Èë  : - hFile:   ÎÄ¼þ¾ä±ú
-*           - buffer:  Ð´»º³åÇø
-*           - size:    ÒªÐ´ÈëµÄ³¤¶È
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_EFAIL: Ð´ÈëÊ§°Ü
-*           >= 0:      ÕæÕýÐ´ÈëµÄ×Ö½ÚÊý
+* è¾“  å…¥  : - hFile:   æ–‡ä»¶å¥æŸ„
+*           - buffer:  å†™ç¼“å†²åŒº
+*           - size:    è¦å†™å…¥çš„é•¿åº¦
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_EFAIL: å†™å…¥å¤±è´¥
+*           >= 0:      çœŸæ­£å†™å…¥çš„å­—èŠ‚æ•°
 *******************************************************************************/
 Int32 OSA_fileWrite(OSA_FileHandle hFile, Int8 *buffer, Uint32 size)
 {
@@ -334,15 +334,15 @@ Int32 OSA_fileWrite(OSA_FileHandle hFile, Int8 *buffer, Uint32 size)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_fileSeek
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÊµÏÖÎÄ¼þµÄSeek²Ù×÷
+* å‡½æ•°å  : OSA_fileSeek
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£å®žçŽ°æ–‡ä»¶çš„Seekæ“ä½œ
 *
-* Êä  Èë  : - hFile:   ÎÄ¼þ¾ä±ú
-*           - offset:  seekµÄÆ«ÒÆ
-*           - type:    seekµÄÀàÐÍ,²Î¼ûOSA_FileSeekType¶¨Òå
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_EFAIL: seekÊ§°Ü
-*           OSA_SOK:   seek³É¹¦
+* è¾“  å…¥  : - hFile:   æ–‡ä»¶å¥æŸ„
+*           - offset:  seekçš„åç§»
+*           - type:    seekçš„ç±»åž‹,å‚è§OSA_FileSeekTypeå®šä¹‰
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_EFAIL: seekå¤±è´¥
+*           OSA_SOK:   seekæˆåŠŸ
 *******************************************************************************/
 Int32 OSA_fileSeek (OSA_FileHandle hFile, Int32 offset, Int32 type)
 {
@@ -362,13 +362,13 @@ Int32 OSA_fileSeek (OSA_FileHandle hFile, Int32 offset, Int32 type)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_fileTell
-* Ãè  Êö  : ¸Ãº¯Êý»ñÈ¡µ±Ç°ÎÄ¼þµÄ¶ÁÐ´Î»ÖÃ
+* å‡½æ•°å  : OSA_fileTell
+* æ  è¿°  : è¯¥å‡½æ•°èŽ·å–å½“å‰æ–‡ä»¶çš„è¯»å†™ä½ç½®
 *
-* Êä  Èë  : - hFile:   ÎÄ¼þ¾ä±ú
-* Êä  ³ö  : - pOffset: µ±Ç°µÄ¶ÁÐ´Î»ÖÃ
-* ·µ»ØÖµ  : OSA_EFAIL: Ê§°Ü
-*           OSA_SOK:   ³É¹¦
+* è¾“  å…¥  : - hFile:   æ–‡ä»¶å¥æŸ„
+* è¾“  å‡º  : - pOffset: å½“å‰çš„è¯»å†™ä½ç½®
+* è¿”å›žå€¼  : OSA_EFAIL: å¤±è´¥
+*           OSA_SOK:   æˆåŠŸ
 *******************************************************************************/
 Int32 OSA_fileTell (OSA_FileHandle hFile, Uint32 *pOffset)
 {
@@ -402,13 +402,13 @@ Int32 OSA_fileTell (OSA_FileHandle hFile, Uint32 *pOffset)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_fileSync
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔð½«ÎÄ¼þ»º³åÀïµÄÊý¾ÝË¢µ½Ó²¼þ£¬½öÔÚÓÃ»§Ì¬ÓÐÐ§£¬ÄÚºËÌ¬µ÷ÓÃºóÎÞÐ§¹û¡£
+* å‡½æ•°å  : OSA_fileSync
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£å°†æ–‡ä»¶ç¼“å†²é‡Œçš„æ•°æ®åˆ·åˆ°ç¡¬ä»¶ï¼Œä»…åœ¨ç”¨æˆ·æ€æœ‰æ•ˆï¼Œå†…æ ¸æ€è°ƒç”¨åŽæ— æ•ˆæžœã€‚
 *
-* Êä  Èë  : - hFile: ÎÄ¼þ¾ä±ú
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*           OSA_EFAIL: Ê§°Ü
+* è¾“  å…¥  : - hFile: æ–‡ä»¶å¥æŸ„
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸ
+*           OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_fileSync(OSA_FileHandle hFile)
 {
@@ -435,15 +435,15 @@ Int32 OSA_fileSync(OSA_FileHandle hFile)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_fgets
-* Ãè  Êö  : ¸Ãº¯Êý¶ÁÈ¡µ±Ç°ÎÄ¼þÖÐµÄÒ»ÐÐÒÔ»»ÐÐ»òÕßEOFÎª½áÎ²µÄÊý¾Ý
-*           ¸Ãº¯Êý½öÖ§³ÖLinuxÓÃ»§Ì¬
+* å‡½æ•°å  : OSA_fgets
+* æ  è¿°  : è¯¥å‡½æ•°è¯»å–å½“å‰æ–‡ä»¶ä¸­çš„ä¸€è¡Œä»¥æ¢è¡Œæˆ–è€…EOFä¸ºç»“å°¾çš„æ•°æ®
+*           è¯¥å‡½æ•°ä»…æ”¯æŒLinuxç”¨æˆ·æ€
 *
-* Êä  Èë  : - hFile:   ÎÄ¼þ¾ä±ú
-*           - size: ×Ö·û´®×î´ó³¤¶È
-* Êä  ³ö  : - s: ¶ÁÈ¡µ½µÄ×Ö·û´®
-* ·µ»ØÖµ  : OSA_EFAIL: Ê§°Ü
-*           OSA_SOK:   ³É¹¦
+* è¾“  å…¥  : - hFile:   æ–‡ä»¶å¥æŸ„
+*           - size: å­—ç¬¦ä¸²æœ€å¤§é•¿åº¦
+* è¾“  å‡º  : - s: è¯»å–åˆ°çš„å­—ç¬¦ä¸²
+* è¿”å›žå€¼  : OSA_EFAIL: å¤±è´¥
+*           OSA_SOK:   æˆåŠŸ
 *******************************************************************************/
 Int32 OSA_fgets(Char *s, Int32 size, OSA_FileHandle hFile)
 {

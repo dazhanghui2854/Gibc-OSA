@@ -6,7 +6,7 @@
 * Author : Hu Jianguang<hu_jianguang@dahuatech.com>
 * Version: V1.0.0  2015-9-10 Create
 *
-* Desc: ����MXMLģ������ṩ��xml�ļ������ӿ�
+* Desc: 定义MXML模块对外提供的xml文件操作接口
 *
 * Modification: 
 *    Date    :  
@@ -21,7 +21,7 @@
 
  
 /* ========================================================================== */
-/*                             ͷ�ļ���                                       */
+/*                             头文件区                                       */
 /* ========================================================================== */
 
 #ifdef __cplusplus
@@ -30,18 +30,18 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ������Ͷ�����                                   */
+/*                           宏和类型定义区                                   */
 /* ========================================================================== */
-/*�ļ��������,�ϲ�ģ�鲻��Ҫ�������еľ�������,*/
-/*ֻ��Ҫ�ڵ��ø��ļ������ӿ�ʱ�Ѿ�����뼴��*/
+/*文件句柄类型,上层模块不需要关心其中的具体内容,*/
+/*只需要在调用各文件操作接口时把句柄传入即可*/
 typedef Handle MXML_Handle;
 
  
- /* xml�ļ����ػص�ģʽ*/
+ /* xml文件加载回调模式*/
 typedef enum
 {
-     MXML_INTEGER_MODE  = 0, /* ���е����ݽڵ�����Կո�ָ������ */
-     MXML_TEXT_MODE,         /* ���е����ݽڵ�����Կո�ָ���ı��ַ��� */ 
+     MXML_INTEGER_MODE  = 0, /* 所有的数据节点包含以空格分割的整数 */
+     MXML_TEXT_MODE,         /* 所有的数据节点包含以空格分割的文本字符串 */ 
 }MXML_CallbackMode;
 
 
@@ -90,7 +90,7 @@ typedef union
 }MXML_Value;
 
 
-/* mxmlÿ���ڵ���� */
+/* mxml每个节点参数 */
 struct MXML_Node_s
 {
     MXML_Type	          type;		    /* Node type */ 
@@ -105,67 +105,67 @@ struct MXML_Node_s
 
 typedef struct MXML_Node_s MXML_Node; 
 
-/* �ļ����ز��� 64�ֽ� */
+/* 文件加载参数 64字节 */
 typedef struct
 {
-    const Char *fileName;       /* �����ļ�·����Ϣ�������ļ���*/
-    Uint32      callbackMode;   /* �ļ�����ģʽ,�μ�MXML_CallbackMode���� */
-    Uint8       fileEncrypt;    /* �����ļ��Ƿ���ܣ� OSA_TRUE: load���ܹ����ļ� */
+    const Char *fileName;       /* 包含文件路径信息的完整文件名*/
+    Uint32      callbackMode;   /* 文件加载模式,参见MXML_CallbackMode定义 */
+    Uint8       fileEncrypt;    /* 加载文件是否加密， OSA_TRUE: load加密过的文件 */
     Uint8       reserved[55];
 } MXML_InitParams;
 
 
 /* ========================================================================== */
-/*                          ���ݽṹ������                                    */
+/*                          数据结构定义区                                    */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          ����������                                        */
+/*                          函数声明区                                        */
 /* ========================================================================== */
  
 /*******************************************************************************
-* ������  : MXML_LoadFile
-* ��  ��  : �ú����������һ��XML�ļ�(����ģʽΪUTF-8��UTF-16)���������ڴ��
+* 函数名  : MXML_LoadFile
+* 描  述  : 该函数负责加载一个XML文件(编码模式为UTF-8或UTF-16)并解析到内存里。
 *
-* ��  ��  : - fileName: �����ļ�·����Ϣ�������ļ���
-*           - mode:     �ļ�����ģʽ,�μ�MXML_CallbackMode����
+* 输  入  : - fileName: 包含文件路径信息的完整文件名
+*           - mode:     文件加载模式,参见MXML_CallbackMode定义
 *
-* ��  ��  : - phMxml:   �������ָ��,���򿪳ɹ�ʱ����������
-* ����ֵ  : ��NULL:  �����ָ�롣
-*           NULL  :  ʧ�ܡ�
+* 输  出  : - phMxml:   操作句柄指针,当打开成功时输出操作句柄
+* 返回值  : 非NULL:  根结点指针。
+*           NULL  :  失败。
 *******************************************************************************/ 
 MXML_Node *MXML_LoadFile(MXML_InitParams *pInitParams, 
                          MXML_Handle *phMxml);
 
 
 /*******************************************************************************
-* ������  : MXML_Delete
-* ��  ��  : �ú��������ͷ�xml�ļ�����ʱ,����������Դ�������ٲ������ָ��Ķ���,
-*           ��˵��øýӿں�ԭ�еĲ������������ʹ�á�
-*           �ú����������ں�̬�ж������ĵ���
+* 函数名  : MXML_Delete
+* 描  述  : 该函数负责释放xml文件加载时,所创建的资源并将销毁操作句柄指向的对象,
+*           因此调用该接口后原有的操作句柄不能再使用。
+*           该函数不能在内核态中断上下文调用
 *
-* ��  ��  : - hMxml: �������
-* ��  ��  : ��
-* ����ֵ  : OSA_SOK:   �رճɹ�
-*           OSA_EFAIL: �ر�ʧ��
+* 输  入  : - hMxml: 操作句柄
+* 输  出  : 无
+* 返回值  : OSA_SOK:   关闭成功
+*           OSA_EFAIL: 关闭失败
 *******************************************************************************/
 Int32 MXML_Delete(MXML_Handle hMxml);
 
 
 /*******************************************************************************
-* ������  : MXML_FindElement
-* ��  ��  : ����ָ��Ԫ�����ڵĽڵ㡣
+* 函数名  : MXML_FindElement
+* 描  述  : 查找指定元素所在的节点。
 *
-* ��  ��  : - hMxml: �������
-*           - pNode: Ԫ�ص��ϲ�ڵ�ָ�롣
-*           - pName: Ԫ�ص����ơ�
-*           - pAttr: Ԫ�ص�����������ΪNULL��
-*           - pValue: Ԫ�ص�����ֵ����ΪNULL��
+* 输  入  : - hMxml: 操作句柄
+*           - pNode: 元素的上层节点指针。
+*           - pName: 元素的名称。
+*           - pAttr: 元素的属性名。可为NULL。
+*           - pValue: 元素的属性值。可为NULL。
 *
-* ��  ��  : ��
-* ����ֵ  : ��NULL: Ԫ�ؽڵ�ָ��
-*           NULL  : ʧ��
+* 输  出  : 无
+* 返回值  : 非NULL: 元素节点指针
+*           NULL  : 失败
 *******************************************************************************/ 
 MXML_Node *MXML_FindElement(MXML_Handle hMxml, MXML_Node *pNode, 
                             const Char  *pName, 
@@ -173,46 +173,46 @@ MXML_Node *MXML_FindElement(MXML_Handle hMxml, MXML_Node *pNode,
                             const Char  *pValue);
 
 /*******************************************************************************
-* ������  : MXML_GetInteger
-* ��  ��  : ��ȡָ��Ԫ�ؽڵ��������ֵ��֧����������16���ơ�
-*           ע��xml�ļ�����ģʽΪ����ʱ��Ч��
+* 函数名  : MXML_GetInteger
+* 描  述  : 获取指定元素节点的整型数值。支持正负数及16进制。
+*           注意xml文件加载模式为整数时有效。
 *
-* ��  ��  : - hMxml: �������
-*           - pNode: Ԫ�ؽڵ�ָ�롣 
+* 输  入  : - hMxml: 操作句柄
+*           - pNode: 元素节点指针。 
 *
-* ��  ��  : ��
-* ����ֵ  : ����ֵ
+* 输  出  : 无
+* 返回值  : 整数值
 *          
 *******************************************************************************/ 
 Int32 MXML_GetInteger(MXML_Handle hMxml, MXML_Node *pNode);
 
  
 /*******************************************************************************
-* ������  : MXML_GetText
-* ��  ��  : ��ȡָ��Ԫ�ؽڵ���ı���
-*           ע��xml�ļ������ı�ģʽΪʱ��Ч��
+* 函数名  : MXML_GetText
+* 描  述  : 获取指定元素节点的文本。
+*           注意xml文件加载文本模式为时有效。
 *
-* ��  ��  : - hMxml: �������
-*           - pNode: Ԫ�ؽڵ�ָ�롣 
+* 输  入  : - hMxml: 操作句柄
+*           - pNode: 元素节点指针。 
 *
-* ��  ��  : ��
-* ����ֵ  : ��NULL: �ı��ַ���ָ�롣
-*           NULL:   ʧ�ܡ�
+* 输  出  : 无
+* 返回值  : 非NULL: 文本字符串指针。
+*           NULL:   失败。
 *******************************************************************************/ 
 const Char *MXML_GetText(MXML_Handle hMxml, MXML_Node *pNode);
 
 
 /*******************************************************************************
-* ������  : MXML_ElementGetAttr
-* ��  ��  : ��ȡָ��Ԫ�ؽڵ��������������ֵ��
+* 函数名  : MXML_ElementGetAttr
+* 描  述  : 获取指定元素节点的属性名的属性值。
 *
-* ��  ��  : - hMxml: �������
-*           - pNode: Ԫ�ؽڵ�ָ��
-*           - pName: ������
+* 输  入  : - hMxml: 操作句柄
+*           - pNode: 元素节点指针
+*           - pName: 属性名
 *
-* ��  ��  : ��
-* ����ֵ  : ��NULL: ����ֵ�ı��ַ���ָ�롣
-*           NULL:   ʧ�ܡ�
+* 输  出  : 无
+* 返回值  : 非NULL: 属性值文本字符串指针。
+*           NULL:   失败。
 *******************************************************************************/
 const Char *MXML_ElementGetAttr(MXML_Handle hMxml, MXML_Node *pNode,	
                                 const Char *pName);

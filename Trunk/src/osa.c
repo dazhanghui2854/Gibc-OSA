@@ -6,22 +6,22 @@
 * Author : Yang Zhiqiang <yang_zhiqiang@dahuatech.com>
 * Version: V1.0.0  2010-8-31 Create
 *
-* Description: OSAģ��ȫ�ֳ�ʼ�������ýӿڡ�
+* Description: OSA模块全局初始化和设置接口。
 *
-*       1. Ӳ��˵����
-*          �ޡ�
+*       1. 硬件说明。
+*          无。
 *
-*       2. ����ṹ˵����
-*          ��
+*       2. 程序结构说明。
+*          无
 *
-*       3. ʹ��˵����
-*          �ޡ�
+*       3. 使用说明。
+*          无。
 *
-*       4. ������˵����
-*          �ޡ�
+*       4. 局限性说明。
+*          无。
 *
-*       5. ����˵����
-*          �ޡ�
+*       5. 其他说明。
+*          无。
 *
 * Modification:
 * 1. Date    :
@@ -32,7 +32,7 @@
 
 
 /* ========================================================================== */
-/*                             ͷ�ļ���                                       */
+/*                             头文件区                                       */
 /* ========================================================================== */
 
 #include <osa.h>
@@ -40,7 +40,7 @@
 
 
 /* ========================================================================== */
-/*                          ���ݽṹ������                                    */
+/*                          数据结构定义区                                    */
 /* ========================================================================== */
 
 typedef struct
@@ -51,14 +51,14 @@ typedef struct
 
 
 /* ========================================================================== */
-/*                            ȫ�ֱ���������                                  */
+/*                            全局变量定义区                                  */
 /* ========================================================================== */
 
 static OSA_gblObj gOsaObj;
 
 
 /* ========================================================================== */
-/*                            ����������                                      */
+/*                            函数声明区                                      */
 /* ========================================================================== */
 
 extern Int32 OSA_tskInit(Bool32 isStartMonTask);
@@ -66,17 +66,17 @@ extern Int32 OSA_tskDeinit(void);
 
 
 /* ========================================================================== */
-/*                            ����������                                      */
+/*                            函数定义区                                      */
 /* ========================================================================== */
 
 /*******************************************************************************
-* ������  : OSA_init
-* ��  ��  : ��ʼ��osa��LinuxӦ�ò��SYSBIOS�ĳ�����ʹ��osa�����ӿ�ǰ�������
-*           �ýӿڣ�Linux�������ص��ã�Ҳ���ò��ˣ�����û�е�����
-* ��  ��  : - pInitParms: ��ʼ��������
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK: У��ɹ���
-*           OSA_EFAIL: У��ʧ�ܡ�
+* 函数名  : OSA_init
+* 描  述  : 初始化osa。Linux应用层和SYSBIOS的程序在使用osa其他接口前必须调用
+*           该接口，Linux驱动不必调用，也调用不了，符号没有导出。
+* 输  入  : - pInitParms: 初始化参数。
+* 输  出  : 无。
+* 返回值  : OSA_SOK: 校验成功。
+*           OSA_EFAIL: 校验失败。
 *******************************************************************************/
 Int32 OSA_init(OSA_initParms *pInitParms)
 {
@@ -91,7 +91,7 @@ Int32 OSA_init(OSA_initParms *pInitParms)
         return OSA_EFAIL;
     }
 
-    /* ֻ������ʼ��һ��*/
+    /* 只允许初始化一次*/
     if (gOsaObj.nInitRefCount > 0)
     {
         gOsaObj.nInitRefCount++;
@@ -119,19 +119,19 @@ Int32 OSA_init(OSA_initParms *pInitParms)
 
 
 /*******************************************************************************
-* ������  : OSA_deinit
-* ��  ��  : ����osa��������OSA_init()���ʹ�á�
-* ��  ��  : �ޡ�
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK: �ɹ���
-*           OSA_EFAIL: ʧ�ܡ�
+* 函数名  : OSA_deinit
+* 描  述  : 销毁osa。必须与OSA_init()配对使用。
+* 输  入  : 无。
+* 输  出  : 无。
+* 返回值  : OSA_SOK: 成功。
+*           OSA_EFAIL: 失败。
 *******************************************************************************/
 Int32 OSA_deinit(void)
 {
 #if (defined(OS_LINUX) && !defined(__KERNEL__))
     Int32    devFd;
 #endif
-    /* ֻ��������һ�Σ����û�г�ʼ�����򷵻ء�*/
+    /* 只允许销毁一次，如果没有初始化过则返回。*/
     if (gOsaObj.nInitRefCount == 0)
     {
         return OSA_SOK;
@@ -161,18 +161,18 @@ Int32 OSA_deinit(void)
 
 
 /*******************************************************************************
-* ������  : OSA_validate
-* ��  ��  : У��OSA�汾�ļ����ԡ�
-*           ͨ������ͷ�ļ�����İ汾��OSA_VERSION���ݵ��ú����ڲ�
-*           ���бȽϣ�У���ͷ�ļ�����Ӧ��ļ����ԡ��ڸú����ڲ�������汾��
-*           ��ȣ�ʹ����ɫ�����ӡ���汾�ţ��������ȵ��ɼ��ݣ���ʹ�û�ɫ��
-*           ���ӡ��������Ϣ����������ݣ���ʹ�ú�ɫ�����ӡ������Ϣ��ǰ����
-*           �������������ȷֵ�����һ��������ش���ֵ�����Ե����߱����鷵
-*           ��ֵ����ȷ�ϰ汾�ļ����ԡ�
-* ��  ��  : - nVersion: ͷ�ļ��ж���İ汾��OSA_VERSION��
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK: У��ɹ���
-*           OSA_EFAIL: У��ʧ�ܡ�
+* 函数名  : OSA_validate
+* 描  述  : 校验OSA版本的兼容性。
+*           通过将此头文件定义的版本号OSA_VERSION传递到该函数内部
+*           进行比较，校验此头文件与相应库的兼容性。在该函数内部，如果版本号
+*           相等，使用绿色字体打印出版本号，如果不相等但可兼容，则使用黄色字
+*           体打印出警告信息，如果不兼容，则使用红色字体打印出错信息。前两种
+*           情况函数返回正确值，最后一种情况返回错误值。所以调用者必须检查返
+*           回值，以确认版本的兼容性。
+* 输  入  : - nVersion: 头文件中定义的版本号OSA_VERSION。
+* 输  出  : 无。
+* 返回值  : OSA_SOK: 校验成功。
+*           OSA_EFAIL: 校验失败。
 *******************************************************************************/
 Int32 OSA_validate(Uint32 nVersion)
 {
@@ -221,23 +221,23 @@ Int32 OSA_validate(Uint32 nVersion)
 #ifdef __KERNEL__
 EXPORT_SYMBOL(OSA_validate);
 
-/* �Ǽ��߳���Ϣ */
+/* 登记线程信息 */
 Int32 OSA_addTidInfo(OSA_ThreadInfo* pInfo)
 {
     return OSA_drvAddTriActual(pInfo, OSA_TRUE);
 }
-/* �Ƴ��߳���Ϣ */
+/* 移除线程信息 */
 Int32 OSA_delTidInfo(Uint32 tid)
 {
     return OSA_drvDelTriActual(tid, OSA_TRUE);
 }
-/* ��ȡ�߳���Ϣ */
+/* 获取线程信息 */
 Int32 OSA_getTidInfo(OSA_ThreadInfo* pInfo)
 {
     return OSA_drvGetTriActual(pInfo, OSA_TRUE);
 }
 #else
-/* �Ǽ��߳���Ϣ */
+/* 登记线程信息 */
 Int32 OSA_addTidInfo(OSA_ThreadInfo* pInfo)
 {
     OSA_RecodeTidCmdArgs   cmdArgs;
@@ -265,7 +265,7 @@ Int32 OSA_addTidInfo(OSA_ThreadInfo* pInfo)
     }
     return status;
 }
-/* �Ƴ��߳���Ϣ */
+/* 移除线程信息 */
 Int32 OSA_delTidInfo(Uint32 tid)
 {
     OSA_RecodeTidCmdArgs   cmdArgs;
@@ -279,7 +279,7 @@ Int32 OSA_delTidInfo(Uint32 tid)
     }
     return status;
 }
-/* ��ȡ�߳���Ϣ */
+/* 获取线程信息 */
 Int32 OSA_getTidInfo(OSA_ThreadInfo* pInfo)
 {
     Int32                  status = OSA_EFAIL;

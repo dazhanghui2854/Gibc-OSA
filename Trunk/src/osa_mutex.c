@@ -6,9 +6,9 @@
 * Author : Zheng wei <zheng_wei@dahuatech.com>
 * Version: V1.0.0  2012-8-1 Create
 *
-* Desc: ÔÚlinuxÓÃ»§Ì¬ÏÂÊµÏÖOSAÄ£¿é¶ÔÍâÌá¹©µÄ»¥³âËø½Ó¿Ú
+* Desc: åœ¨linuxç”¨æˆ·æ€ä¸‹å®žçŽ°OSAæ¨¡å—å¯¹å¤–æä¾›çš„äº’æ–¥é”æŽ¥å£
 *
-*           ½Ó¿Úµ÷ÓÃÁ÷³ÌÈçÏÂ:
+*           æŽ¥å£è°ƒç”¨æµç¨‹å¦‚ä¸‹:
 *           ==========================
 *                   |                            
 *           OSA_mutexCreate
@@ -17,8 +17,8 @@
 *                   |
 *           OSA_mutexDelete
 *           ===========================
-*           ×¢Òâ:¶ÔÓÚÀàÐÍÎªOSA_MUTEX_NORMALµÄ»¥³âËø£¬Í¬Ò»Ïß³Ì²»ÄÜ¼ÓËø¶à´Î
-*                ¶ÔÓÚÀàÐÍÎªOSA_MUTEX_RECURSIVEµÄ»¥³âËø£¬Í¬Ò»Ïß³Ì¿ÉÒÔ¼ÓËø¶à´Î
+*           æ³¨æ„:å¯¹äºŽç±»åž‹ä¸ºOSA_MUTEX_NORMALçš„äº’æ–¥é”ï¼ŒåŒä¸€çº¿ç¨‹ä¸èƒ½åŠ é”å¤šæ¬¡
+*                å¯¹äºŽç±»åž‹ä¸ºOSA_MUTEX_RECURSIVEçš„äº’æ–¥é”ï¼ŒåŒä¸€çº¿ç¨‹å¯ä»¥åŠ é”å¤šæ¬¡
 *
 * Modification: 
 *    Date    :  
@@ -28,51 +28,51 @@
 *******************************************************************************/
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼þÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 #include <osa.h>
 #include <osa_priv.h>
 
 /* ========================================================================== */
-/*                           ºêºÍÀàÐÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»åž‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          Êý¾Ý½á¹¹¶¨ÒåÇø                                    */
+/*                          æ•°æ®ç»“æž„å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
-/*¶¨Òå»¥³âËø¶ÔÏó*/
+/*å®šä¹‰äº’æ–¥é”å¯¹è±¡*/
 typedef struct
 {
-    Uint32              nMgicNum;    /*Ä§Êý,ÓÃÓÚÐ£Ñé¾ä±úÓÐÐ§ÐÔ¡£*/
+    Uint32              nMgicNum;    /*é­”æ•°,ç”¨äºŽæ ¡éªŒå¥æŸ„æœ‰æ•ˆæ€§ã€‚*/
 
-    pthread_mutex_t     lock;        /*ÓÃ»§Ì¬»¥³âËø±äÁ¿*/
+    pthread_mutex_t     lock;        /*ç”¨æˆ·æ€äº’æ–¥é”å˜é‡*/
 }OSA_MutexObject;
 
 /* ========================================================================== */
-/*                          º¯ÊýÉùÃ÷Çø                                        */
+/*                          å‡½æ•°å£°æ˜ŽåŒº                                        */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          È«¾Ö±äÁ¿¶¨ÒåÇø                                    */
+/*                          å…¨å±€å˜é‡å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
 
 /* ========================================================================== */
-/*                          º¯Êý¶¨ÒåÇø                                        */
+/*                          å‡½æ•°å®šä¹‰åŒº                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mutexCreate
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔð´´½¨Ò»¸ö»¥³âËø
+* å‡½æ•°å  : OSA_mutexCreate
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£åˆ›å»ºä¸€ä¸ªäº’æ–¥é”
 *
-* Êä  Èë  : - type:    »¥³âËøÀàÐÍ,²Î¼ûOSA_MutexType¶¨Òå
+* è¾“  å…¥  : - type:    äº’æ–¥é”ç±»åž‹,å‚è§OSA_MutexTypeå®šä¹‰
 *
-* Êä  ³ö  : - phMutex: »¥³âËø¾ä±úÖ¸Õë,µ±´´½¨³É¹¦Ê±Êä³ö»¥³âËø¾ä±ú
-* ·µ»ØÖµ  : OSA_SOK:   ´´½¨³É¹¦
-*           OSA_EFAIL: ´´½¨Ê§°Ü
+* è¾“  å‡º  : - phMutex: äº’æ–¥é”å¥æŸ„æŒ‡é’ˆ,å½“åˆ›å»ºæˆåŠŸæ—¶è¾“å‡ºäº’æ–¥é”å¥æŸ„
+* è¿”å›žå€¼  : OSA_SOK:   åˆ›å»ºæˆåŠŸ
+*           OSA_EFAIL: åˆ›å»ºå¤±è´¥
 *******************************************************************************/
 Int32 OSA_mutexCreate(Uint32 type, OSA_MutexHandle *phMutex)
 {
@@ -85,7 +85,7 @@ Int32 OSA_mutexCreate(Uint32 type, OSA_MutexHandle *phMutex)
         return OSA_EFAIL;
     }
 
-    /*·ÖÅäÄÚ´æ*/
+    /*åˆ†é…å†…å­˜*/
     pMutexObj = (OSA_MutexObject *)OSA_memAlloc(sizeof(OSA_MutexObject));
     if(NULL == pMutexObj)
     {
@@ -93,16 +93,16 @@ Int32 OSA_mutexCreate(Uint32 type, OSA_MutexHandle *phMutex)
         return OSA_EFAIL;
     }
 
-    /*¸³ÖµÄ§Êý*/
+    /*èµ‹å€¼é­”æ•°*/
     pMutexObj->nMgicNum = OSA_MAGIC_NUM;
 
-    /*³õÊ¼»¯Ëø*/
+    /*åˆå§‹åŒ–é”*/
     if(OSA_MUTEX_RECURSIVE == type)
     {
         pthread_mutexattr_init(&mutex_attr);
 
         /*lint -save -e718 -e746 -e40 */
-        /* ÉèÖÃËøÖ§³ÖÇ¶Ì×£¬ÐèÒªÔÚmakfileÖÐÌí¼Ó_D_GNU_SOURCE¡£*/
+        /* è®¾ç½®é”æ”¯æŒåµŒå¥—ï¼Œéœ€è¦åœ¨makfileä¸­æ·»åŠ _D_GNU_SOURCEã€‚*/
         pthread_mutexattr_settype(&mutex_attr, PTHREAD_MUTEX_RECURSIVE);
         /*lint -restore */
 
@@ -120,20 +120,20 @@ Int32 OSA_mutexCreate(Uint32 type, OSA_MutexHandle *phMutex)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mutexLock
-* Ãè  Êö  : »¥³âËø¼ÓËø
-* Êä  Èë  : - hMutex: »¥³âËø¾ä±ú,
+* å‡½æ•°å  : OSA_mutexLock
+* æ  è¿°  : äº’æ–¥é”åŠ é”
+* è¾“  å…¥  : - hMutex: äº’æ–¥é”å¥æŸ„,
 *
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*           OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸ
+*           OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_mutexLock(OSA_MutexHandle hMutex)
 {
     OSA_MutexObject *pMutexObj = (OSA_MutexObject *)hMutex;
     Int32 ret;
 
-    /*¼ì²éhandleÓÐÐ§ÐÔ*/    
+    /*æ£€æŸ¥handleæœ‰æ•ˆæ€§*/    
     OSA_handleCheck(pMutexObj);
 
     ret = pthread_mutex_lock(&pMutexObj->lock);
@@ -143,22 +143,22 @@ Int32 OSA_mutexLock(OSA_MutexHandle hMutex)
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mutexTryLock
-* Ãè  Êö  : ÊÔÍ¼¶Ô»¥³âËø½øÐÐ¼ÓËø¡£¸Ã½Ó¿ÚÄ¿Ç°Ö»Ö§³ÖLinuxÓÃ»§²ãµ÷ÓÃ¡£
-*           ¸Ã½Ó¿Ú²»ÄÜÔÚÄÚºËÌ¬ÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
-* Êä  Èë  : - hMutex: »¥³âËø¾ä±ú,
+* å‡½æ•°å  : OSA_mutexTryLock
+* æ  è¿°  : è¯•å›¾å¯¹äº’æ–¥é”è¿›è¡ŒåŠ é”ã€‚è¯¥æŽ¥å£ç›®å‰åªæ”¯æŒLinuxç”¨æˆ·å±‚è°ƒç”¨ã€‚
+*           è¯¥æŽ¥å£ä¸èƒ½åœ¨å†…æ ¸æ€ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
+* è¾“  å…¥  : - hMutex: äº’æ–¥é”å¥æŸ„,
 *
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*           OSA_EBUSY: Ëø±»Õ¼×Å
-*           OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸ
+*           OSA_EBUSY: é”è¢«å ç€
+*           OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_mutexTryLock(OSA_MutexHandle hMutex)
 {
     OSA_MutexObject *pMutexObj = (OSA_MutexObject *)hMutex;
     Int32 ret;
 
-    /*¼ì²éhandleÓÐÐ§ÐÔ*/    
+    /*æ£€æŸ¥handleæœ‰æ•ˆæ€§*/    
     OSA_handleCheck(pMutexObj);
 
     ret = pthread_mutex_trylock(&pMutexObj->lock);
@@ -179,21 +179,21 @@ Int32 OSA_mutexTryLock(OSA_MutexHandle hMutex)
 
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mutexUnlock
-* Ãè  Êö  : »¥³âËø½âËø
-*           ¸Ã½Ó¿Ú²»ÄÜÔÚÄÚºËÌ¬ÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
-* Êä  Èë  : - hMutex: »¥³âËø¾ä±ú,
+* å‡½æ•°å  : OSA_mutexUnlock
+* æ  è¿°  : äº’æ–¥é”è§£é”
+*           è¯¥æŽ¥å£ä¸èƒ½åœ¨å†…æ ¸æ€ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
+* è¾“  å…¥  : - hMutex: äº’æ–¥é”å¥æŸ„,
 *
-* Êä  ³ö  : ÎÞ
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*           OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— 
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸ
+*           OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_mutexUnlock(OSA_MutexHandle hMutex)
 {
     OSA_MutexObject *pMutexObj = (OSA_MutexObject *)hMutex;
     Int32 ret;
 
-    /*¼ì²éhandleÓÐÐ§ÐÔ*/    
+    /*æ£€æŸ¥handleæœ‰æ•ˆæ€§*/    
     OSA_handleCheck(pMutexObj);
 
     ret = pthread_mutex_unlock(&pMutexObj->lock);
@@ -202,27 +202,27 @@ Int32 OSA_mutexUnlock(OSA_MutexHandle hMutex)
 }
 
 /*******************************************************************************
-* º¯ÊýÃû  : OSA_mutexDelete
-* Ãè  Êö  : ¸Ãº¯Êý¸ºÔðÏú»ÙÒ»¸ö»¥³âËø
-*           ¸Ã½Ó¿Ú²»ÄÜÔÚÄÚºËÌ¬ÖÐ¶ÏÉÏÏÂÎÄµ÷ÓÃ
+* å‡½æ•°å  : OSA_mutexDelete
+* æ  è¿°  : è¯¥å‡½æ•°è´Ÿè´£é”€æ¯ä¸€ä¸ªäº’æ–¥é”
+*           è¯¥æŽ¥å£ä¸èƒ½åœ¨å†…æ ¸æ€ä¸­æ–­ä¸Šä¸‹æ–‡è°ƒç”¨
 *
-* Êä  Èë  : - hMutex: »¥³âËø¾ä±ú
+* è¾“  å…¥  : - hMutex: äº’æ–¥é”å¥æŸ„
 *
-* Êä  ³ö  : ÎÞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*           OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›žå€¼  : OSA_SOK:   æˆåŠŸ
+*           OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_mutexDelete(OSA_MutexHandle hMutex)
 {
     OSA_MutexObject *pMutexObj = (OSA_MutexObject *)hMutex;
 
-    /*¼ì²éhandleÓÐÐ§ÐÔ*/    
+    /*æ£€æŸ¥handleæœ‰æ•ˆæ€§*/    
     OSA_handleCheck(pMutexObj);
 
     pthread_mutex_destroy(&pMutexObj->lock);  
 
     
-    /*Ä§ÊýÉèÎª-1£¬±ÜÃâÆäËûÈËÔÚÊÍ·Åºó¼ÌÐøÓÃ*/
+    /*é­”æ•°è®¾ä¸º-1ï¼Œé¿å…å…¶ä»–äººåœ¨é‡Šæ”¾åŽç»§ç»­ç”¨*/
     pMutexObj->nMgicNum = (Uint32)-1;
 
     if(OSA_SOK != OSA_memFree(pMutexObj))

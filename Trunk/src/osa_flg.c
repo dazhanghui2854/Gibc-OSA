@@ -5,8 +5,8 @@
 typedef struct
 {    
     Uint32 pattern;
-    pthread_mutex_t     lock;        /*»¥³âËø*/
-    pthread_cond_t      cond;        /*Ìõ¼ş±äÁ¿*/
+    pthread_mutex_t     lock;        /*äº’æ–¥é”*/
+    pthread_cond_t      cond;        /*æ¡ä»¶å˜é‡*/
 } OSA_FlgObject;
 
 

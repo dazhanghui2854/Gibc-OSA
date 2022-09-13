@@ -6,7 +6,7 @@
 * Author : Zheng wei <zheng_wei@dahuatech.com>
 * Version: V1.0.0  2012-10-30 Create
 *
-* Desc: ÊµÏÖOSAµÄÈÕÖ¾½Ó¿Ú
+* Desc: å®ç°OSAçš„æ—¥å¿—æ¥å£
 *
 * Modification:
 *    Date    :
@@ -16,7 +16,7 @@
 *******************************************************************************/
 
 /* ========================================================================== */
-/*                             Í·ÎÄ¼şÇø                                       */
+/*                             å¤´æ–‡ä»¶åŒº                                       */
 /* ========================================================================== */
 #include <osa.h>
 #include <osa_priv.h>
@@ -28,34 +28,34 @@ extern void vprintk(const char *fmt, va_list ap);
 
 
 /* ========================================================================== */
-/*                           ºêºÍÀàĞÍ¶¨ÒåÇø                                   */
+/*                           å®å’Œç±»å‹å®šä¹‰åŒº                                   */
 /* ========================================================================== */
 #if defined(__KERNEL__)
 #if LINUX_VERSION_CODE == KERNEL_VERSION(2,4,24)/* DH5000 */
 void vprintk(const Char *pFmt, va_list args)
 {
     static char buffer[512];
-    vsnprintf(buffer,512, pFmt, args);/* ¶àÏß³Ì´òÓ¡£¬¿ÉÄÜµ¼ÖÂ´òÓ¡ÄÚÈİ»ìÂÒÎÊÌâ */
+    vsnprintf(buffer,512, pFmt, args);/* å¤šçº¿ç¨‹æ‰“å°ï¼Œå¯èƒ½å¯¼è‡´æ‰“å°å†…å®¹æ··ä¹±é—®é¢˜ */
     printk("%s", buffer);
 }
 #endif
 #endif
 /* ========================================================================== */
-/*                          Êı¾İ½á¹¹¶¨ÒåÇø                                    */
+/*                          æ•°æ®ç»“æ„å®šä¹‰åŒº                                    */
 /* ========================================================================== */
 
 /* ========================================================================== */
-/*                            º¯ÊıÉùÃ÷Çø                                      */
+/*                            å‡½æ•°å£°æ˜åŒº                                      */
 /* ========================================================================== */
 
 static Int32 OSA_logWriteDefault(Uint32 level, Uint32 color, \
                                         const Char *pFmt, va_list args);
 
 /* ========================================================================== */
-/*                            È«¾Ö±äÁ¿¶¨ÒåÇø                                  */
+/*                            å…¨å±€å˜é‡å®šä¹‰åŒº                                  */
 /* ========================================================================== */
 
-/*ÈÕÖ¾²Ù×÷·½·¨*/
+/*æ—¥å¿—æ“ä½œæ–¹æ³•*/
 /*lint -esym(459, gLogOps) */
 static OSA_LogOps gLogOps =
 {
@@ -72,7 +72,7 @@ static OSA_LIST_HEAD(OSA_LogManager_list);
 static OSA_LogManager *OSA_LogManagerGetbyName(const Char *modName);
 #endif
 /* ========================================================================== */
-/*                          º¯Êı¶¨ÒåÇø                                        */
+/*                          å‡½æ•°å®šä¹‰åŒº                                        */
 /* ========================================================================== */
 
 /*lint -esym(459, gColor) */
@@ -115,17 +115,17 @@ static void  OSA_printColor(Uint32 color)
 #endif
 
 /*******************************************************************************
-* º¯ÊıÃû  : OSA_logRegister
-* Ãè  Êö  : ¸Ãº¯ÊıÏòOSA×¢²áÈÕÖ¾²Ù×÷½Ó¿Ú£¬Í¨³£ÓÉÈÕÖ¾¹ÜÀíÄ£¿éÔÚ³õÊ¼»¯Ê±µ÷ÓÃ¡£
-*           ÔÚÎ´ÏòOSA×¢²áÖ®Ç°£¬ËùÓĞ´òÓ¡¶¼Ê¹ÓÃOSAÄ£¿éÄÚ²¿µÄº¯Êı¡£
-*           µ±ÈÕÖ¾¹ÜÀíÄ£¿éÆô¶¯ºó£¬»áµ÷ÓÃ±¾½Ó¿ÚÏòOSA×¢²á£¬
-*           Ö®ºó£¬ËùÓĞµÄÈÕÖ¾´òÓ¡¶¼Í¨¹ıÈÕÖ¾¹ÜÀíÄ£¿éµÄ½Ó¿ÚÊµÏÖÁË¡£
+* å‡½æ•°å  : OSA_logRegister
+* æ  è¿°  : è¯¥å‡½æ•°å‘OSAæ³¨å†Œæ—¥å¿—æ“ä½œæ¥å£ï¼Œé€šå¸¸ç”±æ—¥å¿—ç®¡ç†æ¨¡å—åœ¨åˆå§‹åŒ–æ—¶è°ƒç”¨ã€‚
+*           åœ¨æœªå‘OSAæ³¨å†Œä¹‹å‰ï¼Œæ‰€æœ‰æ‰“å°éƒ½ä½¿ç”¨OSAæ¨¡å—å†…éƒ¨çš„å‡½æ•°ã€‚
+*           å½“æ—¥å¿—ç®¡ç†æ¨¡å—å¯åŠ¨åï¼Œä¼šè°ƒç”¨æœ¬æ¥å£å‘OSAæ³¨å†Œï¼Œ
+*           ä¹‹åï¼Œæ‰€æœ‰çš„æ—¥å¿—æ‰“å°éƒ½é€šè¿‡æ—¥å¿—ç®¡ç†æ¨¡å—çš„æ¥å£å®ç°äº†ã€‚
 *
-* Êä  Èë  : - pLogOps:  ÈÕÖ¾²Ù×÷·½·¨
+* è¾“  å…¥  : - pLogOps:  æ—¥å¿—æ“ä½œæ–¹æ³•
 *
-* Êä  ³ö  : ÎŞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*           OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*           OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_logRegister(OSA_LogOps *pLogOps)
 {
@@ -141,15 +141,15 @@ Int32 OSA_logRegister(OSA_LogOps *pLogOps)
 }
 
 /*******************************************************************************
-* º¯ÊıÃû  : OSA_logUnRegister
-* Ãè  Êö  : ¸Ãº¯ÊıÏòOSAÈ¡Ïû×¢²áÈÕÖ¾²Ù×÷½Ó¿Ú£¬Í¨³£ÓÉÈÕÖ¾¹ÜÀíÄ£¿éÔÚÍË³öÊ±µ÷ÓÃ¡£
-*           µ±ÈÕÖ¾¹ÜÀíÄ£¿éÈ¡Ïû×¢²áºó£¬ËùÓĞµÄÈÕÖ¾´òÓ¡»Ö¸´µ½ÓÃOSAÄ£¿éÄÚ²¿µÄº¯Êı
+* å‡½æ•°å  : OSA_logUnRegister
+* æ  è¿°  : è¯¥å‡½æ•°å‘OSAå–æ¶ˆæ³¨å†Œæ—¥å¿—æ“ä½œæ¥å£ï¼Œé€šå¸¸ç”±æ—¥å¿—ç®¡ç†æ¨¡å—åœ¨é€€å‡ºæ—¶è°ƒç”¨ã€‚
+*           å½“æ—¥å¿—ç®¡ç†æ¨¡å—å–æ¶ˆæ³¨å†Œåï¼Œæ‰€æœ‰çš„æ—¥å¿—æ‰“å°æ¢å¤åˆ°ç”¨OSAæ¨¡å—å†…éƒ¨çš„å‡½æ•°
 *
-* Êä  Èë  : ÎŞ¡£
+* è¾“  å…¥  : æ— ã€‚
 *
-* Êä  ³ö  : ÎŞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*           OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*           OSA_EFAIL: å¤±è´¥
 *******************************************************************************/
 Int32 OSA_logUnRegister(void)
 {
@@ -160,20 +160,20 @@ Int32 OSA_logUnRegister(void)
 
 #if !defined(OS_LINUX)
 
-/* ÔÚÈÕÖ¾Ä£¿éÃ»ÓĞ×¢²áÖ®Ç°µÄOSAÄÚ²¿´òÓ¡º¯Êı */
+/* åœ¨æ—¥å¿—æ¨¡å—æ²¡æœ‰æ³¨å†Œä¹‹å‰çš„OSAå†…éƒ¨æ‰“å°å‡½æ•° */
 static Int32 OSA_logWriteDefault(Uint32 level, Uint32 color, \
                                         const Char *pFmt, va_list args)
 {
     (void)level;
 
 #if defined(__KERNEL__)
-    /* ÄÚºËÌ¬Ä¬ÈÏ´òÓ¡£¬printk */
+    /* å†…æ ¸æ€é»˜è®¤æ‰“å°ï¼Œprintk */
     OSA_printColor(color);
     vprintk(pFmt, args);
     OSA_printColor(OSA_LOG_CLR_NONE);
 
 #elif defined(___DSPBIOS___)
-    /* SYSBIOS Ä¬ÈÏ²»´òÓ¡ */
+    /* SYSBIOS é»˜è®¤ä¸æ‰“å° */
     (void)color;
     (void)pFmt;
     (void)args;
@@ -185,7 +185,7 @@ static Int32 OSA_logWriteDefault(Uint32 level, Uint32 color, \
     vprintk(pFmt, args);
 
 #else
-    /* ÓÃ»§Ì¬Ä¬ÈÏ´òÓ¡£¬printf */
+    /* ç”¨æˆ·æ€é»˜è®¤æ‰“å°ï¼Œprintf */
     OSA_printColor(color);
     vprintf(pFmt, args);
     OSA_printColor(OSA_LOG_CLR_NONE);
@@ -194,14 +194,14 @@ static Int32 OSA_logWriteDefault(Uint32 level, Uint32 color, \
     return OSA_SOK;
 }
 /*******************************************************************************
-* º¯ÊıÃû  : OSA_logWrite
-* Ãè  Êö  : ¸Ãº¯ÊıÌá¹©Í³Ò»´òÓ¡½Ó¿Ú
-* Êä  Èë  : - level:   ´òÓ¡µÈ¼¶£¬²Î¼û OSA_LogLevel¶¨Òå
-*           - color:   ´òÓ¡ÑÕÉ«£¬²Î¼û OSA_LogColor¶¨Òå
-*           - pFmt:    ´òÓ¡µÄ¸ñÊ½×Ö·û´®
-* Êä  ³ö  : ÎŞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_logWrite
+* æ  è¿°  : è¯¥å‡½æ•°æä¾›ç»Ÿä¸€æ‰“å°æ¥å£
+* è¾“  å…¥  : - level:   æ‰“å°ç­‰çº§ï¼Œå‚è§ OSA_LogLevelå®šä¹‰
+*           - color:   æ‰“å°é¢œè‰²ï¼Œå‚è§ OSA_LogColorå®šä¹‰
+*           - pFmt:    æ‰“å°çš„æ ¼å¼å­—ç¬¦ä¸²
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_logWrite(Uint32 level, Uint32 color, const Char *pFmt, ...)
 {
@@ -257,8 +257,8 @@ Int32 OSA_LogManagerGetAllEntryInfo(OSA_LogManagerCommon *pentry, size_t size)
 	return OSA_SOK;
 }
 
-#else //¶¨ÒåOS_LINUXºê£¬¼´¶ÔÓÚLinuxÄÚºËÇı¶¯/ÓÃ»§Ì¬
-/*Ìí¼ÓÊ±¼ä´òÓ¡£¬Ã¿Ò»ÃëÍ¨¹ı¶¨Ê±Æ÷¸üĞÂÊ±¼ä±äÁ¿*/
+#else //å®šä¹‰OS_LINUXå®ï¼Œå³å¯¹äºLinuxå†…æ ¸é©±åŠ¨/ç”¨æˆ·æ€
+/*æ·»åŠ æ—¶é—´æ‰“å°ï¼Œæ¯ä¸€ç§’é€šè¿‡å®šæ—¶å™¨æ›´æ–°æ—¶é—´å˜é‡*/
 #if defined(PRINT_TIME)
 
 struct tm time_now = {0};	
@@ -303,20 +303,20 @@ void OSA_TimeThread(void)
 
 #endif
 
-/* ÔÚÈÕÖ¾Ä£¿éÃ»ÓĞ×¢²áÖ®Ç°µÄOSAÄÚ²¿´òÓ¡º¯Êı */
+/* åœ¨æ—¥å¿—æ¨¡å—æ²¡æœ‰æ³¨å†Œä¹‹å‰çš„OSAå†…éƒ¨æ‰“å°å‡½æ•° */
 static Int32 OSA_logWriteDefault(Uint32 level, Uint32 color, \
                                         const Char *pFmt, va_list args)
 {
 	Int32 length;
     (void)level;
 #if defined(__KERNEL__)
-    /* ÄÚºËÌ¬Ä¬ÈÏ´òÓ¡£¬printk */
+    /* å†…æ ¸æ€é»˜è®¤æ‰“å°ï¼Œprintk */
     OSA_printColor(color);
     length = vprintk(pFmt, args);
     OSA_printColor(OSA_LOG_CLR_NONE);
 
 #elif defined(___DSPBIOS___)
-    /* SYSBIOS Ä¬ÈÏ²»´òÓ¡ */
+    /* SYSBIOS é»˜è®¤ä¸æ‰“å° */
     (void)color;
     (void)pFmt;
     (void)args;
@@ -329,7 +329,7 @@ static Int32 OSA_logWriteDefault(Uint32 level, Uint32 color, \
 
 #else
 
-    /* ÓÃ»§Ì¬Ä¬ÈÏ´òÓ¡£¬printf */
+    /* ç”¨æˆ·æ€é»˜è®¤æ‰“å°ï¼Œprintf */
     OSA_printColor(color);
 
 #if defined(PRINT_TIME)
@@ -344,14 +344,14 @@ static Int32 OSA_logWriteDefault(Uint32 level, Uint32 color, \
 }
 
 /*******************************************************************************
-* º¯ÊıÃû  : OSA_logWrite
-* Ãè  Êö  : ¸Ãº¯ÊıÌá¹©Í³Ò»´òÓ¡½Ó¿Ú
-* Êä  Èë  : - level:   ´òÓ¡µÈ¼¶£¬²Î¼û OSA_LogLevel¶¨Òå
-*           - color:   ´òÓ¡ÑÕÉ«£¬²Î¼û OSA_LogColor¶¨Òå
-*           - pFmt:    ´òÓ¡µÄ¸ñÊ½×Ö·û´®
-* Êä  ³ö  : ÎŞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦¡£
-*           OSA_EFAIL: Ê§°Ü¡£
+* å‡½æ•°å  : OSA_logWrite
+* æ  è¿°  : è¯¥å‡½æ•°æä¾›ç»Ÿä¸€æ‰“å°æ¥å£
+* è¾“  å…¥  : - level:   æ‰“å°ç­‰çº§ï¼Œå‚è§ OSA_LogLevelå®šä¹‰
+*           - color:   æ‰“å°é¢œè‰²ï¼Œå‚è§ OSA_LogColorå®šä¹‰
+*           - pFmt:    æ‰“å°çš„æ ¼å¼å­—ç¬¦ä¸²
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸã€‚
+*           OSA_EFAIL: å¤±è´¥ã€‚
 *******************************************************************************/
 Int32 OSA_logWrite(Uint32 level, Uint32 color, const Char *pFmt, ...)
 {
@@ -365,7 +365,7 @@ Int32 OSA_logWrite(Uint32 level, Uint32 color, const Char *pFmt, ...)
 
 	OSA_LogManager *osa_entry = NULL;
 	
-	/* ÌáÈ¡³öÄ£¿é/¿â¶¨ÒåµÄ OSA_MODULE_NAME */
+	/* æå–å‡ºæ¨¡å—/åº“å®šä¹‰çš„ OSA_MODULE_NAME */
 	pbuf = strchr(pFmt, '@');
 	if (pbuf) {
 		modName_len = (Int32)((unsigned long)pbuf - (unsigned long)&pFmt[1]);
@@ -379,8 +379,8 @@ Int32 OSA_logWrite(Uint32 level, Uint32 color, const Char *pFmt, ...)
 	osa_entry = OSA_LogManagerGetbyName(modName);
 	if (!osa_entry && modName_len) {
 		/*
-		 * ÎªÁË¼æÈİÔ´½Ó¿Ú£¬¶ÔÓÚÎ´µ÷ÓÃOSA_logManagerRegisterÏÔÊ½×¢²á¹ÜÀí½á¹¹£¬ÎªÆä×¢²áÄ¬ÈÏ¹ÜÀíÄ£¿é
-		 * ²¿·Ö´òÓ¡½Ó¿ÚÃ»¼ÓOSA_MODULE_NAME£¬µ¼ÖÂmodNameÎªNULL£¬¶ÔÕâĞ©½Ó¿ÚÎŞĞè×¢²á¹ÜÀí½á¹¹
+		 * ä¸ºäº†å…¼å®¹æºæ¥å£ï¼Œå¯¹äºæœªè°ƒç”¨OSA_logManagerRegisteræ˜¾å¼æ³¨å†Œç®¡ç†ç»“æ„ï¼Œä¸ºå…¶æ³¨å†Œé»˜è®¤ç®¡ç†æ¨¡å—
+		 * éƒ¨åˆ†æ‰“å°æ¥å£æ²¡åŠ OSA_MODULE_NAMEï¼Œå¯¼è‡´modNameä¸ºNULLï¼Œå¯¹è¿™äº›æ¥å£æ— éœ€æ³¨å†Œç®¡ç†ç»“æ„
 		 */
 		osa_entry = (OSA_LogManager *)OSA_memAlloc(sizeof(OSA_LogManager));
 		if (!osa_entry) {
@@ -404,7 +404,7 @@ Int32 OSA_logWrite(Uint32 level, Uint32 color, const Char *pFmt, ...)
 
 default_print:
 	/*
-	 * ¼æÈİ²»´øOSA_MODULE_NAMEµÄÊä³ö½Ó¿Ú£¬´Ë³¡¾°ÏÂosa_entryÎªNULL¼´Ä¬ÈÏÊä³ö
+	 * å…¼å®¹ä¸å¸¦OSA_MODULE_NAMEçš„è¾“å‡ºæ¥å£ï¼Œæ­¤åœºæ™¯ä¸‹osa_entryä¸ºNULLå³é»˜è®¤è¾“å‡º
 	 */
 	if (!osa_entry || (osa_entry &&  osa_entry->info.osa_Refcnt > 0 &&
 			osa_entry->info.osa_PrintEnable && osa_entry->info.osa_LogLevel >= level)) {
@@ -429,18 +429,18 @@ default_print:
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_logManagerRegister
-* Ãè  Êö  : ¸Ãº¯ÊıÏòOSA×¢²áÄ£¿éÈÕÖ¾¹ÜÀí½á¹¹£¬Í¨³£ÔÚÄ£¿é/¿âÔÚ³õÊ¼»¯Ê±µ÷ÓÃ¡£
-*           ¶ÔÓÚÎ´ÏòOSA_LOGMANAGER×¢²áÖ®Ç°£¬ËùÓĞÄ£¿é´òÓ¡Ä¬ÈÏ´ò¿ª¡£
-*           µ±Ä£¿éÆô¶¯µ÷ÓÃ±¾½Ó¿ÚÏòOSA×¢²á¹ÜÀí½á¹¹ºó£¬
-*           ËùÓĞµÄÈÕÖ¾´òÓ¡¶¼Í¨¹ıÈÕÖ¾¹ÜÀíÄ£¿éµÄ½Ó¿Ú½øĞĞ¹ÜÀí¡£
-*           ¶ÔÓÚÒÑ×¢²á¹ıµÄÄ£¿é£¬ÔÙ´Î¼ÓÔØºó£¬Ö±½Ó¸´ÓÃÔ­½á¹¹£¬µ«ÎªÁË
-*           ±ÜÃâ±àÒë±¨¾¯ËøÄÚ´æÄÚ´æĞ¹Â¶£¬×¢²áÊ±ÖØĞÂ·ÖÅäËøÄÚ´æ
-* Êä  Èë  : OSA_LogManager:  ´ı×¢²áµÄÈÕÖ¾¹ÜÀí½á¹¹¶ÔÏó
+* å‡½æ•°å  :  OSA_logManagerRegister
+* æ  è¿°  : è¯¥å‡½æ•°å‘OSAæ³¨å†Œæ¨¡å—æ—¥å¿—ç®¡ç†ç»“æ„ï¼Œé€šå¸¸åœ¨æ¨¡å—/åº“åœ¨åˆå§‹åŒ–æ—¶è°ƒç”¨ã€‚
+*           å¯¹äºæœªå‘OSA_LOGMANAGERæ³¨å†Œä¹‹å‰ï¼Œæ‰€æœ‰æ¨¡å—æ‰“å°é»˜è®¤æ‰“å¼€ã€‚
+*           å½“æ¨¡å—å¯åŠ¨è°ƒç”¨æœ¬æ¥å£å‘OSAæ³¨å†Œç®¡ç†ç»“æ„åï¼Œ
+*           æ‰€æœ‰çš„æ—¥å¿—æ‰“å°éƒ½é€šè¿‡æ—¥å¿—ç®¡ç†æ¨¡å—çš„æ¥å£è¿›è¡Œç®¡ç†ã€‚
+*           å¯¹äºå·²æ³¨å†Œè¿‡çš„æ¨¡å—ï¼Œå†æ¬¡åŠ è½½åï¼Œç›´æ¥å¤ç”¨åŸç»“æ„ï¼Œä½†ä¸ºäº†
+*           é¿å…ç¼–è¯‘æŠ¥è­¦é”å†…å­˜å†…å­˜æ³„éœ²ï¼Œæ³¨å†Œæ—¶é‡æ–°åˆ†é…é”å†…å­˜
+* è¾“  å…¥  : OSA_LogManager:  å¾…æ³¨å†Œçš„æ—¥å¿—ç®¡ç†ç»“æ„å¯¹è±¡
 *
-* Êä  ³ö  : ÎŞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*           OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*           OSA_EFAIL: å¤±è´¥
 ******************************************************************************/
 Int32 OSA_logManagerRegister(OSA_LogManager *pLogManager)
 {
@@ -449,13 +449,13 @@ Int32 OSA_logManagerRegister(OSA_LogManager *pLogManager)
 	OSA_assertNotNull(pLogManager);
 	
 	osa_entry = OSA_LogManagerGetbyName(pLogManager->info.osa_Name);
-	if (osa_entry) { //ÒÑ±»×¢²á¹ıÖ±½Ó¸´ÓÃ
-		osa_entry->info.osa_Stat = 0; //×¢²áºóÄ¬ÈÏÊ¹ÄÜ¸ÃÄ£¿éµÄÈÕÖ¾Êä³ö
-		osa_entry->info.osa_PrintEnable = (int8_t)OSA_LOGMANAGER_ENABLE; //×¢²áºóÄ¬ÈÏÊ¹ÄÜ¸ÃÄ£¿éµÄÈÕÖ¾Êä³ö
+	if (osa_entry) { //å·²è¢«æ³¨å†Œè¿‡ç›´æ¥å¤ç”¨
+		osa_entry->info.osa_Stat = 0; //æ³¨å†Œåé»˜è®¤ä½¿èƒ½è¯¥æ¨¡å—çš„æ—¥å¿—è¾“å‡º
+		osa_entry->info.osa_PrintEnable = (int8_t)OSA_LOGMANAGER_ENABLE; //æ³¨å†Œåé»˜è®¤ä½¿èƒ½è¯¥æ¨¡å—çš„æ—¥å¿—è¾“å‡º
 		osa_entry->info.osa_LogLevel = (osa_entry->info.osa_LogLevel >= OSA_LOGMANAGER_CMD_MAX) ?
 							OSA_LOG_LV_DBG : osa_entry->info.osa_LogLevel;
 
-		/* ¸ù¾İ×¢ÏúÊ±µÄÊ¹ÓÃ¼ÆÊı»Ö¸´ÒıÓÃ¼ÆÊı */
+		/* æ ¹æ®æ³¨é”€æ—¶çš„ä½¿ç”¨è®¡æ•°æ¢å¤å¼•ç”¨è®¡æ•° */
 		osa_entry->info.osa_Refcnt = 1;
 	} else {
 		if (pLogManager->info.osa_Refcnt != OSA_LOGMANAGER_REGISTER_INNER) {
@@ -473,8 +473,8 @@ Int32 OSA_logManagerRegister(OSA_LogManager *pLogManager)
 		OSA_listHeadInit(&osa_entry->node);
 		OSA_listAddTail(&osa_entry->node, &OSA_LogManager_list);
 		
-		osa_entry->info.osa_Stat = 0;   //×¢²áºóÄ¬ÈÏ¹Ø±Õ¸ÃÄ£¿éµÄÈÕÖ¾Í³¼Æ
-		osa_entry->info.osa_PrintEnable = OSA_LOGMANAGER_ENABLE; //×¢²áºóÄ¬ÈÏÊ¹ÄÜ¸ÃÄ£¿éµÄÈÕÖ¾Êä³ö
+		osa_entry->info.osa_Stat = 0;   //æ³¨å†Œåé»˜è®¤å…³é—­è¯¥æ¨¡å—çš„æ—¥å¿—ç»Ÿè®¡
+		osa_entry->info.osa_PrintEnable = OSA_LOGMANAGER_ENABLE; //æ³¨å†Œåé»˜è®¤ä½¿èƒ½è¯¥æ¨¡å—çš„æ—¥å¿—è¾“å‡º
 		osa_entry->info.osa_LogLevel =
 			(osa_entry->info.osa_LogLevel >= OSA_LOG_LV_MAX) ?
 				OSA_LOG_LV_DBG : osa_entry->info.osa_LogLevel;
@@ -506,25 +506,25 @@ Int32 OSA_logManagerRegister(OSA_LogManager *pLogManager)
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_logManagerDeRegister
-* Ãè  Êö  : ¸Ãº¯ÊıÏòOSA×¢ÏúÄ£¿éÈÕÖ¾¹ÜÀí½á¹¹£¬Ö»»áÔÚÄ£¿é×¢ÏúÊ±µ÷ÓÃ¡£
-*           µ±Ä£¿é±»×¢ÏúÊ±£¬²»¶Ô¹ÜÀí½á¹¹ÄÚ´æ½øĞĞÊÍ·Å£¬Ö»ÊÇ¶ÔÒıÓÃ¼ÆÊı½øĞĞ´¦Àí
-*           ÖØĞÂ¼ÓÔØÄ£¿éºó£¬¿É°´Í¬ÃûÆ¥Åäºó¸´ÓÃÔ­À´·ÖÅäµÄÄÚ´æ¶ÔÏó¡£
-*           ÎªÁË±ÜÃâ±àÒë±¨¾¯ËøÄÚ´æÄÚ´æĞ¹Â¶£¬×¢ÏúÊ±ÊÍ·ÅËøÄÚ´æ¿Õ¼ä
+* å‡½æ•°å  :  OSA_logManagerDeRegister
+* æ  è¿°  : è¯¥å‡½æ•°å‘OSAæ³¨é”€æ¨¡å—æ—¥å¿—ç®¡ç†ç»“æ„ï¼Œåªä¼šåœ¨æ¨¡å—æ³¨é”€æ—¶è°ƒç”¨ã€‚
+*           å½“æ¨¡å—è¢«æ³¨é”€æ—¶ï¼Œä¸å¯¹ç®¡ç†ç»“æ„å†…å­˜è¿›è¡Œé‡Šæ”¾ï¼Œåªæ˜¯å¯¹å¼•ç”¨è®¡æ•°è¿›è¡Œå¤„ç†
+*           é‡æ–°åŠ è½½æ¨¡å—åï¼Œå¯æŒ‰åŒååŒ¹é…åå¤ç”¨åŸæ¥åˆ†é…çš„å†…å­˜å¯¹è±¡ã€‚
+*           ä¸ºäº†é¿å…ç¼–è¯‘æŠ¥è­¦é”å†…å­˜å†…å­˜æ³„éœ²ï¼Œæ³¨é”€æ—¶é‡Šæ”¾é”å†…å­˜ç©ºé—´
 *
-* Êä  Èë  : OSA_LogManager:  ´ı×¢²áµÄÈÕÖ¾¹ÜÀí½á¹¹¶ÔÏó
+* è¾“  å…¥  : OSA_LogManager:  å¾…æ³¨å†Œçš„æ—¥å¿—ç®¡ç†ç»“æ„å¯¹è±¡
 *
-* Êä  ³ö  : ÎŞ¡£
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*          OSA_EFAIL: Ê§°Ü
+* è¾“  å‡º  : æ— ã€‚
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*          OSA_EFAIL: å¤±è´¥
 ******************************************************************************/
 Int32 OSA_logManagerDeRegister(OSA_LogManager *pLogManager)
 {
 	OSA_assertNotNull(pLogManager);
 	
-	pLogManager->info.osa_Refcnt = -1; //Ö»ÊÇ¼òµ¥ÉèÖÃÒıÓÃ¼ÆÊı
+	pLogManager->info.osa_Refcnt = -1; //åªæ˜¯ç®€å•è®¾ç½®å¼•ç”¨è®¡æ•°
 			
-	pLogManager->info.osa_PrintEnable = 0; //×¢Ïúºó¹Ø±Õ¸ÃÄ£¿éµÄÈÕÖ¾Êä³ö
+	pLogManager->info.osa_PrintEnable = 0; //æ³¨é”€åå…³é—­è¯¥æ¨¡å—çš„æ—¥å¿—è¾“å‡º
 
 	//list_del(&pLogManager->node);
 	return OSA_SOK;
@@ -537,7 +537,7 @@ static OSA_LogManager *OSA_LogManagerGetbyName(const Char *modName)
 	OSA_ListHead  *pOsaList = NULL;
 	OSA_ListHead  *pListTmp = NULL;
 
-	/* ·ÀÖ¹ÓĞÄ£¿éÎ´¶¨Òå OSA_MODULE_NAME */
+	/* é˜²æ­¢æœ‰æ¨¡å—æœªå®šä¹‰ OSA_MODULE_NAME */
 	if (!modName)
 		return NULL;
 
@@ -874,15 +874,15 @@ static Int32 OSA_LogManagerSet(const Char *modName, OSA_LogManagerCmd cmd, void 
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_LogManagerSetEntryPrintLevel 
-* Ãè  Êö  : ¸Ãº¯ÊıÏòOSA¹ÜÀíµÄ¶ÔÓ¦Ä£¿é/¿âÉèÖÃÆä´òÓ¡µÈ¼¶ 
-*           ÎŞËøÉè¼Æ£¬µ÷ÓÃÕßĞèÒª±£Ö¤±£Ö¤ÅäÖÃ°²È«
+* å‡½æ•°å  :  OSA_LogManagerSetEntryPrintLevel 
+* æ  è¿°  : è¯¥å‡½æ•°å‘OSAç®¡ç†çš„å¯¹åº”æ¨¡å—/åº“è®¾ç½®å…¶æ‰“å°ç­‰çº§ 
+*           æ— é”è®¾è®¡ï¼Œè°ƒç”¨è€…éœ€è¦ä¿è¯ä¿è¯é…ç½®å®‰å…¨
 *      
-* Êä  Èë  : modName,:    ´ı²Ù×÷Ä£¿éÃû³Æ
-* Êä  Èë  : level:   ´òÓ¡µÈ¼¶
-* Êä  ³ö  : 
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*          OSA_EFAIL: Ê§°Ü
+* è¾“  å…¥  : modName,:    å¾…æ“ä½œæ¨¡å—åç§°
+* è¾“  å…¥  : level:   æ‰“å°ç­‰çº§
+* è¾“  å‡º  : 
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*          OSA_EFAIL: å¤±è´¥
 ******************************************************************************/
 Int32 OSA_LogManagerSetEntryPrintLevel(const Char *modName, Int32 level)
 {
@@ -906,15 +906,15 @@ Int32 OSA_LogManagerSetEntryPrintLevel(const Char *modName, Int32 level)
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_LogManagerSetEntryEnable 
-* Ãè  Êö  : ¸Ãº¯ÊıÉèÖÃOSA¹ÜÀíµÄ¶ÔÓ¦Ä£¿é/¿â´òÓ¡Ê¹ÄÜ»ò¹Ø±Õ
-*           ÎŞËøÉè¼Æ£¬µ÷ÓÃÕßĞèÒª±£Ö¤±£Ö¤ÅäÖÃ°²È«
+* å‡½æ•°å  :  OSA_LogManagerSetEntryEnable 
+* æ  è¿°  : è¯¥å‡½æ•°è®¾ç½®OSAç®¡ç†çš„å¯¹åº”æ¨¡å—/åº“æ‰“å°ä½¿èƒ½æˆ–å…³é—­
+*           æ— é”è®¾è®¡ï¼Œè°ƒç”¨è€…éœ€è¦ä¿è¯ä¿è¯é…ç½®å®‰å…¨
 *      
-* Êä  Èë  : modName,:    ´ı²Ù×÷Ä£¿éÃû³Æ
-* Êä  Èë  : status:   Ê¹ÄÜ»ò¹Ø±ÕÄ£¿é/¿âµÄ´òÓ¡Êä³ö
-* Êä  ³ö  : 
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*          OSA_EFAIL: Ê§°Ü
+* è¾“  å…¥  : modName,:    å¾…æ“ä½œæ¨¡å—åç§°
+* è¾“  å…¥  : status:   ä½¿èƒ½æˆ–å…³é—­æ¨¡å—/åº“çš„æ‰“å°è¾“å‡º
+* è¾“  å‡º  : 
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*          OSA_EFAIL: å¤±è´¥
 ******************************************************************************/
 Int32 OSA_LogManagerSetEntryEnable(const Char *modName, OSA_LogManangerEnable status)
 {
@@ -937,14 +937,14 @@ Int32 OSA_LogManagerSetEntryEnable(const Char *modName, OSA_LogManangerEnable st
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_LogManagerSet_EntryInfo
-* Ãè  Êö  : ¸Ãº¯Êı»ñÈ¡OSAËù¹ÜÀíµÄµ¥¸öÄ£¿é/¿âĞÅÏ¢
+* å‡½æ•°å  :  OSA_LogManagerSet_EntryInfo
+* æ  è¿°  : è¯¥å‡½æ•°è·å–OSAæ‰€ç®¡ç†çš„å•ä¸ªæ¨¡å—/åº“ä¿¡æ¯
 * 
 * 
-* Êä  Èë  : pentry ÌîÈëĞèÒª»ñÈ¡ĞÅÏ¢Ä£¿é/¿âµÄÃû³Æ
-* Êä  ³ö  : pentry ·µ»ØÖ¸¶¨Ä£¿é/¿âµÄĞÅÏ¢,²»°üÀ¨¸ÃÄ£¿é´òÓ¡Í³¼ÆÁ¿
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*          OSA_EFAIL: Ê§°Ü
+* è¾“  å…¥  : pentry å¡«å…¥éœ€è¦è·å–ä¿¡æ¯æ¨¡å—/åº“çš„åç§°
+* è¾“  å‡º  : pentry è¿”å›æŒ‡å®šæ¨¡å—/åº“çš„ä¿¡æ¯,ä¸åŒ…æ‹¬è¯¥æ¨¡å—æ‰“å°ç»Ÿè®¡é‡
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*          OSA_EFAIL: å¤±è´¥
 ******************************************************************************/
 Int32 OSA_LogManagerSetEntryInfo(OSA_LogManagerCommon *pentry)
 {
@@ -1016,15 +1016,15 @@ static Int32 OSA_LogManagerGet(const Char *modName, OSA_LogManagerCmd cmd, void 
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_LogManagerGetEntryPrintLevel 
-* Ãè  Êö  : ¸Ãº¯Êı»ñÈ¡OSA¹ÜÀíµÄ¶ÔÓ¦Ä£¿é/¿âµÄ´òÓ¡µÈ¼¶ 
-*           ÎŞËøÉè¼Æ£¬µ÷ÓÃÕßĞèÒª±£Ö¤±£Ö¤ÅäÖÃ°²È«
+* å‡½æ•°å  :  OSA_LogManagerGetEntryPrintLevel 
+* æ  è¿°  : è¯¥å‡½æ•°è·å–OSAç®¡ç†çš„å¯¹åº”æ¨¡å—/åº“çš„æ‰“å°ç­‰çº§ 
+*           æ— é”è®¾è®¡ï¼Œè°ƒç”¨è€…éœ€è¦ä¿è¯ä¿è¯é…ç½®å®‰å…¨
 *      
-* Êä  Èë  : modName,:    ´ı²Ù×÷Ä£¿éÃû³Æ
-* Êä  Èë  : level:   ·µ»ØÄ£¿é´òÓ¡µÈ¼¶
-* Êä  ³ö  : 
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*          OSA_EFAIL: Ê§°Ü
+* è¾“  å…¥  : modName,:    å¾…æ“ä½œæ¨¡å—åç§°
+* è¾“  å…¥  : level:   è¿”å›æ¨¡å—æ‰“å°ç­‰çº§
+* è¾“  å‡º  : 
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*          OSA_EFAIL: å¤±è´¥
 ******************************************************************************/
 Int32 OSA_LogManagerGetEntryPrintLevel(const Char *modName, Int32 *level)
 {
@@ -1041,15 +1041,15 @@ Int32 OSA_LogManagerGetEntryPrintLevel(const Char *modName, Int32 *level)
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_LogManagerGetEntryPrintStatics
-* Ãè  Êö  : ¸Ãº¯Êı»ñÈ¡¶ÔÓ¦Ä£¿é/¿âÏà¹Ø´òÓ¡Í³¼ÆÁ¿
-*           ÓÃ»§Ì¬Í³¼Æ¼ÆÊı¼ÓËø±£»¤£¬ÄÚºËÌ¬Ê¹ÓÃÔ­×Ó±äÁ¿ 
-*           µ±Ç°Ö÷Òª¿É»ñÈ¡Ä£¿é/¿âµÄ´òÓ¡Í³¼Æ¼ÆÊı
+* å‡½æ•°å  :  OSA_LogManagerGetEntryPrintStatics
+* æ  è¿°  : è¯¥å‡½æ•°è·å–å¯¹åº”æ¨¡å—/åº“ç›¸å…³æ‰“å°ç»Ÿè®¡é‡
+*           ç”¨æˆ·æ€ç»Ÿè®¡è®¡æ•°åŠ é”ä¿æŠ¤ï¼Œå†…æ ¸æ€ä½¿ç”¨åŸå­å˜é‡ 
+*           å½“å‰ä¸»è¦å¯è·å–æ¨¡å—/åº“çš„æ‰“å°ç»Ÿè®¡è®¡æ•°
 *      
-* Êä  Èë  : modName,:    ´ı²Ù×÷Ä£¿éÃû³Æ
-* Êä  ³ö  : printedBytes:   ·µ»ØÄ£¿é/¿â´òÓ¡¼ÆÊı
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*          OSA_EFAIL: Ê§°Ü
+* è¾“  å…¥  : modName,:    å¾…æ“ä½œæ¨¡å—åç§°
+* è¾“  å‡º  : printedBytes:   è¿”å›æ¨¡å—/åº“æ‰“å°è®¡æ•°
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*          OSA_EFAIL: å¤±è´¥
 ******************************************************************************/
 Int32 OSA_LogManagerGetEntryPrintStatics(const Char *modName, Uint64 *printedBytes)
 {
@@ -1067,14 +1067,14 @@ Int32 OSA_LogManagerGetEntryPrintStatics(const Char *modName, Uint64 *printedByt
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_LogManagerGetEntryInfo
-* Ãè  Êö  : ¸Ãº¯Êı»ñÈ¡OSAËù¹ÜÀíµÄµ¥¸öÄ£¿é/¿âĞÅÏ¢
+* å‡½æ•°å  :  OSA_LogManagerGetEntryInfo
+* æ  è¿°  : è¯¥å‡½æ•°è·å–OSAæ‰€ç®¡ç†çš„å•ä¸ªæ¨¡å—/åº“ä¿¡æ¯
 * 
 * 
-* Êä  Èë  : pentry ÌîÈëĞèÒª»ñÈ¡ĞÅÏ¢Ä£¿é/¿âµÄÃû³Æ
-* Êä  ³ö  : pentry ·µ»ØÖ¸¶¨Ä£¿é/¿âµÄĞÅÏ¢,²»°üÀ¨¸ÃÄ£¿é´òÓ¡Í³¼ÆÁ¿
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*          OSA_EFAIL: Ê§°Ü
+* è¾“  å…¥  : pentry å¡«å…¥éœ€è¦è·å–ä¿¡æ¯æ¨¡å—/åº“çš„åç§°
+* è¾“  å‡º  : pentry è¿”å›æŒ‡å®šæ¨¡å—/åº“çš„ä¿¡æ¯,ä¸åŒ…æ‹¬è¯¥æ¨¡å—æ‰“å°ç»Ÿè®¡é‡
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*          OSA_EFAIL: å¤±è´¥
 ******************************************************************************/
 Int32 OSA_LogManagerGetEntryInfo(OSA_LogManagerCommon *pentry)
 {
@@ -1106,13 +1106,13 @@ static Int32 OSA_LogManagerGetKmodEntryCnts (void)
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_LogManagerGetAllEntryInfoSize
-* Ãè  Êö  : ¸Ãº¯Êı»ñÈ¡OSAËù¹ÜÀíµÄËùÓĞÄ£¿é/¿â¹ÜÀí½á¹¹Õ¼ÓÃÄÚ´æ¿Õ¼ä
-*           Ä¿µÄÔÚÓÚ±ãÓÚµ÷ÓÃÕß»ñÈ¡¹ÜÀí½á¹¹ĞÅÏ¢Ê±£¬·ÖÅä×ã¹»ÄÚ´æ¿Õ¼ä
+* å‡½æ•°å  :  OSA_LogManagerGetAllEntryInfoSize
+* æ  è¿°  : è¯¥å‡½æ•°è·å–OSAæ‰€ç®¡ç†çš„æ‰€æœ‰æ¨¡å—/åº“ç®¡ç†ç»“æ„å ç”¨å†…å­˜ç©ºé—´
+*           ç›®çš„åœ¨äºä¾¿äºè°ƒç”¨è€…è·å–ç®¡ç†ç»“æ„ä¿¡æ¯æ—¶ï¼Œåˆ†é…è¶³å¤Ÿå†…å­˜ç©ºé—´
 * 
-* Êä  Èë  : ÎŞ  
-* Êä  ³ö  : ÎŞ
-* ·µ»ØÖµ  : OSAËù¹ÜÀíËùÓĞÄ£¿é/¿âºËĞÄ½á¹¹ĞÅÏ¢Õ¼ÓÃ¿Õ¼ä
+* è¾“  å…¥  : æ—   
+* è¾“  å‡º  : æ— 
+* è¿”å›å€¼  : OSAæ‰€ç®¡ç†æ‰€æœ‰æ¨¡å—/åº“æ ¸å¿ƒç»“æ„ä¿¡æ¯å ç”¨ç©ºé—´
 ******************************************************************************/
 Int32 OSA_LogManagerGetAllEntryInfoSize(void)
 {
@@ -1131,17 +1131,17 @@ Int32 OSA_LogManagerGetAllEntryInfoSize(void)
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_LogManagerGetAllEntryInfo
-* Ãè  Êö  : ¸Ãº¯Êı»ñÈ¡OSAËù¹ÜÀíµÄËùÓĞÄ£¿é/¿âµ±Ç°Ëù×ÜÊä³ö´òÓ¡Á¿
+* å‡½æ•°å  :  OSA_LogManagerGetAllEntryInfo
+* æ  è¿°  : è¯¥å‡½æ•°è·å–OSAæ‰€ç®¡ç†çš„æ‰€æœ‰æ¨¡å—/åº“å½“å‰æ‰€æ€»è¾“å‡ºæ‰“å°é‡
 * 
 * 
-* Êä  Èë  : size ÎªbufµÄ´óĞ¡
-* Êä  ³ö  : buf ÓÃÓÚ·µ»ØOSAËù¹ÜÀíÄ£¿é/¿âµÄÊı¾İ½á¹¹»¯ĞÅÏ¢£¬buf±ØĞë×ã¹»¿ÉÈİÄÉ
-		   : ·ñÔò½«»ñÈ¡Ê§°Ü£¬·µ»Ø»ñÈ¡ĞÅÏ¢ËùĞèÒª»º´æ´óĞ¡
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*          OSA_EFAIL: Ê§°Ü
-			> 0µÄÖµ±íÊ¾²ÎÊıbufËùÌá¹©µÄ¿Õ¼ä²»ÄÜÂú×ã·µ»Ø½á¹¹»¯ĞÅÏ¢ËùĞè¿Õ¼ä£¬´ËÊ±
-			·µ»ØËùĞèµÄ¿Õ¼ä
+* è¾“  å…¥  : size ä¸ºbufçš„å¤§å°
+* è¾“  å‡º  : buf ç”¨äºè¿”å›OSAæ‰€ç®¡ç†æ¨¡å—/åº“çš„æ•°æ®ç»“æ„åŒ–ä¿¡æ¯ï¼Œbufå¿…é¡»è¶³å¤Ÿå¯å®¹çº³
+		   : å¦åˆ™å°†è·å–å¤±è´¥ï¼Œè¿”å›è·å–ä¿¡æ¯æ‰€éœ€è¦ç¼“å­˜å¤§å°
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*          OSA_EFAIL: å¤±è´¥
+			> 0çš„å€¼è¡¨ç¤ºå‚æ•°bufæ‰€æä¾›çš„ç©ºé—´ä¸èƒ½æ»¡è¶³è¿”å›ç»“æ„åŒ–ä¿¡æ¯æ‰€éœ€ç©ºé—´ï¼Œæ­¤æ—¶
+			è¿”å›æ‰€éœ€çš„ç©ºé—´
 ******************************************************************************/
 Int32 OSA_LogManagerGetAllEntryInfo(OSA_LogManagerCommon *pentry, size_t size)
 {
@@ -1190,13 +1190,13 @@ Int32 OSA_LogManagerGetAllEntryInfo(OSA_LogManagerCommon *pentry, size_t size)
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_LogManagerDisableAllEntryStat
-* Ãè  Êö  : ¸Ãº¯Êı¹Ø±Õ/´ò¿ªOSAËù¹ÜÀíµÄËùÓĞÄ£¿é/¿âÊä³ö´òÓ¡Á¿Í³¼Æ¹¦ÄÜ
-*           ÓÃ»§Ì¬´òÓ¡Í³¼Æ¹¦ÄÜ»ùÓÚËøµÄĞÔÄÜ¿ªÏú£¬Ôö¼Ó¸Ã½Ó¿Ú¹Ø±ÕÍ³¼Æ¹¦ÄÜ
+* å‡½æ•°å  :  OSA_LogManagerDisableAllEntryStat
+* æ  è¿°  : è¯¥å‡½æ•°å…³é—­/æ‰“å¼€OSAæ‰€ç®¡ç†çš„æ‰€æœ‰æ¨¡å—/åº“è¾“å‡ºæ‰“å°é‡ç»Ÿè®¡åŠŸèƒ½
+*           ç”¨æˆ·æ€æ‰“å°ç»Ÿè®¡åŠŸèƒ½åŸºäºé”çš„æ€§èƒ½å¼€é”€ï¼Œå¢åŠ è¯¥æ¥å£å…³é—­ç»Ÿè®¡åŠŸèƒ½
 * 
-* Êä  Èë  :  ÎŞ
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*          OSA_EFAIL: Ê§°Ü
+* è¾“  å…¥  :  æ— 
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*          OSA_EFAIL: å¤±è´¥
 ******************************************************************************/
 Int32 OSA_LogManagerDisableAllEntryStat(OSA_LogManangerEnable status)
 {
@@ -1236,10 +1236,10 @@ Int32 OSA_LogManagerDisableAllEntryStat(OSA_LogManangerEnable status)
 			if(OSA_SOK != OSA_memFree(osa_entity))
 				OSA_ERROR("memory free failed\n");
 			/*
-			  covertiyºÅ£º 323707
-			  ÎÊÌâÃèÊö£ºosa_entity ÏÔÊ½NULL ±»½âÒıÓÃ
-			  ĞŞ¸ÄÃèÊö£ºosa_entity ±»ÒıÓÃÖ®ºóÔÙÖÃ¿Õ
-			  ×¢ÒâÊÂÏîÃèÊö£º 
+			  covertiyå·ï¼š 323707
+			  é—®é¢˜æè¿°ï¼šosa_entity æ˜¾å¼NULL è¢«è§£å¼•ç”¨
+			  ä¿®æ”¹æè¿°ï¼šosa_entity è¢«å¼•ç”¨ä¹‹åå†ç½®ç©º
+			  æ³¨æ„äº‹é¡¹æè¿°ï¼š 
 			*/			
 			OSA_ERROR("%s SETSTAT To %d Failed\n", osa_entity[i].osa_Name, status);
 			osa_entity = NULL;
@@ -1255,13 +1255,13 @@ Int32 OSA_LogManagerDisableAllEntryStat(OSA_LogManangerEnable status)
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_LogManagerUser_init
-* Ãè  Êö  : ¸Ãº¯ÊıÎªOSA¹ÜÀí¿âµÄ³õÊ¼»¯½Ó¿Ú
+* å‡½æ•°å  :  OSA_LogManagerUser_init
+* æ  è¿°  : è¯¥å‡½æ•°ä¸ºOSAç®¡ç†åº“çš„åˆå§‹åŒ–æ¥å£
 * 
-* Êä  Èë  : ÎŞ
-* Êä  ³ö  : ÎŞ
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*          OSA_EFAIL: Ê§°Ü
+* è¾“  å…¥  : æ— 
+* è¾“  å‡º  : æ— 
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*          OSA_EFAIL: å¤±è´¥
 ******************************************************************************/
 Int32 OSA_LogManagerUserInit(void)
 {
@@ -1277,14 +1277,14 @@ Int32 OSA_LogManagerUserInit(void)
 }
 
 /******************************************************************************
-* º¯ÊıÃû  :  OSA_LogManagerUser_exit
-* Ãè  Êö  : ¸Ãº¯ÊıÎªOSA¹ÜÀí¹¦ÄÜ×¢Ïú½Ó¿Ú
-*           ¸Ã½Ó¿Ú½«ËùÓĞÓÃ»§Ó¦ÓÃ¿âËùÓĞÄ£¿é×¢Ïú
+* å‡½æ•°å  :  OSA_LogManagerUser_exit
+* æ  è¿°  : è¯¥å‡½æ•°ä¸ºOSAç®¡ç†åŠŸèƒ½æ³¨é”€æ¥å£
+*           è¯¥æ¥å£å°†æ‰€æœ‰ç”¨æˆ·åº”ç”¨åº“æ‰€æœ‰æ¨¡å—æ³¨é”€
 * 
-* Êä  Èë  : ÎŞ
-* Êä  ³ö  : ÎŞ
-* ·µ»ØÖµ  : OSA_SOK:   ³É¹¦
-*          OSA_EFAIL: Ê§°Ü
+* è¾“  å…¥  : æ— 
+* è¾“  å‡º  : æ— 
+* è¿”å›å€¼  : OSA_SOK:   æˆåŠŸ
+*          OSA_EFAIL: å¤±è´¥
 ******************************************************************************/
 Int32 OSA_LogManagerUserExit(void)
 {

@@ -6,16 +6,16 @@
 * Author : Zheng wei <zheng_wei@dahuatech.com>
 * Version: V1.0.0  2012-5-23 Create
 *
-* Desc: ����linux�ں�̬OSAģ������ṩ���ַ��豸�ӿ�
+* Desc: 定义linux内核态OSA模块对外提供的字符设备接口
 *
-*           �ӿڵ�����������:
+*           接口调用流程如下:
 *           ==========================
 *                   |
 *           OSA_kCdevCreate
 *                   |
-*           �����ַ��豸�ķ����ص������е���OSA_kCdevGetUserData��ȡ�û�����
+*           各种字符设备的方法回调函数中调用OSA_kCdevGetUserData获取用户数据
 *                   |
-*           �ַ��豸��poll�����ص������е���OSA_kCdevPollWait�����ں�Ҫ����ĵȴ���
+*           字符设备的poll方法回调函数中调用OSA_kCdevPollWait告诉内核要挂起的等待量
 *                   |
 *           OSA_kCdevDelete
 *           ===========================
@@ -31,10 +31,10 @@
 #ifndef _OSA_KCDEV_H_
 #define _OSA_KCDEV_H_
 
-#ifdef __KERNEL__    /* ��Linux �ں�̬֧��*/
+#ifdef __KERNEL__    /* 仅Linux 内核态支持*/
 
 /* ========================================================================== */
-/*                             ͷ�ļ���                                       */
+/*                             头文件区                                       */
 /* ========================================================================== */
 
 #ifdef __cplusplus
@@ -43,156 +43,156 @@ extern "C" {
 
 
 /* ========================================================================== */
-/*                           ������Ͷ�����                                   */
+/*                           宏和类型定义区                                   */
 /* ========================================================================== */
-/*�ַ��豸�������,�ϲ�ģ�鲻��Ҫ�������еľ�������,*/
-/*ֻ��Ҫ�ڵ��ø������ӿ�ʱ�Ѿ�����뼴��*/
+/*字符设备句柄类型,上层模块不需要关心其中的具体内容,*/
+/*只需要在调用各操作接口时把句柄传入即可*/
 typedef Handle OSA_KCdevHandle;
 
-/*�ַ��豸Poll���ص�״̬*/
+/*字符设备Poll返回的状态*/
 typedef enum
 {
-    OSA_KCDEVPOLL_PENDING = 0,  /*��ǰû���κ��¼������ɶ�Ҳ����д*/
-    OSA_KCDEVPOLL_RD,           /*�ɶ�*/
-    OSA_KCDEVPOLL_WR,           /*��д*/
-    OSA_KCDEVPOLL_RDWR          /*�ȿɶ��ֿ�д*/
+    OSA_KCDEVPOLL_PENDING = 0,  /*当前没有任何事件，不可读也不可写*/
+    OSA_KCDEVPOLL_RD,           /*可读*/
+    OSA_KCDEVPOLL_WR,           /*可写*/
+    OSA_KCDEVPOLL_RDWR          /*既可读又可写*/
 }OSA_KCdevPollState;
 
 /* ========================================================================== */
-/*                          ���ݽṹ������                                    */
+/*                          数据结构定义区                                    */
 /* ========================================================================== */
 
-/*�ַ��豸pre_mmap��������������ṹ��*/
+/*字符设备pre_mmap方法的输入参数结构体*/
 typedef struct
 {
-    Uint32L vmStart;   /* Ҫӳ�����ʼ�����ַ*/
-    Uint32L size;      /* Ҫӳ��ĳ���*/
-    Uint32L vmPgoff;   /* Ҫӳ�����ʼ������ַҳ���*/
-    Uint32L phyAddr;   /* Ҫӳ�����ʼ������ַ */
+    Uint32L vmStart;   /* 要映射的起始虚拟地址*/
+    Uint32L size;      /* 要映射的长度*/
+    Uint32L vmPgoff;   /* 要映射的起始物理地址页框号*/
+    Uint32L phyAddr;   /* 要映射的起始物理地址 */
 
     Uint32 reserved[4];
 }OSA_KCdevPreMmapInParams;
 
 
-/*�ַ��豸pre_mmap��������������ṹ��*/
+/*字符设备pre_mmap方法的输出参数结构体*/
 typedef struct
 {
-    /*�Ƿ�ִ��ӳ��, �ò����ڵ���pre_mmap�ӿ�ǰĬ��ΪOSA_TRUE,
-    �ϲ�����ģ�������pre_mmap�ӿ��и���ʵ������Ը�ֵ�����޸�*/
+    /*是否执行映射, 该参数在调用pre_mmap接口前默认为OSA_TRUE,
+    上层驱动模块可以在pre_mmap接口中根据实际情况对该值进行修改*/
     Bool32 isDoMmap;
 
-    /*����ӳ�����ʼ������ַҳ���,
-     �ò����ڵ���pre_mmap�ӿ�ǰĬ��ΪOSA_KCdevPreMmapInParams�е�vm_pgoff
-      ���ϲ�����ģ�������pre_mmap�ӿ��и���ʵ������Ը�ֵ�����޸�*/
+    /*真正映射的起始物理地址页框号,
+     该参数在调用pre_mmap接口前默认为OSA_KCdevPreMmapInParams中的vm_pgoff
+      ，上层驱动模块可以在pre_mmap接口中根据实际情况对该值进行修改*/
     Uint32L vmPgoff;
 
 
-    /*�Ƿ���Cache, �ò����ڵ���pre_mmap�ӿ�ǰĬ��ΪOSA_TRUE
-      ���ϲ�����ģ�������pre_mmap�ӿ��и���ʵ������Ը�ֵ�����޸�*/
+    /*是否开启Cache, 该参数在调用pre_mmap接口前默认为OSA_TRUE
+      ，上层驱动模块可以在pre_mmap接口中根据实际情况对该值进行修改*/
     Bool32 isCached;
 
     Uint32 reserved[5];
 }OSA_KCdevPreMmapOutParams;
 
-/*�ַ��豸���������ṹ��*/
+/*字符设备操作方法结构体*/
 typedef struct
 {
     /*******************************************************************************
-    * ��  ��  :  OSA �ַ��豸�򿪽ӿ�
-    * ��  ��  : - hCdev:     �ַ��豸���
-    *                        �ýӿ�ʵ��ʱ��ͨ������λ�ȡ�ַ��豸���
-    * ��  ��  : ��
-    * ����ֵ  : OSA_EFAIL:   ʧ��
-    *           OSA_SOK:     �ɹ�
+    * 描  述  :  OSA 字符设备打开接口
+    * 输  入  : - hCdev:     字符设备句柄
+    *                        该接口实现时可通过该入参获取字符设备句柄
+    * 输  出  : 无
+    * 返回值  : OSA_EFAIL:   失败
+    *           OSA_SOK:     成功
     *******************************************************************************/
     Int32 (*OpOpen)(OSA_KCdevHandle hCdev);
 
     /*******************************************************************************
-    * ��  ��  :  OSA �ַ��豸�ͷŽӿ�
-    * ��  ��  : - hCdev:     �ַ��豸���
-    *                        �ýӿ�ʵ��ʱ��ͨ������λ�ȡ�ַ��豸���
-    * ��  ��  : ��
-    * ����ֵ  : OSA_EFAIL:   ʧ��
-    *           OSA_SOK:     �ɹ�
+    * 描  述  :  OSA 字符设备释放接口
+    * 输  入  : - hCdev:     字符设备句柄
+    *                        该接口实现时可通过该入参获取字符设备句柄
+    * 输  出  : 无
+    * 返回值  : OSA_EFAIL:   失败
+    *           OSA_SOK:     成功
     *******************************************************************************/
     Int32 (*OpRelease)(OSA_KCdevHandle hCdev);
 
     /*******************************************************************************
-    * ��  ��  :  OSA �ַ��豸ioctl�ӿ�
-    * ��  ��  : - hCdev:     �ַ��豸���
-    *           - cmd:       ioctl����
-    *           - arg:       ioctl����
+    * 描  述  :  OSA 字符设备ioctl接口
+    * 输  入  : - hCdev:     字符设备句柄
+    *           - cmd:       ioctl命令
+    *           - arg:       ioctl参数
     *
-    * ��  ��  : ��
-    * ����ֵ  : OSA_EFAIL:   ʧ��
-    *           OSA_SOK:     �ɹ�
+    * 输  出  : 无
+    * 返回值  : OSA_EFAIL:   失败
+    *           OSA_SOK:     成功
     *******************************************************************************/
    Int32 (*OpIoctl)(OSA_KCdevHandle hCdev, Uint32 cmd, Uint32L arg);
 
 
     /*******************************************************************************
-    * ��  ��  :  OSA �ַ��豸���ӿ�
-    * ��  ��  : - hCdev:     �ַ��豸���
-    *           - size:      Ҫ��ȡ�ĳ���
-    *           - pOffset:   ��д��ƫ��λ��ָ�룬�������ļ���д��offset
-    *                        ��Ϊ��Σ��ṩҪ��ȡ��λ�ã��ϲ������ɸ��ݸò������д���
-    *                        ��Ϊ���Σ������ȡ���λ�ã��ϲ������ɸ���ʵ����Ҫ�Ըò������и���
+    * 描  述  :  OSA 字符设备读接口
+    * 输  入  : - hCdev:     字符设备句柄
+    *           - size:      要读取的长度
+    *           - pOffset:   读写的偏移位置指针，类似于文件读写的offset
+    *                        作为入参，提供要读取的位置，上层驱动可根据该参数进行处理
+    *                        作为出参，保存读取后的位置，上层驱动可根据实际需要对该参数进行更新
     *
-    * ��  ��  : - pBuf:      ��ȡ��Buffer,�ýӿ�ʵ��ʱ��Ҫ����OSA_memCopyToUser��Ҫ��ȡ�����ݿ���
-    *                        ��pBuf��
-    * ����ֵ  : OSA_EFAIL:   ��ȡʧ��
-    *           >=0:         ���ض�ȡ���ֽ���
+    * 输  出  : - pBuf:      读取的Buffer,该接口实现时需要调用OSA_memCopyToUser把要读取的内容拷贝
+    *                        到pBuf中
+    * 返回值  : OSA_EFAIL:   读取失败
+    *           >=0:         返回读取的字节数
     *******************************************************************************/
     Int32 (*OpRead)(OSA_KCdevHandle hCdev, Char *pBuf, Uint32 size,
                     Int64 *pOffset);
 
     /*******************************************************************************
-    * ��  ��  :  OSA �ַ��豸д�ӿ�
-    * ��  ��  : - hCdev:     �ַ��豸���
-    *           - pBuf:      д���Buffer,�ýӿ�ʵ��ʱ��Ҫ����OSA_memCopyFromUser��Ҫд������ݴ�
-    *                        pBuf�п������ں˻���
-    *           - size:      Ҫд��ĳ���
-    *           - pOffset:   ��д��ƫ��λ��ָ�룬�������ļ���д��offset
-    *                        ��Ϊ��Σ��ṩҪд���λ�ã��ϲ������ɸ��ݸò������д���
-    *                        ��Ϊ���Σ�����д����λ�ã��ϲ������ɸ���ʵ����Ҫ�Ըò������и���
+    * 描  述  :  OSA 字符设备写接口
+    * 输  入  : - hCdev:     字符设备句柄
+    *           - pBuf:      写入的Buffer,该接口实现时需要调用OSA_memCopyFromUser把要写入的内容从
+    *                        pBuf中拷贝到内核缓冲
+    *           - size:      要写入的长度
+    *           - pOffset:   读写的偏移位置指针，类似于文件读写的offset
+    *                        作为入参，提供要写入的位置，上层驱动可根据该参数进行处理
+    *                        作为出参，保存写入后的位置，上层驱动可根据实际需要对该参数进行更新
     *
-    * ��  ��  : ��
-    * ����ֵ  : OSA_EFAIL:   д��ʧ��
-    *           >=0:         ����д����ֽ���
+    * 输  出  : 无
+    * 返回值  : OSA_EFAIL:   写入失败
+    *           >=0:         返回写入的字节数
     *******************************************************************************/
     Int32 (*OpWrite)(OSA_KCdevHandle hCdev, Char *pBuf, Uint32 size,
                      Int64 *pOffset);
 
     /*******************************************************************************
-    * ��  ��  :  OSA �ַ��豸poll�ӿ�
-    *            �ýӿ�ʵ��ʱ��Ҫ����OSA_kCdevPollWait����֪ͨ�ں�Ҫ����ĵȴ���
-    *            �μ�OSA_kCdevPollWait����
+    * 描  述  :  OSA 字符设备poll接口
+    *            该接口实现时需要调用OSA_kCdevPollWait函数通知内核要挂起的等待量
+    *            参见OSA_kCdevPollWait定义
     *
-    * ��  ��  : - hCdev:     �ַ��豸���
+    * 输  入  : - hCdev:     字符设备句柄
     *
-    * ��  ��  : - pState:    �ַ��豸poll���ص�״̬���μ�OSA_KCdevPollState����
-    *                        �ýӿ�ʵ��ʱ��Ҫ��poll��״̬ͨ��pState���
-    * ����ֵ  : OSA_EFAIL:   pollʧ��
-    *           OSA_SOK:     poll�ɹ�
+    * 输  出  : - pState:    字符设备poll返回的状态，参见OSA_KCdevPollState定义
+    *                        该接口实现时需要把poll的状态通过pState输出
+    * 返回值  : OSA_EFAIL:   poll失败
+    *           OSA_SOK:     poll成功
     *******************************************************************************/
     Int32 (*OpPoll)(OSA_KCdevHandle hCdev, Uint32 *pState);
 
     /*******************************************************************************
-    * ��  ��  :  OSA �ַ��豸pre_mmap�ӿ�
-    *            �ýӿڵ��������ڰ�linux�ں˵���mmapʱ��һЩ����(����Ҫӳ�����ʼ�����ַ��
-    *            Ҫӳ��ĳ��ȡ�Ҫӳ�����ʼ������ַ��)�����ϲ�����ģ��,
-    *            ���ϲ�����ģ������Ƿ�Ҫ����ӳ�䡢����ӳ�����ʼ������ַ���Ƿ���Cache�Ȳ���
-    *            �ýӿڵı�����ʱ��Ϊ�ں��ַ��豸������mmap�������
-    *            �κ���Ҫ֧��mmap������������ʵ�ָýӿڣ����ýӿ�ΪNULL�����������ڴ�ӳ��
+    * 描  述  :  OSA 字符设备pre_mmap接口
+    *            该接口的作用在于把linux内核调用mmap时的一些参数(包括要映射的起始虚拟地址、
+    *            要映射的长度、要映射的起始物理地址等)传给上层驱动模块,
+    *            由上层驱动模块输出是否要进行映射、真正映射的起始物理地址、是否开启Cache等参数
+    *            该接口的被调用时机为内核字符设备驱动的mmap方法入口
+    *            任何需要支持mmap的驱动，必须实现该接口，若该接口为NULL，将不进行内存映射
     *
     *
-    * ��  ��  : - hCdev:     �ַ��豸���
-    *           - pInParams: ����������μ�OSA_KCdevPreMmapInParams����
+    * 输  入  : - hCdev:     字符设备句柄
+    *           - pInParams: 输入参数，参见OSA_KCdevPreMmapInParams定义
     *
-    * ��  ��  : - pOutParams: ����������μ�OSA_KCdevPreMmapOutParams����
+    * 输  出  : - pOutParams: 输出参数，参见OSA_KCdevPreMmapOutParams定义
     *
-    * ����ֵ  : OSA_EFAIL:   pre_mmapʧ��, ������OSA_EFAIL���򽫲������ڴ�ӳ��
-    *           OSA_SOK:     pre_mmap�ɹ�
+    * 返回值  : OSA_EFAIL:   pre_mmap失败, 若返回OSA_EFAIL，则将不进行内存映射
+    *           OSA_SOK:     pre_mmap成功
     *******************************************************************************/
     Int32 (*OpPreMmap)(OSA_KCdevHandle hCdev,
                        OSA_KCdevPreMmapInParams *pInParams,
@@ -200,149 +200,149 @@ typedef struct
 
 
     /*******************************************************************************
-    * ��  ��  :  �ַ��豸��leek����
-    * ��  ��  : - hCdev:     �ַ��豸���
-    *           - offset:    �豸��Ҫƫ�Ƶ��ĵ�ַ
-    *           - cmd:       ��ʱ���� δʹ��
+    * 描  述  :  字符设备的leek函数
+    * 输  入  : - hCdev:     字符设备句柄
+    *           - offset:    设备需要偏移到的地址
+    *           - cmd:       暂时保留 未使用
     *
-    * ����ֵ  :  >=0:         ���ض�ȡ���ֽ���
-	*            OSA_EFAIL    ���ش���
+    * 返回值  :  >=0:         返回读取的字节数
+	*            OSA_EFAIL    返回错误
     *******************************************************************************/
     Int32 (*OpLleek)(OSA_KCdevHandle hCdev, Uint32 offset, Int32 cmd);
 
 	/*******************************************************************************
-    * ��  ��  :  OSA �ַ��豸compat ioctl�ӿ�, ����64λϵͳ����32λӦ�ó����ioctl
-    * ��  ��  : - hCdev:     �ַ��豸���
-    *           - cmd:       ioctl����
-    *           - arg:       ioctl����
+    * 描  述  :  OSA 字符设备compat ioctl接口, 用于64位系统兼容32位应用程序的ioctl
+    * 输  入  : - hCdev:     字符设备句柄
+    *           - cmd:       ioctl命令
+    *           - arg:       ioctl参数
     *
-    * ��  ��  : ��
-    * ����ֵ  : OSA_EFAIL:   ʧ��
-    *           OSA_SOK:     �ɹ�
+    * 输  出  : 无
+    * 返回值  : OSA_EFAIL:   失败
+    *           OSA_SOK:     成功
     *******************************************************************************/
     Int32 (*OpCompatIoctl)(OSA_KCdevHandle hCdev, Uint32 cmd, Uint32L arg);
 
     Uint32 reserved[3];
 } OSA_KCdevOps;
 
-/*�ַ��豸�����Ĳ����ṹ��*/
+/*字符设备创建的参数结构体*/
 typedef struct
 {
-    const Char   *pName;      /*�ַ��豸����*/
-    Uint32        major;      /*���豸��, �����豸�źʹ��豸�Ŷ�Ϊ0,���Զ������豸��*/
-    Uint32        minor;      /*���豸��*/
-    OSA_KCdevOps *pFops;      /*�ַ��豸��������ָ��*/
-    Ptr           pUserData;  /*�ϲ�ģ�����ͨ���ò��������Լ�ģ���˽������*/
+    const Char   *pName;      /*字符设备名称*/
+    Uint32        major;      /*主设备号, 若主设备号和次设备号都为0,将自动分配设备号*/
+    Uint32        minor;      /*次设备号*/
+    OSA_KCdevOps *pFops;      /*字符设备操作方法指针*/
+    Ptr           pUserData;  /*上层模块可以通过该参数保存自己模块的私有数据*/
 } OSA_KCdevInitParams;
 
 
 /* ========================================================================== */
-/*                          ����������                                        */
+/*                          函数声明区                                        */
 /* ========================================================================== */
 
 /*******************************************************************************
-* ������  : OSA_kCdevCreate
-* ��  ��  : �ú������𴴽�һ���ַ��豸
-*           �ú����������ж������ĵ���
+* 函数名  : OSA_kCdevCreate
+* 描  述  : 该函数负责创建一个字符设备
+*           该函数不能在中断上下文调用
 *
-* ��  ��  : - pParams: �ַ��豸�����Ĳ���,�μ�OSA_KCdevInitParams����
+* 输  入  : - pParams: 字符设备创建的参数,参见OSA_KCdevInitParams定义
 *
-* ��  ��  : - phCdev:  �ַ��豸���ָ��,�������ɹ�ʱ����ַ��豸���
-* ����ֵ  : OSA_SOK:   �����ɹ�
-*           OSA_EFAIL: ����ʧ��
+* 输  出  : - phCdev:  字符设备句柄指针,当创建成功时输出字符设备句柄
+* 返回值  : OSA_SOK:   创建成功
+*           OSA_EFAIL: 创建失败
 *******************************************************************************/
 Int32 OSA_kCdevCreate(OSA_KCdevInitParams *pParams,
                       OSA_KCdevHandle *phCdev);
 
 /*******************************************************************************
-* ������  : OSA_kCdevDelete
-* ��  ��  : �ú�����������һ���ַ��豸
-*           �ú����������ж������ĵ���
+* 函数名  : OSA_kCdevDelete
+* 描  述  : 该函数负责销毁一个字符设备
+*           该函数不能在中断上下文调用
 *
-* ��  ��  : -hCdev : �ַ��豸���
+* 输  入  : -hCdev : 字符设备句柄
 *
-* ��  ��  : �ޡ�
-* ����ֵ  : OSA_SOK : ���ٳɹ�
-*                   : OSA_EFAIL : ����ʧ��
+* 输  出  : 无。
+* 返回值  : OSA_SOK : 销毁成功
+*                   : OSA_EFAIL : 销毁失败
 *******************************************************************************/
 Int32 OSA_kCdevDelete(OSA_KCdevHandle hCdev);
 
 /*******************************************************************************
-* ������  : OSA_kCdevGetUserData
-* ��  ��  : �ú��������ȡ�ϲ�ģ���ڸ��ַ��豸����ʱ�����˽������
-*           �ú����������ж������ĵ���
-* ��  ��  : - hCdev:     �ַ��豸���
+* 函数名  : OSA_kCdevGetUserData
+* 描  述  : 该函数负责获取上层模块在该字符设备创建时保存的私有数据
+*           该函数可以在中断上下文调用
+* 输  入  : - hCdev:     字符设备句柄
 *
-* ��  ��  : - pUserData: ˽������ָ��
-* ����ֵ  : OSA_SOK:     ��ȡ�ɹ�
-*           OSA_EFAIL:   ��ȡʧ��
+* 输  出  : - pUserData: 私有数据指针
+* 返回值  : OSA_SOK:     获取成功
+*           OSA_EFAIL:   获取失败
 *******************************************************************************/
 Int32 OSA_kCdevGetUserData(OSA_KCdevHandle hCdev, Ptr *pUserData);
 
 /*******************************************************************************
-* ������  : OSA_kCdevPollWait
-* ��  ��  : �ú������𽫵������ṩ�ĵȴ��������ں�,�����ں˹����ڸõȴ�����
-*           ͨ�����ַ��豸��poll�����ﱻ����
+* 函数名  : OSA_kCdevPollWait
+* 描  述  : 该函数负责将调用者提供的等待量告诉内核,便于内核挂起在该等待量上
+*           通常在字符设备的poll方法里被调用
 *
-*           �ú����������ж������ĵ���
-* ��  ��  : - hCdev:     �ַ��豸���
-*           - hWait:     Ҫ����ĵȴ������
+*           该函数不能在中断上下文调用
+* 输  入  : - hCdev:     字符设备句柄
+*           - hWait:     要挂起的等待量句柄
 *
-* ��  ��  : ��
-* ����ֵ  : OSA_SOK:     ���������Ҵӹ����״̬����
-*           OSA_EFAIL:   ����ʧ��
+* 输  出  : 无
+* 返回值  : OSA_SOK:     正常挂起，且从挂起的状态返回
+*           OSA_EFAIL:   挂起失败
 *******************************************************************************/
 Int32 OSA_kCdevPollWait(OSA_KCdevHandle hCdev, OSA_KWaitHandle hWait);
 
 /*******************************************************************************
- * ������  : OSA_kCdevGetMajor
- * ��  ��  : �ú��������ȡ�Ѿ��������ַ��豸��������豸��
- *           �ú����������ж������ĵ���
+ * 函数名  : OSA_kCdevGetMajor
+ * 描  述  : 该函数负责获取已经创建的字符设备句柄的主设备号
+ *           该函数可以在中断上下文调用
  *
- * ��  ��  : - hCdev: �ַ��豸���ָ��
+ * 输  入  : - hCdev: 字符设备句柄指针
  *
- * ��  ��  : - pMajor : ���豸��
- * ����ֵ  : OSA_SOK:   �����ɹ�
- *           OSA_EFAIL: ����ʧ��
+ * 输  出  : - pMajor : 主设备号
+ * 返回值  : OSA_SOK:   创建成功
+ *           OSA_EFAIL: 创建失败
  *******************************************************************************/
 Int32 OSA_kCdevGetMajor(OSA_KCdevHandle hCdev, Uint32 *pMajor);
 
 /*******************************************************************************
- * ������  : OSA_kCdevGetMinor
- * ��  ��  : �ú��������ȡ�Ѿ��������ַ��豸����Ĵ��豸��
- *           �ú����������ж������ĵ���
+ * 函数名  : OSA_kCdevGetMinor
+ * 描  述  : 该函数负责获取已经创建的字符设备句柄的次设备号
+ *           该函数可以在中断上下文调用
  *
- * ��  ��  : - hCdev: �ַ��豸���ָ��
+ * 输  入  : - hCdev: 字符设备句柄指针
  *
- * ��  ��  : - pMinor : ���豸��
- * ����ֵ  : OSA_SOK:   �����ɹ�
- *           OSA_EFAIL: ����ʧ��
+ * 输  出  : - pMinor : 次设备号
+ * 返回值  : OSA_SOK:   创建成功
+ *           OSA_EFAIL: 创建失败
  *******************************************************************************/
 Int32 OSA_kCdevGetMinor(OSA_KCdevHandle hCdev, Uint32 *pMinor);
 
 
 /*******************************************************************************
-* ������  : OSA_kCdevSetPrivData
-* ��  ��  : �ú����������õ�ǰ���豸�ļ������˽������
-*           �ú����������ж������ĵ���
-* ��  ��  : - hCdev:     �ַ��豸���
-*           - pPrivData: ˽������ָ��
-* ��  ��  : ��
-* ����ֵ  : OSA_SOK:     ��ȡ�ɹ�
-*           OSA_EFAIL:   ��ȡʧ��
+* 函数名  : OSA_kCdevSetPrivData
+* 描  述  : 该函数负责设置当前打开设备文件句柄的私有数据
+*           该函数可以在中断上下文调用
+* 输  入  : - hCdev:     字符设备句柄
+*           - pPrivData: 私有数据指针
+* 输  出  : 无
+* 返回值  : OSA_SOK:     获取成功
+*           OSA_EFAIL:   获取失败
 *******************************************************************************/
 Int32 OSA_kCdevSetPrivData(OSA_KCdevHandle hCdev, Ptr pPrivData);
 
 
 /*******************************************************************************
-* ������  : OSA_kCdevGetPrivData
-* ��  ��  : �ú��������ȡ��ǰ���豸�ļ������˽������
-*           �ú����������ж������ĵ���
-* ��  ��  : - hCdev:     �ַ��豸���
+* 函数名  : OSA_kCdevGetPrivData
+* 描  述  : 该函数负责获取当前打开设备文件句柄的私有数据
+*           该函数可以在中断上下文调用
+* 输  入  : - hCdev:     字符设备句柄
 *
-* ��  ��  : - pPrivData: ˽������ָ��
-* ����ֵ  : OSA_SOK:     ��ȡ�ɹ�
-*           OSA_EFAIL:   ��ȡʧ��
+* 输  出  : - pPrivData: 私有数据指针
+* 返回值  : OSA_SOK:     获取成功
+*           OSA_EFAIL:   获取失败
 *******************************************************************************/
 Int32 OSA_kCdevGetPrivData(OSA_KCdevHandle hCdev, Ptr *pPrivData);
 
